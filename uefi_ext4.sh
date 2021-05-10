@@ -69,7 +69,7 @@ do
     case $opt in
         "Да")
             read -p " Укажите BOOT раздел(sda/sdb 1.2.3.4 (sda7 например)):" bootd
-            mkfs.fat -F32  /dev/$bootd -L boot
+            mkfs.vfat -F32 /dev/$bootd
             mkdir /mnt/boot
             mkdir /mnt/boot/efi
             mount /dev/$bootd /mnt/boot/efi
