@@ -195,296 +195,11 @@ elif [[ $vm_setting == 1 ]]; then
 fi
 
 ################# УСТАНОВКА  DE  ------------------------------------------
-
 echo "#####################################################################"
-echo ""
-echo " Установим DE/WM? "
-while 
-    read -n1 -p  "
-    1 - KDE(Plasma)
-    
-    2 - xfce 
-    
-    3 - gmome
-    
-    4 - lxde
-    
-    5 - Deepin
-
-    6 - Mate
-
-    7 - Lxqt
-    
-    8 - i3 (  конфиги стандартные, возможна установка с автовходом )
-
-    0 - пропустить " x_de
-    echo ''
-    [[ "$x_de" =~ [^123456780] ]]
-do
-    :
-done
-if [[ $x_de == 0 ]]; then
-  echo 'уcтановка DE пропущена' 
-elif [[ $x_de == 1 ]]; then
-pacman -S  plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
-clear
-echo " Если желаете использовать 2 окружения тогда укажите 0  "
-echo ""
-echo " Нужен автовход без DM ? "
-while 
-    read -n1 -p  "
-    1 - да  
-    
-    0 - нет : " i_kde   # sends right after the keypress
-    echo ''
-    [[ "$i_kde" =~ [^10] ]]
-do
-    :
-done
-if [[ $i_kde  == 0 ]]; then
-echo " буду использовами DM "
-elif [[ $i_kde  == 1 ]]; then
-pacman -S xorg-xinit --noconfirm
-cp /etc/X11/xinit/xinitrc /home/$username/.xinitrc
-chown $username:users /home/$username/.xinitrc
-chmod +x /home/$username/.xinitrc
-sed -i 52,55d /home/$username/.xinitrc
-echo "exec startplasma-x11 " >> /home/$username/.xinitrc
-mkdir /etc/systemd/system/getty@tty1.service.d/
-echo " [Service] " > /etc/systemd/system/getty@tty1.service.d/override.conf
-echo " ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo   ExecStart=-/usr/bin/agetty --autologin $username --noclear %I 38400 linux >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo ' [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx ' >> /etc/profile
-fi
-pacman -R konqueror --noconfirm
-clear
-echo "Plasma KDE успешно установлена"
-elif [[ $x_de == 2 ]]; then
-pacman -S  xfce4  pavucontrol xfce4-goodies  --noconfirm
-clear
-echo " Если желаете использовать 2 окружения тогда укажите 0  "
-echo ""
-echo " Нужен автовход без DM ? "
-while 
-    read -n1 -p  "
-    1 - да  
-    
-    0 - нет : " i_xfce   # sends right after the keypress
-    echo ''
-    [[ "$i_xfce" =~ [^10] ]]
-do
-    :
-done
-if [[ $i_xfce  == 0 ]]; then
-echo " буду использовами DM "
-elif [[ $i_xfce  == 1 ]]; then
-pacman -S xorg-xinit --noconfirm
-cp /etc/X11/xinit/xinitrc /home/$username/.xinitrc
-chown $username:users /home/$username/.xinitrc
-chmod +x /home/$username/.xinitrc
-sed -i 52,55d /home/$username/.xinitrc
-echo "exec startxfce4 " >> /home/$username/.xinitrc
-mkdir /etc/systemd/system/getty@tty1.service.d/
-echo " [Service] " > /etc/systemd/system/getty@tty1.service.d/override.conf
-echo " ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo   ExecStart=-/usr/bin/agetty --autologin $username --noclear %I 38400 linux >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo ' [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx ' >> /etc/profile
-fi
-clear
-echo "Xfce успешно установлено"
-elif [[ $x_de == 3 ]]; then
-pacman -S gnome gnome-extra  --noconfirm
-clear
-echo " Gnome успешно установлен " 
-elif [[ $x_de == 4 ]]; then
-pacman -S lxde --noconfirm
-clear
-echo " Если желаете использовать 2 окружения тогда укажите 0  "
-echo ""
-echo " Нужен автовход без DM ? "
-while 
-    read -n1 -p  "
-    1 - да  
-    
-    0 - нет : " i_lxde   # sends right after the keypress
-    echo ''
-    [[ "$i_lxde" =~ [^10] ]]
-do
-    :
-done
-if [[ $i_lxde  == 0 ]]; then
-echo " буду использовами DM "
-elif [[ $i_lxde  == 1 ]]; then
-pacman -S xorg-xinit --noconfirm
-cp /etc/X11/xinit/xinitrc /home/$username/.xinitrc
-chown $username:users /home/$username/.xinitrc
-chmod +x /home/$username/.xinitrc
-sed -i 52,55d /home/$username/.xinitrc
-echo "exec startlxde " >> /home/$username/.xinitrc
-mkdir /etc/systemd/system/getty@tty1.service.d/
-echo " [Service] " > /etc/systemd/system/getty@tty1.service.d/override.conf
-echo " ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo   ExecStart=-/usr/bin/agetty --autologin $username --noclear %I 38400 linux >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo ' [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx ' >> /etc/profile
-fi
-clear
-echo " lxde успешно установлен "
-elif [[ $x_de == 5 ]]; then
-pacman -S deepin deepin-extra --noconfirm
-clear
-echo " Если желаете использовать 2 окружения тогда укажите 0  "
-echo ""
-echo " Нужен автовход без DM ? "
-while 
-    read -n1 -p  "
-    1 - да  
-    
-    0 - нет : " i_deepin   # sends right after the keypress
-    echo ''
-    [[ "$i_deepin" =~ [^10] ]]
-do
-    :
-done
-if [[ $i_deepin  == 0 ]]; then
-echo " буду использовами DM "
-elif [[ $i_deepin  == 1 ]]; then
-pacman -S xorg-xinit --noconfirm
-cp /etc/X11/xinit/xinitrc /home/$username/.xinitrc
-chown $username:users /home/$username/.xinitrc
-chmod +x /home/$username/.xinitrc
-sed -i 52,55d /home/$username/.xinitrc
-echo "exec startdde  " >> /home/$username/.xinitrc
-mkdir /etc/systemd/system/getty@tty1.service.d/
-echo " [Service] " > /etc/systemd/system/getty@tty1.service.d/override.conf
-echo " ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo   ExecStart=-/usr/bin/agetty --autologin $username --noclear %I 38400 linux >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo ' [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx ' >> /etc/profile
-fi
-clear
-echo " Deepin успешно установлен "
-elif [[ $x_de == 6 ]]; then
-pacman -S  mate mate-extra  --noconfirm
-clear
-echo " Если желаете использовать 2 окружения тогда укажите 0  "
-echo ""
-echo " Нужен автовход без DM ? "
-while 
-    read -n1 -p  "
-    1 - да  
-    
-    0 - нет : " i_mate   # sends right after the keypress
-    echo ''
-    [[ "$i_mate" =~ [^10] ]]
-do
-    :
-done
-if [[ $i_mate  == 0 ]]; then
-echo " буду использовами DM "
-elif [[ $i_mate  == 1 ]]; then
-pacman -S xorg-xinit --noconfirm
-cp /etc/X11/xinit/xinitrc /home/$username/.xinitrc
-chown $username:users /home/$username/.xinitrc
-chmod +x /home/$username/.xinitrc
-sed -i 52,55d /home/$username/.xinitrc
-echo "exec mate-session  " >> /home/$username/.xinitrc
-mkdir /etc/systemd/system/getty@tty1.service.d/
-echo " [Service] " > /etc/systemd/system/getty@tty1.service.d/override.conf
-echo " ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo   ExecStart=-/usr/bin/agetty --autologin $username --noclear %I 38400 linux >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo ' [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx ' >> /etc/profile
-fi
-clear
-echo " Mate успешно установлен "
-elif [[ $x_de == 7 ]]; then
-pacman -S lxqt lxqt-qtplugin lxqt-themes oxygen-icons xscreensaver --noconfirm
-clear
-echo " Если желаете использовать 2 окружения тогда укажите 0  "
-echo ""
-echo " Нужен автовход без DM ? "
-while 
-    read -n1 -p  "
-    1 - да  
-    
-    0 - нет : " i_lxqt   # sends right after the keypress
-    echo ''
-    [[ "$i_deepin" =~ [^10] ]]
-do
-    :
-done
-if [[ $i_lxqt  == 0 ]]; then
-echo " буду использовами DM "
-elif [[ $i_lxqt  == 1 ]]; then
-pacman -S xorg-xinit --noconfirm
-cp /etc/X11/xinit/xinitrc /home/$username/.xinitrc
-chown $username:users /home/$username/.xinitrc
-chmod +x /home/$username/.xinitrc
-sed -i 52,55d /home/$username/.xinitrc
-echo "exec startlxqt " >> /home/$username/.xinitrc
-mkdir /etc/systemd/system/getty@tty1.service.d/
-echo " [Service] " > /etc/systemd/system/getty@tty1.service.d/override.conf
-echo " ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo   ExecStart=-/usr/bin/agetty --autologin $username --noclear %I 38400 linux >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo ' [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx ' >> /etc/profile
-fi
-clear
-echo " Lxqt успешно установлен "
-elif [[ $x_de == 8 ]]; then
-pacman -S i3 i3-wm i3status dmenu --noconfirm
-clear
-echo ""
-echo " Если желаете использовать 2 окружения тогда укажите 0  "
-echo ""
-echo " Нужен автовход без DM ? "
-while 
-    read -n1 -p  "
-    1 - да  
-    
-    0 - нет : " i_i3w   # sends right after the keypress
-    echo ''
-    [[ "$i_i3w" =~ [^10] ]]
-do
-    :
-done
-if [[ $i_i3w  == 0 ]]; then
-echo " буду использовами DM "
-elif [[ $i_i3w  == 1 ]]; then
-pacman -S xorg-xinit --noconfirm
-cp /etc/X11/xinit/xinitrc /home/$username/.xinitrc
-chown $username:users /home/$username/.xinitrc
-chmod +x /home/$username/.xinitrc
-sed -i 52,55d /home/$username/.xinitrc
-echo "exec i3 " >> /home/$username/.xinitrc
-mkdir /etc/systemd/system/getty@tty1.service.d/
-echo " [Service] " > /etc/systemd/system/getty@tty1.service.d/override.conf
-echo " ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo   ExecStart=-/usr/bin/agetty --autologin $username --noclear %I 38400 linux >> /etc/systemd/system/getty@tty1.service.d/override.conf
-echo ' [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx ' >> /etc/profile
-fi
-echo ""
-echo " nitrogen - легкая программа для установки обоев на рабочий стол" 
-echo ""
-echo " Установим nitrogen? "
-while 
-    read -n1 -p  "
-    1 - да  
-    
-    0 - нет : " i_natro   # sends right after the keypress
-    echo ''
-    [[ "$i_natro" =~ [^10] ]]
-do
-    :
-done
-if [[ $i_natro  == 0 ]]; then
-echo "yстановка пропущена"
-elif [[ $i_natro  == 1 ]]; then
-pacman -Sy nitrogen  --noconfirm
-fi
-echo " i3wm успешно установлен " 
-fi
-clear 
+ 
 ####
 echo ""
-echo " Установим еще одно DE/WM? "
+echo " Установим DE/WM "
 while 
     read -n1 -p  "
     1 - KDE(Plasma)
@@ -514,32 +229,55 @@ if [[ $x_de2 == 0 ]]; then
 elif [[ $x_de2 == 1 ]]; then
 pacman -S plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
 pacman -R konqueror --noconfirm
+pacman -S sddm sddm-kcm --noconfirm
+systemctl enable sddm.service -f
 clear
 echo "Plasma KDE успешно установлена"
+
 elif [[ $x_de2 == 2 ]]; then
 pacman -S  xfce4 pavucontrol xfce4-goodies  --noconfirm
+pacman -S lxdm
+systemctl enable lxdm.service
 clear
 echo "Xfce успешно установлено"
+
 elif [[ $x_de2 == 3 ]]; then
 pacman -S gnome gnome-extra  --noconfirm
+pacman -S gdm --noconfirm
+systemctl enable gdm.service -f
+clear
+echo " установка gdm завершена 
 clear
 echo " Gnome успешно установлен " 
+
 elif [[ $x_de2 == 4 ]]; then
 pacman -S lxde --noconfirm
+pacman -S lxdm
+systemctl enable lxdm.service
 clear
 echo " lxde успешно установлен "
+
 elif [[ $x_de2 == 5 ]]; then
 pacman -S deepin deepin-extra
+pacman -S lxdm
+systemctl enable lxdm.service
 clear
 echo " Deepin успешно установлен "
+
 elif [[ $x_de2 == 6 ]]; then
 pacman -S  mate mate-extra  --noconfirm
+pacman -S lxdm
+systemctl enable lxdm.service
 clear
 echo " Mate успешно установлен "
+
 elif [[ $x_de2 == 7 ]]; then
 pacman -S lxqt lxqt-qtplugin lxqt-themes --noconfirm
+pacman -S sddm sddm-kcm --noconfirm
+systemctl enable sddm.service -f
 clear
 echo " Lxqt успешно установлен "
+
 elif [[ $x_de2 == 8 ]]; then
 pacman -S i3 i3-wm i3status  dmenu  --noconfirm
 clear
@@ -564,55 +302,8 @@ elif [[ $i_natro  == 1 ]]; then
 pacman -Sy nitrogen  --noconfirm
 fi 
 fi
-clear
-echo "#####################################################################"
-echo ""
-echo " При установке i3  без dm, dm не ставим!!! " 
-echo " 
-Arch-wiki рекоендует для: 
-kde      <-> sddm
-Lxqt     <-> sddm
-xfce(i3) <-> lightdm
-lxde     <-> lightdm
-Gnome    <-> gdm
-Deepin   <-> lightdm
-Mate     <-> lightdm "
-echo ""
-echo "Установка Менеджера входа в систему "
-while 
-    read -n1 -p  "
-    1 - Sddm
-    
-    2 - lightdm 
-    
-    3 - gdm
-    
-    0 - пропустить: " i_dm # sends right after the keypress
-    
-    echo ''
-    [[ "$i_dm" =~ [^1230] ]]
-do
-    :
-done
-if [[ $i_dm == 0 ]]; then
-clear
-echo " Установка пропущена "
-elif [[ $i_dm == 1 ]]; then
-pacman -S sddm sddm-kcm --noconfirm
-systemctl enable sddm.service -f
-clear
-echo " установка sddm  завершена "
-elif [[ $i_dm == 2 ]]; then
-pacman -S lightdm lightdm-gtk-greeter-settings lightdm-gtk-greeter --noconfirm
-systemctl enable lightdm.service -f
-clear
-echo " установка lightdm завершена "
-elif [[ $i_dm == 3 ]]; then
-pacman -S gdm --noconfirm
-systemctl enable gdm.service -f
-clear
-echo " установка gdm завершена "
-fi
+
+
 
 #-----------    Шрифты
 pacman -S ttf-arphic-ukai git ttf-liberation ttf-dejavu ttf-arphic-uming ttf-fireflysung ttf-sazanami --noconfirm

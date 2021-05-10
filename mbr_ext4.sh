@@ -145,14 +145,14 @@ do
         "Да")
             read -p "Укажите HOME раздел(sda/sdb 1.2.3.4 (sda6 например)):" home
             mkfs.ext4 /dev/$home -L home    
-            mkdir /mnt/home 
+            #mkdir /mnt/home 
             mount /dev/$home /mnt/home
             echo " Продолжим дальше ..."
             break
             ;;
         "Нет")
             read -p "Укажите HOME раздел(sda/sdb 1.2.3.4 (sda6 например)):" homeV
-            mkdir /mnt/home 
+            #mkdir /mnt/home 
             mount /dev/$homeV /mnt/home
             echo " Продолжим дальше ..."
             break
