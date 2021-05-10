@@ -222,7 +222,7 @@ genfstab -pU /mnt >> /mnt/etc/fstab
 #######################  Продолжение установки   ###########################
 
 
-arch-chroot /mnt sh -c "$(curl -fsSL https://disk.yandex.ru/d/I4FCc3UDHCaMWg)"
+arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/uefi_ext4_chroot.sh)"
 
 #  Файл uefi_ext4_chroot
 

@@ -8,6 +8,7 @@ setfont cyr-sun16
 ###              Часть 2 --- Установка в MBR и Ext4      ###  
 ############################################################
 ############################################################
+clear
 echo -e "\n В данное время Ваш диск размечен следующим образом : \n \n \n"
 lsblk -f
             echo ""
@@ -222,7 +223,7 @@ genfstab -pU /mnt >> /mnt/etc/fstab
 ##############################################################
 
 
-arch-chroot /mnt sh -c "$(curl -fsSL https://disk.yandex.ru/d/0PAmCoqjWm6p0A)"
+arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/mbr_ext4_chroot.sh)"
 
 #  Файл mbr_ext4_chroot
 

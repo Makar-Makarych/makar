@@ -62,18 +62,15 @@ select opt in "${options[@]}"
 do
     case $opt in
         "UEFI-Btrfs")
-            sh uefi_btrfs.sh
-            #sh -c "$(curl -fsSL https://)"
+            sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/uefi_btrfs.sh)"
             break
             ;;
         "UEFI-Ext4")
-            sh uefi_ext4.sh
-            #sh -c "$(curl -fsSL https://)"
+            sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/uefi_ext4.sh)"
             break
             ;;
         "MBR-Ext4")
-            sh mbr_ext4.sh
-            #sh -c "$(curl -fsSL https://)"
+            sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/mbr_ext4.sh)"
             break 
             ;;
         "Ну нахер все, выход из скрипта!")
@@ -83,4 +80,4 @@ do
         *) echo "Хрень какую-то Ввели, попробуем еще раз? $REPLY";;
     esac
 done
-echo "Вышли из цикла."
+
