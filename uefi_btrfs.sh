@@ -135,49 +135,6 @@ echo -e "\033[32m"
 read -n 1 -s -r -p "Нажмите любую кнопку для продолжения"
 echo -e "\033[0m"
 
- 
-#  --------------    HOME
-# clear
-# lsblk -f
-# echo ""
-# echo -e " Нужно форматировать HOME раздел ? \n"
-# PS3=' ВВедите номер ответа : '
-# options=("Да" "Нет" "Нет HOME раздела" "Ну нахер все, выход из скрипта!")
-# select opt in "${options[@]}"
-# do
-#     case $opt in
-#         "Да")
-#             read -p "Укажите HOME раздел(sda/sdb 1.2.3.4 (sda6 например)):" home
-#             mkfs.ext4 /dev/$home -L home    
-#             mkdir /mnt/home 
-#             mount /dev/$home /mnt/home
-#             echo " Продолжим дальше ..."
-#             break
-#             ;;
-#         "Нет")
-#             read -p "Укажите HOME раздел(sda/sdb 1.2.3.4 (sda6 например)):" homeV
-#             mkdir /mnt/home 
-#             mount /dev/$homeV /mnt/home
-#             echo " Продолжим дальше ..."
-#             break
-#             ;;
-#         "Нет BOOT раздела")
-#             echo " Продолжим дальше ..."
-#             break
-#             ;;
-#         "Ну нахер все, выход из скрипта!")
-#             exit
-#             break
-#             ;;
-#         *) echo "Хрень какую-то Ввели, попробуем еще раз? $REPLY";;
-#     esac
-# done
-# echo -e "\033[32m"
-# read -n 1 -s -r -p "Нажмите любую кнопку для продолжения"
-# echo -e "\033[0m"
-
-#--------------------------  BTRFS
-
 mount /dev/$root /mnt
 
 #####создадим подтома под root и домашний каталог пользователя и для снапшотов:

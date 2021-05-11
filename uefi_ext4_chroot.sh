@@ -242,7 +242,7 @@ pacman -S gnome gnome-extra  --noconfirm
 pacman -S gdm --noconfirm
 systemctl enable gdm.service -f
 clear
-echo " установка gdm завершена 
+echo " установка gdm завершена "
 clear
 echo " Gnome успешно установлен " 
 
