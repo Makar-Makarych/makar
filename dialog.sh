@@ -3,33 +3,67 @@ loadkeys ru
 setfont cyr-sun16
 clear
 #------------------------- Обновление ключей ---------------------------------------
-echo -e "Добро пожаловать в установщик !\n \n"
-echo -e "\033[33m  Вначале рекомендуется обновить ключи Pacman, чтобы избежать проблем с ключами в дальнейшем, если используете не свежий образ ArchLinux для установки! \033[0m "
-echo ""
-echo ""
-echo "Обновить ключи ? "
-echo ""
-PS3='Выберите вариант : '
-options=("Да"  "Нет"  "Ну нахер все, выход из скрипта!")
-select opt in "${options[@]}"
-do
-    case $opt in
-        "Да")
-			echo "ОБНОВЛЕНИЕ"
-            #pacman-key --init
-            #pacman-key --populate archlinux
-    # pacman-key --refresh-keys
+
+whiptail --title  "Добро пожаловать в установщик !" --msgbox  "Вначале рекомендуется обновить ключи Pacman, чтобы избежать проблем с ключами в дальнейшем, если используете не свежий образ ArchLinux для установки!" 10 60
+
+if (whiptail --title  "ОБНОВЛЕНИЕ КЛЮЧЕЙ" --yesno  "Обновить ключи ?" 10 60)
+    then
+        echo ""
+        #pacman-key --init
+        #pacman-key --populate archlinux
+    else
+        whiptail --title "ОБНОВЛЕНИЕ КЛЮЧЕЙ ПРОПУЩЕНО" --msgbox "" 10 60
+fi
+
+#----------  Проверка BOOT / EFI  ---------------------
+
+variable=`efibootmgr  | awk '/BootOrder: / {print $2}'`
+if [[ $variable ]]; 
+    then
+        whiptail --title "Проверка BOOT / UEFI" --msgbox "Мы проверили Ваш компьютер и рекомендуем Вам выбрать УСТАНОВКУ В EFI" 10 60
+    else
+        whiptail --title "Проверка BOOT / UEFI" --msgbox "Мы проверили Ваш компьютер и рекомендуем Вам выбрать УСТАНОВКУ В MBR" 10 60
+fi
+
+#------------  Выбор типа установки  ---------------------
+
+OPTION=$(whiptail --title  "ТИП УСТАНОВКИ" --menu  "Выберите вариант, как Вы хотите установить систему" 15 60 4 \
+"1" "UEFI + BtrFS" \
+"2" "UEFI + Ext4" \
+"3" "MBR (Legacy) + BtrFS" \
+"4" "MBR (Legacy) + Ext4"  3>&1 1>&2 2>&3)
+ 
+exitstatus=$?
+if [ $exitstatus = 0 ];  
+    then
+     echo "Your chosen option:" $OPTION
+    else
+     echo "You chose Cancel."
+fi
+
+#-----------  Переход по выбору  ------------------------
+
+while [ "$OPTION" ]
+    do
+        case $OPTION in
+            "1")
+echo "Your 2 chosen option:" $OPTION
+                #sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/uefi_btrfs.sh)"
             break
             ;;
-        "Нет")
-            echo -e "\033[31m \n !!!  ОБНОВЛЕНИЕ КЛЮЧЕЙ ПРОПУЩЕНО  !!! \033[0m"
+            "2")
+echo "Your 2 chosen option:" $OPTION
+                #sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/uefi_ext4.sh)"
             break
             ;;
-        "Ну нахер все, выход из скрипта!")
-            exit
+            "4")
+echo "Your 2 chosen option:" $OPTION
+                #sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/mbr_ext4.sh)"
+            break 
+            ;;
+            "3")
+echo "Your 2 chosen option:" $OPTION
             break
             ;;
-        *) echo "Хрень какую-то Ввели, попробуем еще раз? $REPLY";;
-    esac
-done
-#echo "Вышли из цикла."
+        esac
+    done
