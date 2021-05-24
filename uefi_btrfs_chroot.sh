@@ -4,6 +4,11 @@ setfont cyr-sun16
 
 arch-chroot /mnt
 
+echo -e "ДЛЯ ПРОДОЛЖЕНИЯ УСТАНОВКИ ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ"
+
+passwd
+
+
 read -p "Введите имя компьютера: " hostname
 read -p "Введите имя пользователя: " username
 
@@ -172,8 +177,8 @@ pacman -S dialog wpa_supplicant --noconfirm
 echo 'Добавляем пользователя'
 useradd -m -g users -G wheel -s /bin/bash $username
 
-echo 'Создаем root пароль'
-passwd
+
+
 
 echo 'Устанавливаем пароль пользователя'
 passwd $username
