@@ -2,6 +2,7 @@
 loadkeys ru
 setfont cyr-sun16
 
+clear
 
 #-----------  Добавляем русскую локаль  и язык системы
 
@@ -16,22 +17,22 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 #echo -e "\n ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ \n "
 #	passwd
-
-read -p "\n ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ КОМПЬЮТЕРА \n " hostname
+    echo ""
+read -p " ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ КОМПЬЮТЕРА  " hostname
 	echo $hostname > /etc/hostname
-
-read -p "\n ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ ПОЛЬЗОВАТЕЛЯ \n " username
+    echo ""
+read -p " ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ ПОЛЬЗОВАТЕЛЯ  " username
 	useradd -m -g users -G wheel -s /bin/bash $username
 
-echo -e "\n ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ \n "
+echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ  "
 	passwd
 
-echo -e '\n ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ \n '
+echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ  "
 	passwd $username
 
 #---------------------  Временная зона  --------------------------
 
-options=$(whiptail --title  "Test Menu Dialog" --menu  "Choose your option" 15 60 28 \
+options=$(whiptail --title  "Часовой пояс" --menu  "Выберите город" 35 60 28 \
 	"1" "Калининград" \
 	"2" "Красноярск" \
 	"3" "Киев" \
