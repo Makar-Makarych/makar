@@ -14,14 +14,18 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 #-----------  Создание паролей, пользователя и --------------
 
-echo -e "\n ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ \n "
-	passwd
+#echo -e "\n ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ \n "
+#	passwd
+
 read -p "\n ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ КОМПЬЮТЕРА \n " hostname
 	echo $hostname > /etc/hostname
+
 read -p "\n ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ ПОЛЬЗОВАТЕЛЯ \n " username
 	useradd -m -g users -G wheel -s /bin/bash $username
+
 echo -e "\n ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ \n "
 	passwd
+
 echo -e '\n ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ \n '
 	passwd $username
 
@@ -57,13 +61,13 @@ options=$(whiptail --title  "Test Menu Dialog" --menu  "Choose your option" 15 6
 	"27" "Ереван" \
     "28" "Настрою часовой пояс позже" 3>&1 1>&2 2>&3)
 
-exitstatus=$?
-if [ $exitstatus = 0 ];  
-	then
-    	echo "Your chosen option:" $options
-	else
-    	echo "You chose Cancel."
-fi
+#exitstatus=$?
+#if [ $exitstatus = 0 ];  
+#	then
+#    	echo "Your chosen option:" $options
+#	else
+#    	echo "You chose Cancel."
+#fi
 
 select opt in "${options[@]}"
 do
