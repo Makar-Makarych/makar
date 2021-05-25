@@ -2,6 +2,16 @@
 loadkeys ru
 setfont cyr-sun16
 
+
+#-----------  Добавляем русскую локаль  и язык системы
+
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen
+locale-gen
+echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf 
+echo "KEYMAP=ru" >> /etc/vconsole.conf
+echo "FONT=cyr-sun16" >> /etc/vconsole.conf
+
 #-----------  Создание паролей, пользователя и --------------
 
 echo -e "\n ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ \n "
@@ -17,8 +27,7 @@ echo -e '\n ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ПОЛЬЗОВА
 
 #---------------------  Временная зона  --------------------------
 
-
-options=$(whiptail --title  "Test Menu Dialog" --menu  "Choose your option" 15 60 4 \
+options=$(whiptail --title  "Test Menu Dialog" --menu  "Choose your option" 15 60 28 \
 	"1" "Калининград" \
 	"2" "Красноярск" \
 	"3" "Киев" \
@@ -180,20 +189,6 @@ do
         *) echo "";;
     esac
 done
-
-#-----------  Добавляем русскую локаль  и язык системы
-
-echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen
-locale-gen
-echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf 
-echo "KEYMAP=ru" >> /etc/vconsole.conf
-echo "FONT=cyr-sun16" >> /etc/vconsole.conf
-
-#----------- Загрузочный RAM 
-
-echo 'Создадим загрузочный RAM диск'
-mkinitcpio -p linux
 
 #----------  Ставим программу для Wi-fi'
 

@@ -23,3 +23,14 @@ sh zerkalo.sh          #-----------  Обновляем зеркала
 
 #genfstab -pU /mnt >> /mnt/etc/fstab
 
+
+
+#############################################################
+# arch-chroot /mnt sh -c "$(curl -fsSL git.io/arch2.sh)" # Продолжение установки по скрипту Бойко
+##############################################################
+
+#arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/uefi_btrfs_chroot.sh)"
+
+# Файл uefi_btrfs_chroot
+
+# sh t-efi-btr3.sh
