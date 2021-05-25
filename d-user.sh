@@ -61,17 +61,17 @@ options=$(whiptail --title  "Test Menu Dialog" --menu  "Choose your option" 15 6
 	"27" "Ереван" \
     "28" "Настрою часовой пояс позже" 3>&1 1>&2 2>&3)
 
-#exitstatus=$?
-#if [ $exitstatus = 0 ];  
-#	then
-#    	echo "Your chosen option:" $options
-#	else
-#    	echo "You chose Cancel."
-#fi
+exitstatus=$?
+if [ $exitstatus = 0 ];  
+	then
+    	echo "Your chosen option:" $options
+	else
+    	echo "You chose Cancel."
+fi
 
-select opt in "${options[@]}"
+select $options
 do
-    case $opt in
+    case $options in
             "1")
             ln -sf /usr/share/zoneinfo/Europe/Kaliningrad /etc/localtime
             break
