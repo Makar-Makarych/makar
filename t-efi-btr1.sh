@@ -7,8 +7,8 @@ clear
 if (whiptail --title  "Добро пожаловать в установщик !" --yesno  "Вначале рекомендуется обновить ключи Pacman, чтобы избежать проблем с ключами в дальнейшем, если используете не свежий образ ArchLinux для установки! Обновить ключи ?" 10 80)
     then
         echo ""
-        #pacman-key --init
-        #pacman-key --populate archlinux
+        pacman-key --init
+        pacman-key --populate archlinux
     else
         whiptail --title "ОБНОВЛЕНИЕ КЛЮЧЕЙ ПРОПУЩЕНО" --msgbox "" 10 60
 fi
