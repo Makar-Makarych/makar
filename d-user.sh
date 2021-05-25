@@ -209,11 +209,11 @@ pacman -Syy
 
 if (whiptail --title  "ВИРТУАЛЬНАЯ \ РЕАЛЬНАЯ МАШИНА" --yesno  "Устанавливем Arch Linux на виртуальную машину?" 10 60)  
     then
-        #pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
-        echo "You chose Yes. Exit status was $?."
+        pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
+        #echo "You chose Yes. Exit status was $?."
     else
-        #pacman -S xorg-server xorg-drivers xorg-xinit
-        echo "You chose No. Exit status was $?."
+        pacman -S xorg-server xorg-drivers xorg-xinit
+        #echo "You chose No. Exit status was $?."
 fi
 
 
