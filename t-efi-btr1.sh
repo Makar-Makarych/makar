@@ -4,8 +4,6 @@ setfont cyr-sun16
 clear
 #------------------------- Обновление ключей ---------------------------------------
 
-#whiptail --title  "Добро пожаловать в установщик !" --msgbox  "Вначале рекомендуется обновить ключи Pacman, чтобы избежать проблем с ключами в дальнейшем, если используете не свежий образ ArchLinux для установки!" 10 60
-
 if (whiptail --title  "Добро пожаловать в установщик !" --yesno  "Вначале рекомендуется обновить ключи Pacman, чтобы избежать проблем с ключами в дальнейшем, если используете не свежий образ ArchLinux для установки! Обновить ключи ?" 10 80)
     then
         echo ""
@@ -36,9 +34,9 @@ OPTION=$(whiptail --title  "ТИП УСТАНОВКИ" --menu  "Выберите
 exitstatus=$?
 if [ $exitstatus = 0 ];  
     then
-     echo "Your chosen option:" $OPTION
+        echo "" 
     else
-     echo "You chose Cancel."
+        echo ""
 fi
 
 #-----------  Переход по выбору  ------------------------
@@ -49,9 +47,9 @@ while [ "$OPTION" ]
             "1")
 echo "Your 2 chosen option:" $OPTION
                 
-                sh t-efi-btr2.sh
+                #sh t-efi-btr2.sh
 
-                #sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/uefi_btrfs.sh)"
+                sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/t-efi-btr2.sh)"
             break
             ;;
             "2")

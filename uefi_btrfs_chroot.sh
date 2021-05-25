@@ -159,9 +159,7 @@ echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf
 echo "KEYMAP=ru" >> /etc/vconsole.conf
 echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
-#-----------
-
-echo 'Создадим загрузочный RAM диск'
+#-----------  Создадим загрузочный RAM диск
 mkinitcpio -p linux
 
 #-------------  Загрузчик

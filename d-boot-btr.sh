@@ -11,12 +11,12 @@ if (whiptail --title  "BOOT - РАЗДЕЛ" --yesno "НУЖНО ЛИ ФОРМА�
 		
 		if [ $exitstatus = 0 ];  
 			then
-     			#mkfs.fat -F32  /dev/$bootd
-                #mkdir /mnt/boot
-            	#mkdir /mnt/boot/efi
-            	#mount /dev/$bootd /mnt/boot/efi
+     			mkfs.fat -F32  /dev/$bootd
+                mkdir /mnt/boot
+            	mkdir /mnt/boot/efi
+            	mount /dev/$bootd /mnt/boot/efi
 
-     			echo "Вы выбрали форматировать:" $bootd
+     			#echo "Вы выбрали форматировать:" $bootd
 			else
      			echo ""
 		fi
@@ -28,11 +28,11 @@ if (whiptail --title  "BOOT - РАЗДЕЛ" --yesno "НУЖНО ЛИ ФОРМА�
 		
 		if [ $exitstatus = 0 ];  
 			then
-       			#mkdir /mnt/boot/
-            	#mkdir /mnt/boot/efi
-            	#mount /dev/$bootd /mnt/boot/efi
+       			mkdir /mnt/boot/
+            	mkdir /mnt/boot/efi
+            	mount /dev/$bootd /mnt/boot/efi
 
-     			echo "Вы выбрали просто монтировать:" $bootd
+     			#echo "Вы выбрали просто монтировать:" $bootd
 			else
      			echo ""
 		fi

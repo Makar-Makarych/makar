@@ -9,8 +9,8 @@ if (whiptail --title  "НУЖНА ЛИ РАЗМЕТКА (переразметк�
 		
 		if [ $exitstatus = 0 ];  
 			then
-     			echo "Вы выбрали :" $cfd
-			    #cfdisk /dev/$cfd
+     			#echo "Вы выбрали :" $cfd
+			    cfdisk /dev/$cfd
 			else
      			echo ""
 		fi

@@ -9,13 +9,13 @@ if (whiptail --title  "SWAP - РАЗДЕЛ" --yesno  "Подключить SWAP 
  		exitstatus=$?
 		if [ $exitstatus = 0 ];  
 			then
-     				#mkswap /dev/$swaps -L swap
-     			    #swapon /dev/$swaps
-     			echo "Подключен  свап:" $swaps
+     			mkswap /dev/$swaps -L swap
+     			swapon /dev/$swaps
+     			#echo "Подключен  свап:" $swaps
 			else
      			echo ""
 		fi
     	echo ""
 	else
-    	echo "Фигвам"
+    	echo ""
 fi

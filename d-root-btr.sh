@@ -10,13 +10,10 @@ root=$(whiptail --title  "ROOT - Раздел" --inputbox  "Укажите ра�
 exitstatus=$?
 if [ $exitstatus = 0 ];  
 	then
-  #   	mkfs.btrfs -f -L arch /dev/$root
-
-		# # mount /dev/$root /mnt
-
-		# # mkdir /mnt/{boot,home}
-     	echo "Your pet name is:" $root
+     	mkfs.btrfs -f -L arch /dev/$root
+		mount /dev/$root /mnt
+		mkdir /mnt/{boot,home}
+     	#echo "Your pet name is:" $root
 	else
      echo "You chose Cancel."
 fi
-
