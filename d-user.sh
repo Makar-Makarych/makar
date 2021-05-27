@@ -17,18 +17,78 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 #echo -e "\n ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ \n "
 #	passwd
-    echo ""
-read -p " ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ КОМПЬЮТЕРА  " hostname
-	echo $hostname > /etc/hostname
-    echo ""
-read -p " ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ ПОЛЬЗОВАТЕЛЯ  " username
-	useradd -m -g users -G wheel -s /bin/bash $username
+    #echo ""
 
-echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ  "
-	passwd
+hostname=$(whiptail --title  " КОМПЬЮТЕР " --inputbox  " СОЗДАЙТЕ НОВОЕ ИМЯ КОМПЬЮТЕРА " 10 60 ArchLinux 3>&1 1>&2 2>&3)
+ 
+exitstatus=$?
+if [ $exitstatus = 0 ];  then
+    clear
+    echo $hostname > /etc/hostname
+    #echo "Your pet name is:"
+else
+    clear
+    #echo "You chose Cancel."
+fi
 
-echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ  "
-	passwd $username
+
+username=$(whiptail --title  " ПОЛЬЗОВАТЕЛЬ " --inputbox  " СОЗДАЙТЕ НОВОЕ ИМЯ ПОЛЬЗОВАТЕЛЯ " 10 60 User 3>&1 1>&2 2>&3)
+ 
+exitstatus=$?
+if [ $exitstatus = 0 ];  then
+    clear
+    #useradd -m -g users -G wheel -s /bin/bash $username
+    #echo "Your pet name is:"
+else
+    clear
+    #echo "You chose Cancel."
+fi
+
+   
+
+# passroot=$(whiptail --title  " ROOT " --passwordbox  " ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ " 10 60 3>&1 1>&2 2>&3)
+ 
+# passroot=$?
+# if [ $exitstatus = 0 ];  then
+#      clear
+#      #echo "Your password is:" $PASSWORD
+# else
+#     clear
+#      #echo "You chose Cancel."
+# fi
+
+
+
+# passuser=$(whiptail --title  " ROOT " --passwordbox  " ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ" 10 60 3>&1 1>&2 2>&3)
+ 
+# passuser=$?
+# if [ $exitstatus = 0 ];  then
+#      clear
+#      #echo "Your password is:" $PASSWORD
+# else
+#     clear
+#      #echo "You chose Cancel."
+# fi
+
+# useradd -m -p $(openssl passwd -crypt $passroot) $user
+
+
+
+# useradd -m -p "$pass" "$username"
+
+
+    clear
+        echo ""
+        echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ  "
+	        passwd
+
+    clear
+        echo ""
+        echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ  "
+    	   passwd $username
+
+
+
 
 #---------------------  Временная зона  --------------------------
 
@@ -214,11 +274,11 @@ pacman -Syy
 
 if (whiptail --title  "ВИРТУАЛЬНАЯ \ РЕАЛЬНАЯ МАШИНА" --yesno  "Устанавливем Arch Linux на виртуальную машину?" 10 60)  
     then
-        pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
+        pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils --noconfirm 
         #echo "You chose Yes. Exit status was $?."
     else
-        pacman -S xorg-server xorg-drivers xorg-xinit
-        #echo "You chose No. Exit status was $?."
+        pacman -S xorg-server xorg-drivers xorg-xinit --noconfirm 
+        #echo "You chose No. Exit status was $?."--noconfirm 
 fi
 
 

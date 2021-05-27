@@ -2,9 +2,7 @@
 loadkeys ru
 setfont cyr-sun16
 
-clear
-
-DE=$(whiptail --title  "Графическое окружение" --menu  "Выберите рабочий стол" 15 60 28 \
+graf=$(whiptail --title  "Часовой пояс" --menu  "Выберите город" 15 60 8 \
 	"1" "KDE (Plasma)" \
 	"2" "XFCE" \
 	"3" "GNOME" \
@@ -14,19 +12,27 @@ DE=$(whiptail --title  "Графическое окружение" --menu  "Вы
 	"7" "LXQT" \
 	"8" "Пропустить" 3>&1 1>&2 2>&3)
 
-exitstatus=$?
-if [ $exitstatus = 0 ];  
-	then
-    	echo "Your chosen option:" $DE
-	else
-    	echo "You chose Cancel."
-fi
 
-select $DE
-	do
-    	case $DE 
-    		in
-            
+echo " -----------------  " $graf
+
+
+
+
+# exitstatus=$?
+# if [ $exitstatus = 0 ];  
+# 	then
+#     	clear
+#         #echo "Your chosen option:" $DE
+# 	else
+#     	clear
+#         echo "Результат ------- ." $graf
+# fi
+
+x=$graf
+
+select $x
+    do
+    	case $x in 
             "1")
 				pacman -S plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
 				pacman -R konqueror --noconfirm
@@ -52,7 +58,7 @@ select $DE
 				systemctl enable lxdm.service
             break
             ;;
-            "5" )
+            "5")
             	pacman -S deepin deepin-extra
 				pacman -S lxdm
 				systemctl enable lxdm.service
@@ -81,5 +87,7 @@ select $DE
             break
             ;;
         *) echo "";;
-    esac
+        esac
 done
+
+

@@ -11,6 +11,7 @@ if (whiptail --title  "BOOT - РАЗДЕЛ" --yesno "НУЖНО ЛИ ФОРМА�
 		
 		if [ $exitstatus = 0 ];  
 			then
+				clear
      			mkfs.fat -F32  /dev/$bootd
                 mkdir /mnt/boot
             	mkdir /mnt/boot/efi
@@ -28,14 +29,17 @@ if (whiptail --title  "BOOT - РАЗДЕЛ" --yesno "НУЖНО ЛИ ФОРМА�
 		
 		if [ $exitstatus = 0 ];  
 			then
+				clear
        			mkdir /mnt/boot/
             	mkdir /mnt/boot/efi
             	mount /dev/$bootd /mnt/boot/efi
 
      			#echo "Вы выбрали просто монтировать:" $bootd
 			else
-     			echo ""
+				clear
+     			#echo ""
 		fi
-    echo ""
+    clear
+    #echo ""
 fi
 

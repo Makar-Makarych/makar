@@ -5,7 +5,7 @@ setfont cyr-sun16
 #------------------------------ ROOT
 
 
-root=$(whiptail --title  "ROOT - Раздел" --inputbox  "Укажите раздел для системы (sda/sdb 1.2.3.4 ( например sda5 ) $(echo "" && echo "" && lsblk)" 30 80 3>&1 1>&2 2>&3)
+root=$(whiptail --title  "ROOT - Раздел" --inputbox  "Укажите системный раздел ROOT ( / ) (sda/sdb 1.2.3.4 ( например sda5 ) $(echo "" && echo "" && lsblk)" 30 80 3>&1 1>&2 2>&3)
  
 exitstatus=$?
 if [ $exitstatus = 0 ];  
@@ -15,5 +15,6 @@ if [ $exitstatus = 0 ];
 		mkdir /mnt/{boot,home}
      	#echo "Your pet name is:" $root
 	else
-     echo "You chose Cancel."
+    clear
+    #echo "You chose Cancel."
 fi

@@ -6,13 +6,14 @@ clear
 
 if (whiptail --title  "Добро пожаловать в установщик !" --yesno  "Вначале рекомендуется обновить ключи Pacman, чтобы избежать проблем с ключами в дальнейшем, если используете не свежий образ ArchLinux для установки! Обновить ключи ?" 10 80)
     then
-        echo ""
+        clear
+        #echo ""
         pacman-key --init
         pacman-key --populate archlinux
     else
         whiptail --title "ОБНОВЛЕНИЕ КЛЮЧЕЙ ПРОПУЩЕНО" --msgbox "" 10 60
 fi
-
+        
 #----------  Проверка BOOT / EFI  ---------------------
 
 variable=`efibootmgr  | awk '/BootOrder: / {print $2}'`
@@ -34,8 +35,10 @@ OPTION=$(whiptail --title  "ТИП УСТАНОВКИ" --menu  "Выберите
 exitstatus=$?
 if [ $exitstatus = 0 ];  
     then
+        clear
         echo "" 
     else
+        clear
         echo ""
 fi
 
