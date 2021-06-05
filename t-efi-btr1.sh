@@ -48,10 +48,6 @@ while [ "$OPTION" ]
     do
         case $OPTION in
             "1")
-echo "Your 2 chosen option:" $OPTION
-                
-                #sh t-efi-btr2.sh
-
                 sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/t-efi-btr2.sh)"
             break
             ;;

@@ -1,7 +1,7 @@
 #!/bin/bash
 loadkeys ru
 setfont cyr-sun16
-
+clear
 #------------  Разметка   ---------------------
 
 if (whiptail --title  "НУЖНА ЛИ РАЗМЕТКА (переразметка) ВАШЕГО ДИСКА ?" --yesno "$(lsblk)" 30 60)  
@@ -12,15 +12,13 @@ if (whiptail --title  "НУЖНА ЛИ РАЗМЕТКА (переразметк�
 		if [ $exitstatus = 0 ];  
 			then
      			clear
-     				cfdisk /dev/$cfd
+     				cfdisk /dev/"$cfd"
 			else
      			clear
      		fi
 		clear
-    	#echo ""
-	else
+   	else
 	clear	
-    #echo ""
 fi
 
 #------------------  ROOT   ----------------------
@@ -30,13 +28,8 @@ root=$(whiptail --title  "ROOT - Раздел" --inputbox  "Укажите си�
 exitstatus=$?
 if [ $exitstatus = 0 ];  
 	then
-     	mkfs.btrfs -f -L arch /dev/$root
-		#mount /dev/$root /mnt
-		#mkdir /mnt/{boot,home}
-     	#echo "Your pet name is:" $root
-	else
-    clear
-    #echo "You chose Cancel."
+     	clear
+     	mkfs.btrfs -f -L arch /dev/"$root"
 fi
 
 #------------------   BOOT   ----------------------
@@ -49,16 +42,13 @@ if (whiptail --title  "BOOT - РАЗДЕЛ" --yesno "НУЖНО ЛИ ФОРМА�
 		if [ $exitstatus = 0 ];  
 			then
 				clear
-     			mkfs.fat -F32 /dev/$bootd
+     			mkfs.fat -F32 /dev/"$bootd"
                 mkdir /mnt/boot
             	mkdir /mnt/boot/efi
-            	#mount /dev/$bootd /mnt/boot/efi
-
-     			#echo "Вы выбрали форматировать:" $bootd
-			else
-     			echo ""
+            else
+     			clear
 		fi
-    	 echo ""
+    	    clear
 	else
     
 		bootd=$(whiptail --title  "BOOT - РАЗДЕЛ" --inputbox  "УКАЖИТЕ ИМЯ РАЗДЕЛА ДЛЯ МОНТИРОВАНИЯ (sda/sdb 1.2.3.4   ( например sda5 )$(echo "" && echo "" && lsblk)" 30 60 3>&1 1>&2 2>&3)
@@ -69,15 +59,10 @@ if (whiptail --title  "BOOT - РАЗДЕЛ" --yesno "НУЖНО ЛИ ФОРМА�
 				clear
        			mkdir /mnt/boot/
             	mkdir /mnt/boot/efi
-            	#mount /dev/$bootd /mnt/boot/efi
-
-     			#echo "Вы выбрали просто монтировать:" $bootd
-			else
+            else
 				clear
-     			#echo ""
-		fi
+     		fi
     clear
-    #echo ""
 fi
 
 #------------------    SWAP       ----------------------
@@ -90,23 +75,20 @@ if (whiptail --title  "SWAP - РАЗДЕЛ" --yesno  "Подключить SWAP 
 		if [ $exitstatus = 0 ];  
 			then
 				clear
-     			mkswap /dev/$swaps -L swap
-     			swapon /dev/$swaps
-     			#echo "Подключен  свап:" $swaps
-			else
+     			mkswap /dev/"$swaps" -L swap
+     			swapon /dev/"$swaps"
+     		else
 				clear
-     			#echo ""
-		fi
+     	fi
+    		clear
+    else
     	clear
-    	#echo ""
-	else
-    	clear
-    	#echo ""
 fi
 
 #------------------    СУБВОЛУМЫ       ----------------------
-
+clear
 mount /dev/$root /mnt
+
 btrfs subvolume create /mnt/arch_root
 btrfs subvolume create /mnt/arch_home
 btrfs subvolume create /mnt/arch_snapshots
@@ -120,22 +102,8 @@ mkdir -p /mnt/{home,boot,boot/efi,var,var/cache,.snapshots}
 mount -o noatime,compress=lzo,space_cache,subvol=arch_cache /dev/"$root" /mnt/var/cache
 mount -o noatime,compress=lzo,space_cache,subvol=arch_home /dev/"$root" /mnt/home
 mount -o noatime,compress=lzo,space_cache,subvol=arch_snapshots /dev/"$root" /mnt/.snapshots
-mount "$boot" /mnt/boot/efi
 
-
-
-# mount -o noatime,compress=lzo,space_cache,subvol=arch_root /dev/$root /mnt
-
-# mkdir -p /mnt/{home,boot,boot/efi,var,var/cache,.snapshots}
-
-# mount -o noatime,compress=lzo,space_cache,subvol=arch_cache /dev/$root /mnt/var/cache
-# mount -o noatime,compress=lzo,space_cache,subvol=arch_home /dev/$root /mnt/home
-# mount -o noatime,compress=lzo,space_cache,subvol=arch_snapshots /dev/$root /mnt/.snapshots
-
-
-
-
-mount /dev/$bootd /mnt/boot/efi
+mount /dev/"$bootd" /mnt/boot/efi
 
 
 #------------------    ЗЕРКАЛО       ----------------------
@@ -153,48 +121,14 @@ if (whiptail --title  "ЗЕРКАЛА" --yesno  "Сейчас можно авт�
     	#echo "Пропущена. Exit status was $?."
 fi
 
-########################################################################################################
-
-# # sh dialog-razmetka.sh  #-----------  Разметка
-#  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/dialog-razmetka.sh)"
-
-# # sh d-root-btr.sh       #-----------  Рут раздел . Формат и монтирование
-#  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/d-root-btr.sh)"
-
-
-# # sh d-boot-btr.sh       #----------- Загрузочный  раздел . Формат и монтирование
-#  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/d-boot-btr.sh)"
-
-
-# # sh d-swap.sh           #----------- Своп . Создание и подключение
-#  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/d-swap.sh)"
-
-
-#  	mount /dev/$root /mnt      #------------   Монтируем корень
-
-# # sh podtom-btr.sh           #-----------  Создаем субволумы
-#  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/podtom-btr.sh)"
-
-
-# # sh zerkalo.sh          #-----------  Обновляем зеркала
-#  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/zerkalo.sh)"
-
 
 
 ######################  Установка базы      ################################### 
 
-pacstrap /mnt base #base-devel linux linux-firmware nano dhcpcd netctl linux-headers which inetutils wget wpa_supplicant dialog
+pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl linux-headers which inetutils wget wpa_supplicant dialog
 
 genfstab -pU /mnt >> /mnt/etc/fstab
 
+#--------------  CHROOT  в систему
 
-
-#############################################################
-# arch-chroot /mnt sh -c "$(curl -fsSL git.io/arch2.sh)" # Продолжение установки по скрипту Бойко
-##############################################################
-
-#arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/t-efi-btr3.sh)"
-
-# Файл uefi_btrfs_chroot
-
-# sh t-efi-btr3.sh
+arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/t-efi-btr3.sh)"
