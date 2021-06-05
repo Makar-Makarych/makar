@@ -1,7 +1,7 @@
 #!/bin/bash
 loadkeys ru
 setfont cyr-sun16
-
+clear
 #-----------  Создадим загрузочный RAM диск
 
 mkinitcpio -p linux

@@ -1,7 +1,7 @@
 #!/bin/bash
 loadkeys ru
 setfont cyr-sun16
-
+clear
 graf=$(whiptail --title  "Часовой пояс" --menu  "Выберите город" 15 60 8 \
 	"1" "KDE (Plasma)" \
 	"2" "XFCE" \
@@ -28,11 +28,11 @@ echo " -----------------  " $graf
 #         echo "Результат ------- ." $graf
 # fi
 
-x=$graf
+
 
 select $x
     do
-    	case $x in 
+    	case $graf in 
             "1")
 				pacman -S plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
 				pacman -R konqueror --noconfirm
