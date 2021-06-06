@@ -131,4 +131,4 @@ genfstab -pU /mnt >> /mnt/etc/fstab
 
 #--------------  CHROOT  в систему
 
-#arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/t-efi-btr3.sh)"
+arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/t-efi-btr3.sh)"

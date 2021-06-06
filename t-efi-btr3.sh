@@ -3,9 +3,7 @@ loadkeys ru
 setfont cyr-sun16
 clear
 
-DIALOG=${DIALOG=dialog}
-tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
-trap "rm -f $tempfile" 0 1 2 5 15
+
 
 #-----------  Добавляем русскую локаль  и язык системы
 
@@ -19,389 +17,310 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 #-----------  Создание паролей, пользователя и --------------
 
 
-$DIALOG --title " КОМПЬЮТЕР " --clear \
-	--inputbox " СОЗДАЙТЕ НОВОЕ ИМЯ КОМПЬЮТЕРА :" 10 60 2> $tempfile
- 
-retval=$?
- 
-case $retval in
-  0)
-	hostname=$(cat $tempfile)
-	echo $"hostname" > /etc/hostname
-    ;;
-  1)
-    echo "Отказ от ввода.";;
-  255)
-    if test -s $tempfile ; then
-      cat $tempfile
-    else
-      echo "Нажата клавиша ESC."
-    fi
-    ;;
-esac
 
-
-$DIALOG --title " ПОЛЬЗОВАТЕЛЬ " --clear \
-	--inputbox " СОЗДАЙТЕ НОВОЕ ИМЯ ПОЛЬЗОВАТЕЛЯ :" 10 60 2> $tempfile
- 
-retval=$?
- 
-case $retval in
-  0)
-	username=$(cat $tempfile)
-	useradd -m -g users -G wheel -s /bin/bash $username
-	echo $"hostname" > /etc/hostname
-    ;;
-  1)
-    echo "Отказ от ввода.";;
-  255)
-    if test -s $tempfile ; then
-      cat $tempfile
-    else
-      echo "Нажата клавиша ESC."
-    fi
-    ;;
-esac
-
-
-
-
-
-
-
-
-
-
-
-# hostname=$(whiptail --title  " КОМПЬЮТЕР " --inputbox  " СОЗДАЙТЕ НОВОЕ ИМЯ КОМПЬЮТЕРА " 10 60 ArchLinux 3>&1 1>&2 2>&3)
- 
-# exitstatus=$?
-# if [ $exitstatus = 0 ];  
-# 	then
-#     	clear
-#     	echo $"hostname" > /etc/hostname
-# 	else
-#     	clear
-# fi
-
-
-# username=$(whiptail --title  " ПОЛЬЗОВАТЕЛЬ " --inputbox  " СОЗДАЙТЕ НОВОЕ ИМЯ ПОЛЬЗОВАТЕЛЯ " 10 60 User 3>&1 1>&2 2>&3)
- 
-# exitstatus=$?
-# if [ $exitstatus = 0 ];  then
-#     clear
-#     useradd -m -g users -G wheel -s /bin/bash $username
-#     #echo "Your pet name is:"
-# else
-#     clear
-#     #echo "You chose Cancel."
-# fi
-
-
-
-
-  clear
+clear
+        echo ""
+        echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ КОМПЬЮТЕРА  "
+        read hostname
+        echo $"hostname" > /etc/hostname
+	    
+clear
         echo ""
         echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ  "
 	        passwd
 
     clear
         echo ""
+        echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ ПОЛЬЗОВАТЕЛЯ  "
+    	read username
+		useradd -m -g users -G wheel -s /bin/bash $username
+
+   clear
+        echo ""
         echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ  "
     	   passwd $username
 
 
+echo -e " Часовые пояса  \n"
 
-
-#---------------------  Временная зона  --------------------------
-
-options=$(whiptail --title  "Часовой пояс" --menu  "Выберите город" 35 60 28 \
-	"1" "Калининград" \
-	"2" "Красноярск" \
-	"3" "Киев" \
-	"4" "Магадан" \
-    "5" "Киров" \
-    "6" "Новокузнецк" \
-	"7" "Минск" \
-	"8" "Новосибирск" \
-	"9" "Москва" \
-	"10" "Омск" \
-	"11" "Самара" \
-	"12" "Уральск" \
-	"13" "Саратов" \
-	"14" "Алматы" \
-	"15" "Ульяновск" \
-	"16" "Среднеколымск" \
-	"17" "Запарожье" \
-	"18" "Ташкент" \
-	"19" "Чита" \
-	"20" "Тбилиси" \
-	"21" "Иркутск" \
-    "22" "Томск" \
-	"23" "Стамбул" \
-	"24" "Якутск" \
-	"25" "Камчатка" \
-	"26" "Екатеринбург" \
-	"27" "Ереван" \
-    "28" "Настрою часовой пояс позже" 3>&1 1>&2 2>&3)
-
-exitstatus=$?
-if [ $exitstatus = 0 ];  
-	then
-    	echo "Your chosen option:" $options
-	else
-    	echo "You chose Cancel."
-fi
-
-select $options
+PS3=' ВВедите номер ответа : '
+options=("Калининград" "Красноярск" "Киев" "Магадан" "Киров" "Новокузнецк" "Минск" "Новосибирск" "Москва" "Омск" "Самара" "Уральск" "Саратов" "Алматы" "Ульяновск" "Среднеколымск" "Запарожье" "Ташкент" "Чита" "Тбилиси" "Иркутск" "Томск" "Стамбул" "Якутск" "Камчатка" "Екатеринбург" "Ереван" "Настрою позднее" "Ну нахер все, выход из скрипта!")
+select opt in "${options[@]}"
 do
-    case $options in
-            "1")
+    case $opt in
+            "Калининград")
             ln -sf /usr/share/zoneinfo/Europe/Kaliningrad /etc/localtime
             break
             ;;
-            "2")
+            "Красноярск")
             ln -sf /usr/share/zoneinfo/Asia/Krasnoyarsk /etc/localtime
             break
             ;;
-            "3")
+            "Киев")
             ln -sf /usr/share/zoneinfo/Europe/Kiev /etc/localtime
             break
             ;;
-            "4")
+            "Магадан")
             ln -sf /usr/share/zoneinfo/Asia/Magadan /etc/localtime
             break
             ;;
-            "5" )
+            "Киров" )
             ln -sf /usr/share/zoneinfo/Europe/Kirov /etc/localtime      
             break
             ;;
-            "6")
+            "Новокузнецк")
             ln -sf /usr/share/zoneinfo/Asia/Novokuznetsk /etc/localtime
             break
             ;;
-            "7")
+            "Минск")
             ln -sf /usr/share/zoneinfo/Europe/Minsk /etc/localtime
             break
             ;;
-            "8")
-            ln -sf /usr/share/zoneinfo/Asia/Novosibirsk /etc/localtime
-            break
-            ;;
-            "9")
+            "Москва")
             ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
             break
             ;;
-            "11")
+            "Самара")
             ln -sf /usr/share/zoneinfo/Europe/Samara /etc/localtime
             break
             ;;
-            "13")
+            "Саратов")
             ln -sf /usr/share/zoneinfo/Europe/Saratov /etc/localtime
             break
             ;;
-            "15")
+            "Ульяновск")
             ln -sf /usr/share/zoneinfo/Europe/Ulyanovsk /etc/localtime
             break
             ;;
-            "17")
+            "Запарожье")
             ln -sf /usr/share/zoneinfo/Europe/Zaporozhye /etc/localtime
             break
             ;;
-            "19")
+            "Чита")
             ln -sf /usr/share/zoneinfo/Asia/Chita /etc/localtime
             break
             ;;
-            "21")
+            "Иркутск")
             ln -sf /usr/share/zoneinfo/Asia/Irkutsk /etc/localtime
             break
             ;;
-            "23")
+            "Стамбул")
             ln -sf /usr/share/zoneinfo/Asia/Istanbul /etc/localtime
             break
             ;;
-            "25")
+            "Камчатка")
             ln -sf /usr/share/zoneinfo/Asia/Kamchatka /etc/localtime
             break
             ;;
-            "10")
+            "Новосибирск")
+            ln -sf /usr/share/zoneinfo/Asia/Novosibirsk /etc/localtime
+            break
+            ;;
+            "Омск")
             ln -sf /usr/share/zoneinfo/Asia/Omsk /etc/localtime
             break
             ;;
-            "12")
+            "Уральск")
             ln -sf /usr/share/zoneinfo/Asia/Oral /etc/localtime
             break
             ;;
-            "14")
+            "Алматы")
             ln -sf /usr/share/zoneinfo/Asia/Almaty /etc/localtime
             break
             ;;
-            "16")
+            "Среднеколымск")
             ln -sf /usr/share/zoneinfo/Asia/Srednekolymsk /etc/localtime
             break
             ;;
-            "18")
+            "Ташкент")
             ln -sf /usr/share/zoneinfo/Asia/Tashkent /etc/localtime
             break
             ;;
-            "20")
+            "Тбилиси")
             ln -sf /usr/share/zoneinfo/Asia/Tbilisi /etc/localtime
             break
             ;;
-            "22")
+            "Томск")
             ln -sf /usr/share/zoneinfo/Asia/Tomsk /etc/localtime
             break
             ;;
-            "24")
+            "Якутск")
             ln -sf /usr/share/zoneinfo/Asia/Yakutsk /etc/localtime
             break
             ;;
-            "26")
+            "Екатеринбург")
             ln -sf /usr/share/zoneinfo/Asia/Yekaterinburg /etc/localtime
             break
             ;;
-            "27")
+            "Ереван")
             ln -sf /usr/share/zoneinfo/Asia/Yerevan /etc/localtime
             break
             ;;
-            "28")
+            "Настрою позднее")
             clear
             echo " Этап пропущен "
             echo ""
             break
             ;;
-            "")
+            "Ну нахер все, выход из скрипта!")
             exit
             break
             ;;
-        *) echo "";;
+        *) echo "Хрень какую-то Ввели, попробуем еще раз? $REPLY";;
     esac
 done
-
-#----------  Ставим программу для Wi-fi'
-
-pacman -S dialog wpa_supplicant --noconfirm 
-
-#-------- 'Устанавливаем SUDO'
-
-echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
-
-#-----------------Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе.'
-
-echo '[multilib]' >> /etc/pacman.conf
-echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
-pacman -Syy
-
-#----------------  Виртуалка или реальная машина
-
-
-if (whiptail --title  "ВИРТУАЛЬНАЯ \ РЕАЛЬНАЯ МАШИНА" --yesno  "Устанавливем Arch Linux на виртуальную машину?" 10 60)  
-    then
-        pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils --noconfirm 
-        #echo "You chose Yes. Exit status was $?."
-    else
-        pacman -S xorg-server xorg-drivers xorg-xinit --noconfirm 
-        #echo "You chose No. Exit status was $?."--noconfirm 
-fi
-
+echo -e "\033[32m"
+read -n 1 -s -r -p "Нажмите любую кнопку для продолжения"
+echo -e "\033[0m"
 
 
 #-----------  Создадим загрузочный RAM диск
-
 mkinitcpio -p linux
 
 #-------------  Загрузчик
-
 pacman -Syy
 pacman -S grub efibootmgr --noconfirm 
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
-#---------  Установка графической оболочки
 
-clear
-graf=$(whiptail --title  "Часовой пояс" --menu  "Выберите город" 15 60 8 \
-	"1" "KDE (Plasma)" \
-	"2" "XFCE" \
-	"3" "GNOME" \
-	"4" "LXDE" \
-    "5" "Deepin" \
-    "6" "MATE" \
-	"7" "LXQT" \
-	"8" "Пропустить" 3>&1 1>&2 2>&3)
-
-
-# exitstatus=$?
-# if [ $exitstatus = 0 ];  
-# 	then
-#     	clear
-#         #echo "Your chosen option:" $DE
-# 	else
-#     	clear
-#         echo "Результат ------- ." $graf
-# fi
+echo 'Ставим программу для Wi-fi'
+pacman -S dialog wpa_supplicant --noconfirm 
 
 
 
-select $graf
-    do
-    	case $graf in 
-            "1")
-				pacman -S plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
-				pacman -R konqueror --noconfirm
-				pacman -S sddm sddm-kcm --noconfirm
-				systemctl enable sddm.service -f
-            break
-            ;;
-            "2")
- 		        pacman -S  xfce4 pavucontrol xfce4-goodies  --noconfirm
-				pacman -S lxdm
-				systemctl enable lxdm.service
-            break
-            ;;
-            "3")
-            	pacman -S gnome gnome-extra  --noconfirm
-				pacman -S gdm --noconfirm
-				systemctl enable gdm.service -f
-            break
-            ;;
-            "4")
-            	pacman -S lxde --noconfirm
-				pacman -S lxdm
-				systemctl enable lxdm.service
-            break
-            ;;
-            "5")
-            	pacman -S deepin deepin-extra
-				pacman -S lxdm
-				systemctl enable lxdm.service
-		    break
-            ;;
-            "6")
-            	pacman -S  mate mate-extra  --noconfirm
-				pacman -S lxdm
-				systemctl enable lxdm.service
-            break
-            ;;
-            "7")
-           		pacman -S lxqt lxqt-qtplugin lxqt-themes --noconfirm
-				pacman -S sddm sddm-kcm --noconfirm
-				systemctl enable sddm.service -f
-            break
-            ;;
-            "8")
-            clear
-            echo " Этап пропущен "
-            echo ""
-            break
-            ;;
-            "")
-            exit
-            break
-            ;;
-        *) echo "";;
-        esac
+echo 'Устанавливаем SUDO'
+echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
+
+echo 'Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе.'
+echo '[multilib]' >> /etc/pacman.conf
+echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
+pacman -Syy
+
+echo "Куда устанавливем Arch Linux на виртуальную машину?"
+read -p "1 - Да, 0 - Нет: " vm_setting
+if [[ $vm_setting == 0 ]]; then
+  gui_install="xorg-server xorg-drivers xorg-xinit"
+elif [[ $vm_setting == 1 ]]; then
+  gui_install="xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils"
+fi
+
+################# УСТАНОВКА  DE  ------------------------------------------
+echo "#####################################################################"
+ 
+####
+echo ""
+echo " Установим DE/WM "
+while 
+    read -n1 -p  "
+    1 - KDE(Plasma)
+    
+    2 - xfce 
+    
+    3 - gmome
+    
+    4 - lxde
+    
+    5 - Deepin
+
+    6 - Mate
+
+    7 - Lxqt
+    
+    8 - i3 ( конфиги стандартные, не забудьте установить DM )
+
+    0 - пропустить " x_de2
+    echo ''
+    [[ "$x_de2" =~ [^123456780] ]]
+do
+    :
 done
+if [[ $x_de2 == 0 ]]; then
+  echo 'уcтановка DE пропущена' 
+elif [[ $x_de2 == 1 ]]; then
+pacman -S plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
+pacman -R konqueror --noconfirm
+pacman -S sddm sddm-kcm --noconfirm
+systemctl enable sddm.service -f
+clear
+echo "Plasma KDE успешно установлена"
+
+elif [[ $x_de2 == 2 ]]; then
+pacman -S  xfce4 pavucontrol xfce4-goodies  --noconfirm
+pacman -S lxdm
+systemctl enable lxdm.service
+clear
+echo "Xfce успешно установлено"
+
+elif [[ $x_de2 == 3 ]]; then
+pacman -S gnome gnome-extra  --noconfirm
+pacman -S gdm --noconfirm
+systemctl enable gdm.service -f
+clear
+echo " установка gdm завершена "
+clear
+echo " Gnome успешно установлен " 
+
+elif [[ $x_de2 == 4 ]]; then
+pacman -S lxde --noconfirm
+pacman -S lxdm
+systemctl enable lxdm.service
+clear
+echo " lxde успешно установлен "
+
+elif [[ $x_de2 == 5 ]]; then
+pacman -S deepin deepin-extra
+pacman -S lxdm
+systemctl enable lxdm.service
+clear
+echo " Deepin успешно установлен "
+
+elif [[ $x_de2 == 6 ]]; then
+pacman -S  mate mate-extra  --noconfirm
+pacman -S lxdm
+systemctl enable lxdm.service
+clear
+echo " Mate успешно установлен "
+
+elif [[ $x_de2 == 7 ]]; then
+pacman -S lxqt lxqt-qtplugin lxqt-themes --noconfirm
+pacman -S sddm sddm-kcm --noconfirm
+systemctl enable sddm.service -f
+clear
+echo " Lxqt успешно установлен "
+
+elif [[ $x_de2 == 8 ]]; then
+pacman -S i3 i3-wm i3status  dmenu  --noconfirm
+clear
+echo " Установка i3 завершена "
+echo ""
+echo " nitrogen - легкая программа для установки обоев на рабочий стол" 
+echo ""
+echo " Установим nitrogen? "
+while 
+    read -n1 -p  "
+    1 - да  
+    
+    0 - нет : " i_natro   # sends right after the keypress
+    echo ''
+    [[ "$i_natro" =~ [^10] ]]
+do
+    :
+done
+if [[ $i_natro  == 0 ]]; then
+echo "yстановка пропущена"
+elif [[ $i_natro  == 1 ]]; then
+pacman -Sy nitrogen  --noconfirm
+fi 
+fi
+
+
+
+
+
+
+
+
 
 #------------------  Завершение установки
 
@@ -449,29 +368,8 @@ clear
 mkdir /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}   
 chown -R $username:users  /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}
 
-whiptail --title  "УСТАНОВКА СИСТЕМЫ" --msgbox  "Установка системы завершена. Вы можете перезагрузить компьютер" 10 60
-
+#whiptail --title  "УСТАНОВКА СИСТЕМЫ" --msgbox  "Установка системы завершена. Вы можете перезагрузить компьютер" 10 60
+clear
+echo "УСТАНОВКА ЗАВЕРШЕНА"
 exit
 
-
-
-
-
-
-
-
-
-
-#sh d-user.sh       #-------  Раскладка, пользователь, врем. зона, виртуалка или реальная
-#sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/d-user.sh)"
-
-#sh grub-btr.sh     #-------  Установка загрузчика
-#sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/grub-btr.sh)"
-
-#sh d-de.sh         #-------  Установка окружения
-#sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/d-de.sh)" 
-
-#d-de.sh
-
-#sh d-end.sh        #-------  YAY, Pamac, Шрифты, Звук, Сеть
-#sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/d-end.sh)"
