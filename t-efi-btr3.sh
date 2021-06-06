@@ -3,6 +3,9 @@ loadkeys ru
 setfont cyr-sun16
 clear
 
+DIALOG=${DIALOG=dialog}
+tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
 
 #-----------  Добавляем русскую локаль  и язык системы
 
@@ -15,34 +18,84 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 #-----------  Создание паролей, пользователя и --------------
 
-#echo -e "\n ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ \n "
-#	passwd
-    #echo ""
 
-hostname=$(whiptail --title  " КОМПЬЮТЕР " --inputbox  " СОЗДАЙТЕ НОВОЕ ИМЯ КОМПЬЮТЕРА " 10 60 ArchLinux 3>&1 1>&2 2>&3)
+$DIALOG --title " КОМПЬЮТЕР " --clear \
+	--inputbox " СОЗДАЙТЕ НОВОЕ ИМЯ КОМПЬЮТЕРА :" 10 60 2> $tempfile
  
-exitstatus=$?
-if [ $exitstatus = 0 ];  then
-    clear
-    echo $hostname > /etc/hostname
-    #echo "Your pet name is:"
-else
-    clear
-    #echo "You chose Cancel."
-fi
-
-
-username=$(whiptail --title  " ПОЛЬЗОВАТЕЛЬ " --inputbox  " СОЗДАЙТЕ НОВОЕ ИМЯ ПОЛЬЗОВАТЕЛЯ " 10 60 User 3>&1 1>&2 2>&3)
+retval=$?
  
-exitstatus=$?
-if [ $exitstatus = 0 ];  then
-    clear
-    useradd -m -g users -G wheel -s /bin/bash $username
-    #echo "Your pet name is:"
-else
-    clear
-    #echo "You chose Cancel."
-fi
+case $retval in
+  0)
+	hostname=$(cat $tempfile)
+	echo $"hostname" > /etc/hostname
+    ;;
+  1)
+    echo "Отказ от ввода.";;
+  255)
+    if test -s $tempfile ; then
+      cat $tempfile
+    else
+      echo "Нажата клавиша ESC."
+    fi
+    ;;
+esac
+
+
+$DIALOG --title " ПОЛЬЗОВАТЕЛЬ " --clear \
+	--inputbox " СОЗДАЙТЕ НОВОЕ ИМЯ ПОЛЬЗОВАТЕЛЯ :" 10 60 2> $tempfile
+ 
+retval=$?
+ 
+case $retval in
+  0)
+	username=$(cat $tempfile)
+	useradd -m -g users -G wheel -s /bin/bash $username
+	echo $"hostname" > /etc/hostname
+    ;;
+  1)
+    echo "Отказ от ввода.";;
+  255)
+    if test -s $tempfile ; then
+      cat $tempfile
+    else
+      echo "Нажата клавиша ESC."
+    fi
+    ;;
+esac
+
+
+
+
+
+
+
+
+
+
+
+# hostname=$(whiptail --title  " КОМПЬЮТЕР " --inputbox  " СОЗДАЙТЕ НОВОЕ ИМЯ КОМПЬЮТЕРА " 10 60 ArchLinux 3>&1 1>&2 2>&3)
+ 
+# exitstatus=$?
+# if [ $exitstatus = 0 ];  
+# 	then
+#     	clear
+#     	echo $"hostname" > /etc/hostname
+# 	else
+#     	clear
+# fi
+
+
+# username=$(whiptail --title  " ПОЛЬЗОВАТЕЛЬ " --inputbox  " СОЗДАЙТЕ НОВОЕ ИМЯ ПОЛЬЗОВАТЕЛЯ " 10 60 User 3>&1 1>&2 2>&3)
+ 
+# exitstatus=$?
+# if [ $exitstatus = 0 ];  then
+#     clear
+#     useradd -m -g users -G wheel -s /bin/bash $username
+#     #echo "Your pet name is:"
+# else
+#     clear
+#     #echo "You chose Cancel."
+# fi
 
 
 
