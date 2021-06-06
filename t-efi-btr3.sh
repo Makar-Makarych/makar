@@ -253,7 +253,8 @@ clear
 echo "Xfce успешно установлено"
 
 elif [[ $x_de2 == 3 ]]; then
-pacman -S gnome gnome-extra  --noconfirm
+pacman -S gnome --noconfirm
+pacman -S gnome-extra  --noconfirm
 pacman -S gdm --noconfirm
 systemctl enable gdm.service -f
 clear
