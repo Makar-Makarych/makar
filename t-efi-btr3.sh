@@ -248,6 +248,7 @@ while
 do
     :
 done
+
 if [[ $x_de2 == 0 ]]; then
   echo 'уcтановка DE пропущена' 
 
@@ -298,7 +299,7 @@ elif [[ $x_de2 == 8 ]]; then
 clear
 pacman -S i3 i3-wm i3status  dmenu  --noconfirm
 
-
+fi
 
 
 #------------------  Завершение установки
@@ -355,4 +356,3 @@ chown -R $username:users  /home/$username/{Downloads,Music,Pictures,Videos,Docum
 clear
 echo "УСТАНОВКА ЗАВЕРШЕНА"
 exit
-
