@@ -125,7 +125,7 @@ fi
 
 ######################  Установка базы      ################################### 
 
-pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl linux-headers which inetutils wget wpa_supplicant git dialog
+pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl linux-headers which firefox inetutils wget wpa_supplicant git dialog
 
 genfstab -pU /mnt >> /mnt/etc/fstab
 
