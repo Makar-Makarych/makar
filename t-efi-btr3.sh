@@ -197,12 +197,25 @@ echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
+#--------------------  Обновление зеркал на установленной системе
+
+pacman -S reflector --noconfirm
+reflector -a 12 -l 15 -p https,http --sort rate --save /etc/pacman.d/mirrorlist --verbose
+
+
+#------------  Виртуалка или нет
+
+clear
+
 echo "Куда устанавливем Arch Linux на виртуальную машину?"
+
 read -p "1 - Да, 0 - Нет: " vm_setting
+
 if [[ $vm_setting == 0 ]]; then
-  gui_install="xorg-server xorg-drivers xorg-xinit"
+    pacman -S xorg-server xorg-drivers xorg-xinit
+    
 elif [[ $vm_setting == 1 ]]; then
-  gui_install="xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils"
+    pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
 fi
 
 ################# УСТАНОВКА  DE  ------------------------------------------
@@ -237,88 +250,53 @@ do
 done
 if [[ $x_de2 == 0 ]]; then
   echo 'уcтановка DE пропущена' 
+
 elif [[ $x_de2 == 1 ]]; then
+clear
 pacman -S plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
 pacman -R konqueror --noconfirm
 pacman -S sddm sddm-kcm --noconfirm
 systemctl enable sddm.service -f
-clear
-echo "Plasma KDE успешно установлена"
 
 elif [[ $x_de2 == 2 ]]; then
+clear
 pacman -S  xfce4 pavucontrol xfce4-goodies  --noconfirm
 pacman -S lxdm
 systemctl enable lxdm.service
-clear
-echo "Xfce успешно установлено"
 
 elif [[ $x_de2 == 3 ]]; then
-pacman -S gnome --noconfirm
-pacman -S gnome-extra  --noconfirm
+clear
+pacman -S gnome gnome-extra --noconfirm
 pacman -S gdm --noconfirm
 systemctl enable gdm.service -f
-clear
-echo " установка gdm завершена "
-clear
-echo " Gnome успешно установлен " 
 
 elif [[ $x_de2 == 4 ]]; then
+clear
 pacman -S lxde --noconfirm
 pacman -S lxdm
 systemctl enable lxdm.service
-clear
-echo " lxde успешно установлен "
 
 elif [[ $x_de2 == 5 ]]; then
+clear
 pacman -S deepin deepin-extra
 pacman -S lxdm
 systemctl enable lxdm.service
-clear
-echo " Deepin успешно установлен "
 
 elif [[ $x_de2 == 6 ]]; then
+clear
 pacman -S  mate mate-extra  --noconfirm
 pacman -S lxdm
 systemctl enable lxdm.service
-clear
-echo " Mate успешно установлен "
 
 elif [[ $x_de2 == 7 ]]; then
+clear
 pacman -S lxqt lxqt-qtplugin lxqt-themes --noconfirm
 pacman -S sddm sddm-kcm --noconfirm
 systemctl enable sddm.service -f
-clear
-echo " Lxqt успешно установлен "
 
 elif [[ $x_de2 == 8 ]]; then
-pacman -S i3 i3-wm i3status  dmenu  --noconfirm
 clear
-echo " Установка i3 завершена "
-echo ""
-echo " nitrogen - легкая программа для установки обоев на рабочий стол" 
-echo ""
-echo " Установим nitrogen? "
-while 
-    read -n1 -p  "
-    1 - да  
-    
-    0 - нет : " i_natro   # sends right after the keypress
-    echo ''
-    [[ "$i_natro" =~ [^10] ]]
-do
-    :
-done
-if [[ $i_natro  == 0 ]]; then
-echo "yстановка пропущена"
-elif [[ $i_natro  == 1 ]]; then
-pacman -Sy nitrogen  --noconfirm
-fi 
-fi
-
-
-
-
-
+pacman -S i3 i3-wm i3status  dmenu  --noconfirm
 
 
 
@@ -326,25 +304,31 @@ fi
 #------------------  Завершение установки
 
 #-----------    Шрифты
+clear
 pacman -S ttf-arphic-ukai git ttf-liberation ttf-dejavu ttf-arphic-uming ttf-fireflysung ttf-sazanami --noconfirm
 
 #-------------- Сеть
+clear
 pacman -Sy networkmanager networkmanager-openvpn network-manager-applet ppp openssh --noconfirm
 systemctl enable NetworkManager.service
 systemctl enable dhcpcd.service
 systemctl enable sshd.service
 
 #-------------  Звук
+clear
 pacman -Sy pulseaudio-bluetooth alsa-utils pulseaudio-equalizer-ladspa   --noconfirm
 systemctl enable bluetooth.service
 
 #-------------  Ntfs & FAT
+clear
 pacman -Sy exfat-utils ntfs-3g --noconfirm
 
 #----------------   ПО
+clear
 pacman -Sy unzip unrar lha file-roller gparted p7zip unace arc lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
-#----------------  YAY
 
+#----------------  YAY
+clear
 cd /home/$username
 git clone https://aur.archlinux.org/yay.git
 chown -R $username:users /home/$username/yay
@@ -352,10 +336,9 @@ chown -R $username:users /home/$username/yay/PKGBUILD
 cd /home/$username/yay  
 sudo -u $username  makepkg -si --noconfirm  
 rm -Rf /home/$username/yay
-clear
 
 #-------------------  PAMAC-AUR
-
+clear
 cd /home/$username
  git clone https://aur.archlinux.org/pamac-aur.git
 chown -R $username:users /home/$username/pamac-aur
@@ -363,7 +346,6 @@ chown -R $username:users /home/$username/pamac-aur/PKGBUILD
 cd /home/$username/pamac-aur
 sudo -u $username  makepkg -si --noconfirm  
 rm -Rf /home/$username/pamac-aur
-clear
 
 #-----------  Папки пользователя 
 mkdir /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}   
