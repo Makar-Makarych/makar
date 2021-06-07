@@ -3,7 +3,9 @@ loadkeys ru
 setfont cyr-sun16
 clear
 
-
+DIALOG=${DIALOG=dialog}
+tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
 
 #-----------  Добавляем русскую локаль  и язык системы
 
@@ -15,163 +17,183 @@ echo "KEYMAP=ru" >> /etc/vconsole.conf
 echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 #-----------  Создание паролей, пользователя и --------------
-
-
-
 clear
         echo ""
-        echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ КОМПЬЮТЕРА  "
-        read hostname
+        echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ROOT  "
+        echo ""
+        passwd
+
+$DIALOG --title "  ИМЯ КОМПЬЮТЕРА  " --clear \
+    --inputbox "  ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ КОМПЬЮТЕРА" 10 60 2> $tempfile
+        hostname=`cat $tempfile`
         echo $"hostname" > /etc/hostname
 	    
+$DIALOG --title "  ИМЯ ПОЛЬЗОВАТЕЛЯ  " --clear \
+    --inputbox " ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ ПОЛЬЗОВАТЕЛЯ  " 10 60 2> $tempfile
+        username=`cat $tempfile`
+        useradd -m -g users -G wheel -s /bin/bash $username
+
 clear
         echo ""
-        echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ROOT ПАРОЛЬ  "
-	        passwd
-
-    clear
+        echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ROOT  "
         echo ""
-        echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ ПОЛЬЗОВАТЕЛЯ  "
-    	read username
-		useradd -m -g users -G wheel -s /bin/bash $username
+        passwd
 
-   clear
+clear
         echo ""
         echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ  "
-    	   passwd $username
+    	echo ""
+        passwd $username
 
+#-----------------   Часовые пояса
 
-echo -e " Часовые пояса  \n"
+$DIALOG --clear --title "  ЧАСОВЫЕ ПОЯСА  " \
+        --menu " ВЫБЕРИТЕ ВАШ ЧАСОВОЙ ПОЯС : " 20 51 7 \
+        "Алматы" ""\
+        "Екатеринбург" ""\
+        "Ереван" "" \
+        "Запарожье" ""\
+        "Иркутск" ""\
+        "Калининград" ""\
+        "Камчатка" ""\
+        "Киев" ""\
+        "Киров" ""\
+        "Красноярск" ""\
+        "Магадан" ""\
+        "Минск" ""\
+        "Москва" ""\
+        "Новокузнецк" ""\
+        "Новосибирск" ""\
+        "Омск" ""\
+        "Самара" ""\
+        "Саратов" ""\
+        "Среднеколымск" ""\
+        "Стамбул" ""\
+        "Ташкент" ""\
+        "Тбилиси" ""\
+        "Томск" ""\
+        "Ульяновск" ""\
+        "Уральск" ""\
+        "Чита" ""\
+        "Якутск" "" 2> $tempfile
+ 
+retval=$?
+ 
+choice=`cat $tempfile`
+ 
+case $choice in
+                "Алматы")
+                ln -sf /usr/share/zoneinfo/Asia/Almaty /etc/localtime
+             break
+             ;;
+                "Екатеринбург")
+                ln -sf /usr/share/zoneinfo/Asia/Yekaterinburg /etc/localtime
+             break
+             ;;
+                "Ереван")
+                ln -sf /usr/share/zoneinfo/Asia/Yerevan /etc/localtime
+             break
+             ;;
+                "Запарожье")
+                ln -sf /usr/share/zoneinfo/Europe/Zaporozhye /etc/localtime
+             break
+             ;;
+                "Иркутск")
+                ln -sf /usr/share/zoneinfo/Asia/Irkutsk /etc/localtime
+             break
+             ;;
+                "Калининград")
+                ln -sf /usr/share/zoneinfo/Europe/Kaliningrad /etc/localtime
+             break
+             ;;
+                "Камчатка")
+                ln -sf /usr/share/zoneinfo/Asia/Kamchatka /etc/localtime
+             break
+             ;;
+                "Киев")
+                ln -sf /usr/share/zoneinfo/Europe/Kiev /etc/localtime
+             break
+             ;;
+                "Киров" )
+                ln -sf /usr/share/zoneinfo/Europe/Kirov /etc/localtime      
+             break
+             ;;
+                "Красноярск")
+                ln -sf /usr/share/zoneinfo/Asia/Krasnoyarsk /etc/localtime
+             break
+             ;;
+                "Магадан")
+                ln -sf /usr/share/zoneinfo/Asia/Magadan /etc/localtime
+             break
+             ;;
+                "Минск")
+                ln -sf /usr/share/zoneinfo/Europe/Minsk /etc/localtime
+             break
+             ;;
+                "Москва")
+                ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
+             break
+             ;;
+                "Новокузнецк")
+                ln -sf /usr/share/zoneinfo/Asia/Novokuznetsk /etc/localtime
+             break
+             ;;
+                "Новосибирск")
+                ln -sf /usr/share/zoneinfo/Asia/Novosibirsk /etc/localtime
+             break
+             ;;
+                "Омск")
+                ln -sf /usr/share/zoneinfo/Asia/Omsk /etc/localtime
+             break
+             ;;
+                "Самара")
+                ln -sf /usr/share/zoneinfo/Europe/Samara /etc/localtime
+             break
+             ;;
+                "Саратов")
+                ln -sf /usr/share/zoneinfo/Europe/Saratov /etc/localtime
+             break
+             ;;
+                "Среднеколымск")
+                ln -sf /usr/share/zoneinfo/Asia/Srednekolymsk /etc/localtime
+             break
+             ;;
+                "Стамбул")
+                ln -sf /usr/share/zoneinfo/Asia/Istanbul /etc/localtime
+             break
+             ;;
+                "Ташкент")
+                ln -sf /usr/share/zoneinfo/Asia/Tashkent /etc/localtime
+             break
+             ;;
+                "Тбилиси")
+                ln -sf /usr/share/zoneinfo/Asia/Tbilisi /etc/localtime
+             break
+             ;;
+                "Томск")
+                ln -sf /usr/share/zoneinfo/Asia/Tomsk /etc/localtime
+             break
+             ;;
+                "Ульяновск")
+                ln -sf /usr/share/zoneinfo/Europe/Ulyanovsk /etc/localtime
+             break
+             ;;
+                "Уральск")
+                ln -sf /usr/share/zoneinfo/Asia/Oral /etc/localtime
+             break
+             ;;
+                "Чита")
+                ln -sf /usr/share/zoneinfo/Asia/Chita /etc/localtime
+             break
+             ;;
+                "Якутск")
+                ln -sf /usr/share/zoneinfo/Asia/Yakutsk /etc/localtime
+             break
+             ;;
+        255)
+            echo "Нажата клавиша ESC.";;
+esac
 
-PS3=' ВВедите номер ответа : '
-options=("Калининград" "Красноярск" "Киев" "Магадан" "Киров" "Новокузнецк" "Минск" "Новосибирск" "Москва" "Омск" "Самара" "Уральск" "Саратов" "Алматы" "Ульяновск" "Среднеколымск" "Запарожье" "Ташкент" "Чита" "Тбилиси" "Иркутск" "Томск" "Стамбул" "Якутск" "Камчатка" "Екатеринбург" "Ереван" "Настрою позднее" "Ну нахер все, выход из скрипта!")
-select opt in "${options[@]}"
-do
-    case $opt in
-            "Калининград")
-            ln -sf /usr/share/zoneinfo/Europe/Kaliningrad /etc/localtime
-            break
-            ;;
-            "Красноярск")
-            ln -sf /usr/share/zoneinfo/Asia/Krasnoyarsk /etc/localtime
-            break
-            ;;
-            "Киев")
-            ln -sf /usr/share/zoneinfo/Europe/Kiev /etc/localtime
-            break
-            ;;
-            "Магадан")
-            ln -sf /usr/share/zoneinfo/Asia/Magadan /etc/localtime
-            break
-            ;;
-            "Киров" )
-            ln -sf /usr/share/zoneinfo/Europe/Kirov /etc/localtime      
-            break
-            ;;
-            "Новокузнецк")
-            ln -sf /usr/share/zoneinfo/Asia/Novokuznetsk /etc/localtime
-            break
-            ;;
-            "Минск")
-            ln -sf /usr/share/zoneinfo/Europe/Minsk /etc/localtime
-            break
-            ;;
-            "Москва")
-            ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
-            break
-            ;;
-            "Самара")
-            ln -sf /usr/share/zoneinfo/Europe/Samara /etc/localtime
-            break
-            ;;
-            "Саратов")
-            ln -sf /usr/share/zoneinfo/Europe/Saratov /etc/localtime
-            break
-            ;;
-            "Ульяновск")
-            ln -sf /usr/share/zoneinfo/Europe/Ulyanovsk /etc/localtime
-            break
-            ;;
-            "Запарожье")
-            ln -sf /usr/share/zoneinfo/Europe/Zaporozhye /etc/localtime
-            break
-            ;;
-            "Чита")
-            ln -sf /usr/share/zoneinfo/Asia/Chita /etc/localtime
-            break
-            ;;
-            "Иркутск")
-            ln -sf /usr/share/zoneinfo/Asia/Irkutsk /etc/localtime
-            break
-            ;;
-            "Стамбул")
-            ln -sf /usr/share/zoneinfo/Asia/Istanbul /etc/localtime
-            break
-            ;;
-            "Камчатка")
-            ln -sf /usr/share/zoneinfo/Asia/Kamchatka /etc/localtime
-            break
-            ;;
-            "Новосибирск")
-            ln -sf /usr/share/zoneinfo/Asia/Novosibirsk /etc/localtime
-            break
-            ;;
-            "Омск")
-            ln -sf /usr/share/zoneinfo/Asia/Omsk /etc/localtime
-            break
-            ;;
-            "Уральск")
-            ln -sf /usr/share/zoneinfo/Asia/Oral /etc/localtime
-            break
-            ;;
-            "Алматы")
-            ln -sf /usr/share/zoneinfo/Asia/Almaty /etc/localtime
-            break
-            ;;
-            "Среднеколымск")
-            ln -sf /usr/share/zoneinfo/Asia/Srednekolymsk /etc/localtime
-            break
-            ;;
-            "Ташкент")
-            ln -sf /usr/share/zoneinfo/Asia/Tashkent /etc/localtime
-            break
-            ;;
-            "Тбилиси")
-            ln -sf /usr/share/zoneinfo/Asia/Tbilisi /etc/localtime
-            break
-            ;;
-            "Томск")
-            ln -sf /usr/share/zoneinfo/Asia/Tomsk /etc/localtime
-            break
-            ;;
-            "Якутск")
-            ln -sf /usr/share/zoneinfo/Asia/Yakutsk /etc/localtime
-            break
-            ;;
-            "Екатеринбург")
-            ln -sf /usr/share/zoneinfo/Asia/Yekaterinburg /etc/localtime
-            break
-            ;;
-            "Ереван")
-            ln -sf /usr/share/zoneinfo/Asia/Yerevan /etc/localtime
-            break
-            ;;
-            "Настрою позднее")
-            clear
-            echo " Этап пропущен "
-            echo ""
-            break
-            ;;
-            "Ну нахер все, выход из скрипта!")
-            exit
-            break
-            ;;
-        *) echo "Хрень какую-то Ввели, попробуем еще раз? $REPLY";;
-    esac
-done
-echo -e "\033[32m"
-read -n 1 -s -r -p "Нажмите любую кнопку для продолжения"
-echo -e "\033[0m"
 
 
 #-----------  Создадим загрузочный RAM диск
@@ -185,7 +207,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 
 echo 'Ставим программу для Wi-fi'
-pacman -S dialog wpa_supplicant --noconfirm 
+pacman -S wpa_supplicant --noconfirm 
 
 
 
@@ -218,88 +240,78 @@ elif [[ $vm_setting == 1 ]]; then
     pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
 fi
 
-################# УСТАНОВКА  DE  ------------------------------------------
-echo "#####################################################################"
+#--------------    УСТАНОВКА  DE  ------------------------------------------
+
+
+$DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖЕНИЯ  " \
+        --menu " ВЫБЕРИТЕ ИЗ СПИСКА : " 20 51 7 \
+        "KDE" ""\
+        "XFCE" ""\
+        "GNOME" "" \
+        "LXDE" ""\
+        "DEEPIN" ""\
+        "MATE" ""\
+        "LXQT" "" 2> $tempfile
  
-####
-echo ""
-echo " Установим DE/WM "
-while 
-    read -n1 -p  "
-    1 - KDE(Plasma)
-    
-    2 - xfce 
-    
-    3 - gmome
-    
-    4 - lxde
-    
-    5 - Deepin
+retval=$?
+ 
+choice=`cat $tempfile`
+ 
+case $choice in
+                "KDE")
+                clear
+                pacman -S plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
+                pacman -R konqueror --noconfirm
+                pacman -S sddm sddm-kcm --noconfirm
+                systemctl enable sddm.service -f
+             break
+             ;;
+                "XFCE")
+                clear
+                pacman -S xfce4 pavucontrol xfce4-goodies  --noconfirm
+                pacman -S lxdm --noconfirm
+                systemctl enable lxdm.service
+             break
+             ;;
+                "GNOME")
+                clear
+                pacman -S gnome gnome-extra --noconfirm
+                pacman -S gdm --noconfirm
+                systemctl enable gdm.service -f
+             break
+             ;;
+                "LXDE")
+                clear
+                pacman -S lxde --noconfirm
+                pacman -S lxdm --noconfirm
+                systemctl enable lxdm.service
+              break
+             ;;
+                "DEEPIN")
+                clear
+                pacman -S deepin deepin-extra --noconfirm
+                pacman -S lxdm --noconfirm
+                systemctl enable lxdm.service
+             break
+             ;;
+                "MATE")
+                clear
+                pacman -S  mate mate-extra  --noconfirm
+                pacman -S lxdm --noconfirm
+                systemctl enable lxdm.service
+              break
+             ;;
+                "LXQT")
+                clear
+                pacman -S lxqt lxqt-qtplugin lxqt-themes --noconfirm
+                pacman -S sddm sddm-kcm --noconfirm
+                systemctl enable sddm.service -f
+             break
+             ;;
+            255)
+            echo "Нажата клавиша ESC.";;
+esac
 
-    6 - Mate
-
-    7 - Lxqt
-    
-    8 - i3 ( конфиги стандартные, не забудьте установить DM )
-
-    0 - пропустить " x_de2
-    echo ''
-    [[ "$x_de2" =~ [^123456780] ]]
-do
-    :
-done
-
-if [[ $x_de2 == 0 ]]; then
-  echo 'уcтановка DE пропущена' 
-
-elif [[ $x_de2 == 1 ]]; then
-clear
-pacman -S plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
-pacman -R konqueror --noconfirm
-pacman -S sddm sddm-kcm --noconfirm
-systemctl enable sddm.service -f
-
-elif [[ $x_de2 == 2 ]]; then
-clear
-pacman -S  xfce4 pavucontrol xfce4-goodies  --noconfirm
-pacman -S lxdm
-systemctl enable lxdm.service
-
-elif [[ $x_de2 == 3 ]]; then
-clear
-pacman -S gnome gnome-extra --noconfirm
-pacman -S gdm --noconfirm
-systemctl enable gdm.service -f
-
-elif [[ $x_de2 == 4 ]]; then
-clear
-pacman -S lxde --noconfirm
-pacman -S lxdm
-systemctl enable lxdm.service
-
-elif [[ $x_de2 == 5 ]]; then
-clear
-pacman -S deepin deepin-extra
-pacman -S lxdm
-systemctl enable lxdm.service
-
-elif [[ $x_de2 == 6 ]]; then
-clear
-pacman -S  mate mate-extra  --noconfirm
-pacman -S lxdm
-systemctl enable lxdm.service
-
-elif [[ $x_de2 == 7 ]]; then
-clear
-pacman -S lxqt lxqt-qtplugin lxqt-themes --noconfirm
-pacman -S sddm sddm-kcm --noconfirm
-systemctl enable sddm.service -f
-
-elif [[ $x_de2 == 8 ]]; then
-clear
-pacman -S i3 i3-wm i3status  dmenu  --noconfirm
-
-fi
 
 
 #------------------  Завершение установки
