@@ -17,11 +17,6 @@ echo "KEYMAP=ru" >> /etc/vconsole.conf
 echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 #-----------  Создание паролей, пользователя и --------------
-clear
-        echo ""
-        echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ROOT  "
-        echo ""
-        passwd
 
 $DIALOG --title "  ИМЯ КОМПЬЮТЕРА  " --clear \
     --inputbox "  ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ КОМПЬЮТЕРА" 10 60 2> $tempfile
@@ -83,110 +78,137 @@ choice=`cat $tempfile`
  
 case $choice in
                 "Алматы")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Almaty /etc/localtime
              break
              ;;
                 "Екатеринбург")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Yekaterinburg /etc/localtime
              break
              ;;
                 "Ереван")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Yerevan /etc/localtime
              break
              ;;
                 "Запарожье")
+                clear
                 ln -sf /usr/share/zoneinfo/Europe/Zaporozhye /etc/localtime
              break
              ;;
                 "Иркутск")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Irkutsk /etc/localtime
              break
              ;;
                 "Калининград")
+                clear
                 ln -sf /usr/share/zoneinfo/Europe/Kaliningrad /etc/localtime
              break
              ;;
                 "Камчатка")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Kamchatka /etc/localtime
              break
              ;;
                 "Киев")
+                clear
                 ln -sf /usr/share/zoneinfo/Europe/Kiev /etc/localtime
              break
              ;;
                 "Киров" )
+                clear
                 ln -sf /usr/share/zoneinfo/Europe/Kirov /etc/localtime      
              break
              ;;
                 "Красноярск")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Krasnoyarsk /etc/localtime
              break
              ;;
                 "Магадан")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Magadan /etc/localtime
              break
              ;;
                 "Минск")
+                clear
                 ln -sf /usr/share/zoneinfo/Europe/Minsk /etc/localtime
              break
              ;;
                 "Москва")
+                clear
                 ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
              break
              ;;
                 "Новокузнецк")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Novokuznetsk /etc/localtime
              break
              ;;
                 "Новосибирск")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Novosibirsk /etc/localtime
              break
              ;;
                 "Омск")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Omsk /etc/localtime
              break
              ;;
                 "Самара")
+                clear
                 ln -sf /usr/share/zoneinfo/Europe/Samara /etc/localtime
              break
              ;;
                 "Саратов")
+                clear
                 ln -sf /usr/share/zoneinfo/Europe/Saratov /etc/localtime
              break
              ;;
                 "Среднеколымск")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Srednekolymsk /etc/localtime
              break
              ;;
                 "Стамбул")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Istanbul /etc/localtime
              break
              ;;
                 "Ташкент")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Tashkent /etc/localtime
              break
              ;;
                 "Тбилиси")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Tbilisi /etc/localtime
              break
              ;;
                 "Томск")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Tomsk /etc/localtime
              break
              ;;
                 "Ульяновск")
+                clear
                 ln -sf /usr/share/zoneinfo/Europe/Ulyanovsk /etc/localtime
              break
              ;;
                 "Уральск")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Oral /etc/localtime
              break
              ;;
                 "Чита")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Chita /etc/localtime
              break
              ;;
                 "Якутск")
+                clear
                 ln -sf /usr/share/zoneinfo/Asia/Yakutsk /etc/localtime
              break
              ;;
@@ -205,16 +227,13 @@ pacman -S grub efibootmgr --noconfirm
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
-
-echo 'Ставим программу для Wi-fi'
+#----------------   Ставим программу для Wi-fi
 pacman -S wpa_supplicant --noconfirm 
 
-
-
-echo 'Устанавливаем SUDO'
+#------------    Настраиваем  SUDO
 echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 
-echo 'Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе.'
+#-----    Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе
 echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
@@ -224,21 +243,25 @@ pacman -Syy
 pacman -S reflector --noconfirm
 reflector -a 12 -l 15 -p https,http --sort rate --save /etc/pacman.d/mirrorlist --verbose
 
-
 #------------  Виртуалка или нет
 
-clear
 
-echo "Куда устанавливем Arch Linux на виртуальную машину?"
+$DIALOG --title " ВМРТУАЛЬНАЯ или РЕАЛЬНАЯ МАШИНА " --clear \
+        --yesno "УСТАНОВКА ПРОХОДИТ НА ВИРТУАЛЬНУЮ МАШИНУ ?" 10 40
+ 
+case $? in
+    0)
+        clear
+        pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
+        ;;
+    1)
+        clear
+        pacman -S xorg-server xorg-drivers xorg-xinit
+        ;;
+    255)
+        echo "Нажата клавиша ESC.";;
+esac
 
-read -p "1 - Да, 0 - Нет: " vm_setting
-
-if [[ $vm_setting == 0 ]]; then
-    pacman -S xorg-server xorg-drivers xorg-xinit
-    
-elif [[ $vm_setting == 1 ]]; then
-    pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
-fi
 
 #--------------    УСТАНОВКА  DE  ------------------------------------------
 
@@ -336,6 +359,58 @@ systemctl enable bluetooth.service
 clear
 pacman -Sy exfat-utils ntfs-3g --noconfirm
 
+#------------------------ Дополнительное ПО
+
+$DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО" --clear \
+        --yesno "УСТАНОВИТЬ ДОПОЛНИТЕЛЬНЫЕ ПРОГРАММЫ (YAY,  PAMAC)?" 10 60
+ 
+case $? in
+            0)
+#----------------   ПО
+            clear
+            pacman -Sy unzip unrar lha file-roller gparted p7zip unace arc lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
+
+#----------------  YAY
+            clear
+            cd /home/$username
+            git clone https://aur.archlinux.org/yay.git
+            chown -R $username:users /home/$username/yay
+            chown -R $username:users /home/$username/yay/PKGBUILD 
+            cd /home/$username/yay  
+            sudo -u $username  makepkg -si --noconfirm  
+            rm -Rf /home/$username/yay
+
+#-------------------  PAMAC-AUR
+            clear
+            cd /home/$username
+            git clone https://aur.archlinux.org/pamac-aur.git
+            chown -R $username:users /home/$username/pamac-aur
+            chown -R $username:users /home/$username/pamac-aur/PKGBUILD 
+            cd /home/$username/pamac-aur
+            sudo -u $username  makepkg -si --noconfirm  
+            rm -Rf /home/$username/pamac-aur
+
+#-----------  Папки пользователя 
+            mkdir /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}   
+            chown -R $username:users  /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}
+            ;;
+    
+            1)
+#-----------  Папки пользователя 
+            mkdir /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}   
+            chown -R $username:users  /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}
+            ;;
+            255)
+            echo "Нажата клавиша ESC.";;
+esac
+
+
+
+
+
+
+
+
 #----------------   ПО
 clear
 pacman -Sy unzip unrar lha file-roller gparted p7zip unace arc lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
@@ -364,7 +439,22 @@ rm -Rf /home/$username/pamac-aur
 mkdir /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}   
 chown -R $username:users  /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}
 
-#whiptail --title  "УСТАНОВКА СИСТЕМЫ" --msgbox  "Установка системы завершена. Вы можете перезагрузить компьютер" 10 60
+
+DIALOG=${DIALOG=dialog}
+ 
+$DIALOG --title " OK ! " --clear \
+        --yesno "УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЬ КОМПЬЮТЕР ?" 10 60
+ 
+case $? in
+    0)
+        reboot;;
+    1)
+        clear
+        exit;;
+    255)
+        echo "Нажата клавиша ESC.";;
+esac
+
 clear
 echo "УСТАНОВКА ЗАВЕРШЕНА"
 exit
