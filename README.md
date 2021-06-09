@@ -8,16 +8,16 @@
 
 На разделе ROOT впоследствии будут созданы субволумы
 
-1. /@             
-2. /@HOME   
-3. /@CACHE                
-4. /@SNAPSHOTS                   
+1. /@ 
+2. /@HOME
+3. /@CACHE
+4. /@SNAPSHOTS
 
 В дальнейшем при установке будет несколько запросов пароля (установленного ранее)
 
 Установка :
 После загрузки образа вводим команды :
 
-  pacman -Sy wget
-  wget git.io/t-archinst.sh
-  sh t-archinst.sh
+1.  pacman -Sy wget
+2.  wget git.io/t-archinst.sh
+3.  sh t-archinst.sh
