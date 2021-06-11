@@ -45,7 +45,7 @@ clear
 $DIALOG --clear --title "  ЧАСОВЫЕ ПОЯСА  " \
         --menu " ВЫБЕРИТЕ ВАШ ЧАСОВОЙ ПОЯС : " 20 51 7 \
         "Алматы" ""\
-	"Владивосток" ""\
+	     "Владивосток" ""\
         "Екатеринбург" ""\
         "Ереван" "" \
         "Запарожье" ""\
@@ -83,7 +83,7 @@ case $choice in
                 ln -sf /usr/share/zoneinfo/Asia/Almaty /etc/localtime
              break
              ;;
-		"Владивосток")
+		          "Владивосток")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Vladivostok /etc/localtime
              break
@@ -368,6 +368,10 @@ pacman -S bash-completion grub-btrfs os-prober --noconfirm
 clear
 pacman -Sy exfat-utils ntfs-3g gvfs --noconfirm
 
+#----------------   ПО
+            clear
+            pacman -Sy unzip unrar lha file-roller gparted p7zip unace arc lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
+
 #------------------------ Дополнительное ПО
 
 $DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО" --clear \
@@ -375,10 +379,6 @@ $DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО" --clear \
  
 case $? in
             0)
-#----------------   ПО
-            clear
-            pacman -Sy unzip unrar lha file-roller gparted p7zip unace arc lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
-
 #----------------  YAY
             clear
             cd /home/$username
@@ -398,51 +398,13 @@ case $? in
             cd /home/$username/pamac-aur
             sudo -u $username  makepkg -si --noconfirm  
             rm -Rf /home/$username/pamac-aur
-
-#-----------  Папки пользователя 
-            mkdir /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}   
-            chown -R $username:users  /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}
             ;;
-    
             1)
-#-----------  Папки пользователя 
-            mkdir /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}   
-            chown -R $username:users  /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}
+            clear
             ;;
             255)
             echo "Нажата клавиша ESC.";;
 esac
-
-
-
-
-
-
-
-
-#----------------   ПО
-clear
-pacman -Sy unzip unrar lha file-roller gparted p7zip unace arc lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
-
-#----------------  YAY
-clear
-cd /home/$username
-git clone https://aur.archlinux.org/yay.git
-chown -R $username:users /home/$username/yay
-chown -R $username:users /home/$username/yay/PKGBUILD 
-cd /home/$username/yay  
-sudo -u $username  makepkg -si --noconfirm  
-rm -Rf /home/$username/yay
-
-#-------------------  PAMAC-AUR
-clear
-cd /home/$username
- git clone https://aur.archlinux.org/pamac-aur.git
-chown -R $username:users /home/$username/pamac-aur
-chown -R $username:users /home/$username/pamac-aur/PKGBUILD 
-cd /home/$username/pamac-aur
-sudo -u $username  makepkg -si --noconfirm  
-rm -Rf /home/$username/pamac-aur
 
 #-----------  Папки пользователя 
 mkdir /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}   
