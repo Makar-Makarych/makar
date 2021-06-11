@@ -361,9 +361,9 @@ clear
 pacman -Sy pulseaudio-bluetooth alsa-utils pulseaudio-equalizer-ladspa   --noconfirm
 systemctl enable bluetooth.service
 
-#-------------  Ntfs & FAT
+#-------------  Ntfs & FAT + gvfs
 clear
-pacman -Sy exfat-utils ntfs-3g --noconfirm
+pacman -Sy exfat-utils ntfs-3g gvfs --noconfirm
 
 #------------------------ Дополнительное ПО
 
