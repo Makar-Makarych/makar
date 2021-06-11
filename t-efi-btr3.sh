@@ -362,7 +362,7 @@ pacman -Sy pulseaudio-bluetooth alsa-utils pulseaudio-equalizer-ladspa   --nocon
 systemctl enable bluetooth.service
 
 #--------  Для Bash и Btrfs
-pacman -S bash-completion grub-btrfs --noconfirm
+pacman -S bash-completion grub-btrfs os-prober --noconfirm
 
 #-------------  Ntfs & FAT + gvfs
 clear
