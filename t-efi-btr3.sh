@@ -21,7 +21,7 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 $DIALOG --title "  ИМЯ КОМПЬЮТЕРА  " --clear \
     --inputbox "  ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ КОМПЬЮТЕРА" 10 60 2> $tempfile
         hostname=`cat $tempfile`
-        echo $"hostname" > /etc/hostname
+        echo $hostname > /etc/hostname
 	    
 $DIALOG --title "  ИМЯ ПОЛЬЗОВАТЕЛЯ  " --clear \
     --inputbox " ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ ПОЛЬЗОВАТЕЛЯ  " 10 60 2> $tempfile
