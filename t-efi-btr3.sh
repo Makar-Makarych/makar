@@ -45,6 +45,7 @@ clear
 $DIALOG --clear --title "  ЧАСОВЫЕ ПОЯСА  " \
         --menu " ВЫБЕРИТЕ ВАШ ЧАСОВОЙ ПОЯС : " 20 51 7 \
         "Алматы" ""\
+	"Владивосток" ""\
         "Екатеринбург" ""\
         "Ереван" "" \
         "Запарожье" ""\
@@ -82,7 +83,12 @@ case $choice in
                 ln -sf /usr/share/zoneinfo/Asia/Almaty /etc/localtime
              break
              ;;
-                "Екатеринбург")
+		"Владивосток")
+                clear
+                ln -sf /usr/share/zoneinfo/Asia/Vladivostok /etc/localtime
+             break
+             ;;     
+	      	"Екатеринбург")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Yekaterinburg /etc/localtime
              break
