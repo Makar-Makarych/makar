@@ -384,7 +384,7 @@ pacman -S exfat-utils ntfs-3g gvfs --noconfirm
 
 #----------------   ПО
 clear
-pacman -S unzip unrar lha file-roller gparted p7zip unace arc lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
+pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
 
 #------------------------ Дополнительное ПО
 
