@@ -229,7 +229,7 @@ mkinitcpio -p linux
 
 #-------------  Загрузчик
 pacman -Syy
-pacman -S grub efibootmgr --noconfirm 
+pacman -S grub efibootmgr os-prober --noconfirm 
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -244,17 +244,32 @@ echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
+#-----------  Reflector
+pacman -S reflector --noconfirm
+
+
+
 #--------------------  Обновление зеркал на установленной системе
 
-pacman -S reflector --noconfirm
-reflector -a 12 -l 15 -p https,http --sort rate --save /etc/pacman.d/mirrorlist --verbose
+$DIALOG --title "ОБНОВЛЕНИЕ ЗЕРКАЛ" --clear \
+        --yesno "Обновить зеркала на установленной системе ?" 10 40
+ 
+case $? in
+    0)
+        reflector -a 12 -l 15 -p https,http --sort rate --save /etc/pacman.d/mirrorlist --verbose
+        ;;
+    1)
+        echo " NO "
+        ;;
+    255)
+        echo " ESC."
+        ;;
+esac
 
 #------------  Виртуалка или нет
 
-
 $DIALOG --title " ВМРТУАЛЬНАЯ или РЕАЛЬНАЯ МАШИНА " --clear \
         --yesno "УСТАНОВКА ПРОХОДИТ НА ВИРТУАЛЬНУЮ МАШИНУ ?" 10 40
- 
 case $? in
     0)
         clear
@@ -268,9 +283,7 @@ case $? in
         echo "Нажата клавиша ESC.";;
 esac
 
-
 #--------------    УСТАНОВКА  DE  ------------------------------------------
-
 
 $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖЕНИЯ  " \
         --menu " ВЫБЕРИТЕ ИЗ СПИСКА : " 20 51 7 \
@@ -351,26 +364,26 @@ pacman -S ttf-arphic-ukai git ttf-liberation ttf-dejavu ttf-arphic-uming ttf-fir
 
 #-------------- Сеть
 clear
-pacman -Sy networkmanager networkmanager-openvpn network-manager-applet ppp openssh --noconfirm
+pacman -S networkmanager networkmanager-openvpn network-manager-applet ppp openssh --noconfirm
 systemctl enable NetworkManager.service
 systemctl enable dhcpcd.service
 systemctl enable sshd.service
 
 #-------------  Звук
 clear
-pacman -Sy pulseaudio-bluetooth alsa-utils pulseaudio-equalizer-ladspa   --noconfirm
+pacman -S pulseaudio-bluetooth alsa-utils pulseaudio-equalizer-ladspa   --noconfirm
 systemctl enable bluetooth.service
 
 #--------  Для Bash и Btrfs
-pacman -S bash-completion grub-btrfs os-prober --noconfirm
+pacman -S bash-completion grub-btrfs --noconfirm
 
 #-------------  Ntfs & FAT + gvfs
 clear
-pacman -Sy exfat-utils ntfs-3g gvfs --noconfirm
+pacman -S exfat-utils ntfs-3g gvfs --noconfirm
 
 #----------------   ПО
-            clear
-            pacman -Sy unzip unrar lha file-roller gparted p7zip unace arc lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
+clear
+pacman -S unzip unrar lha file-roller gparted p7zip unace arc lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
 
 #------------------------ Дополнительное ПО
 
