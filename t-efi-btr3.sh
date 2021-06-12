@@ -254,6 +254,7 @@ $DIALOG --title "ОБНОВЛЕНИЕ ЗЕРКАЛ" --clear \
  
 case $? in
     0)
+        clear
         reflector -a 12 -l 15 -p https,http --sort rate --save /etc/pacman.d/mirrorlist --verbose
         ;;
     1)
@@ -329,9 +330,11 @@ case $choice in
              ;;
                 "DEEPIN")
                 clear
-                pacman -S deepin deepin-extra --noconfirm
+                pacman -S deepin 
+                pacman -S deepin-extra 
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
+                echo "greeter-session=lightdm-deepin-greeter" >> /etc/lightdm/lightdm.conf
              break
              ;;
                 "MATE")
