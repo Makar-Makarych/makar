@@ -37,7 +37,7 @@ clear
 clear
         echo ""
         echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ  "
-    	echo ""
+    	  echo ""
         passwd $username
 
 #-----------------   Часовые пояса
@@ -88,7 +88,7 @@ case $choice in
                 ln -sf /usr/share/zoneinfo/Asia/Vladivostok /etc/localtime
              break
              ;;     
-	      	"Екатеринбург")
+	      	    "Екатеринбург")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Yekaterinburg /etc/localtime
              break
@@ -221,8 +221,6 @@ case $choice in
         255)
             echo "Нажата клавиша ESC.";;
 esac
-
-
 
 #-----------  Создадим загрузочный RAM диск
 mkinitcpio -p linux

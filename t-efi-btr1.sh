@@ -52,8 +52,7 @@ while [ "$OPTION" ]
             break
             ;;
             "2")
-echo "Your 2 chosen option:" $OPTION
-                #sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/uefi_ext4.sh)"
+                sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/uefi_ext4.sh)"
             break
             ;;
             "4")
