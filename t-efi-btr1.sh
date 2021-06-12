@@ -44,25 +44,25 @@ fi
 
 #-----------  Переход по выбору  ------------------------
 
-while [ "$OPTION" ]
-    do
-        case $OPTION in
-            "1")
+case $OPTION in
+                "1")
                 sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/t-efi-btr2.sh)"
-            break
-            ;;
-            "2")
+             break
+             ;;
+                "2")
                 sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/uefi_ext4.sh)"
-            break
-            ;;
-            "4")
-echo "Your 2 chosen option:" $OPTION
+             break
+             ;;
+                "3")
+                echo ""
+             break
+             ;;
+                "4")
+                echo ""
                 #sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/mbr_ext4.sh)"
-            break 
-            ;;
-            "3")
-echo "Your 2 chosen option:" $OPTION
-            break
-            ;;
-        esac
-    done
+             break
+             ;;
+            255)
+            echo "Нажата клавиша ESC.";;
+esac
+
