@@ -29,7 +29,7 @@ exitstatus=$?
 if [ $exitstatus = 0 ];  
     then
         clear
-        mkfs.ext4 /dev/$root -L root
+        mkfs.btrfs -f -L arch mkfs.ext4 /dev/$root -L root
         #mount /dev/$root /mnt
         #mkdir /mnt/{boot,home}
 fi
