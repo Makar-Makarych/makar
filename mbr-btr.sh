@@ -29,9 +29,9 @@ exitstatus=$?
 if [ $exitstatus = 0 ];  
     then
         clear
-        mkfs.btrfs -f -L arch mkfs.ext4 /dev/$root -L root
-        #mount /dev/$root /mnt
-        #mkdir /mnt/{boot,home}
+        mkfs.btrfs -f -L arch /dev/$root
+        mount /dev/$root /mnt
+        mkdir /mnt/{boot,home}
 fi
 
 #------------------   BOOT   ----------------------
@@ -82,7 +82,7 @@ if (whiptail --title "HOME - РАЗДЕЛ" --yesno "Имеется ли разд
                 if [ $exitstatus = 0 ];  
                     then
                         clear
-                        mkfs.ext4 /dev/$homed -L home    
+                        mkfs.btrfs -f -L home /dev/$homed    
                         mkdir /mnt/home 
                         mount /dev/$homed /mnt/home
                     else
