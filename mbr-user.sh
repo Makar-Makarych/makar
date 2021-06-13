@@ -301,8 +301,8 @@ case $choice in
              ;;
                 "XFCE")
                 clear
-                #pacman -S xfce4 pavucontrol xfce4-goodies lightdm lightdm-gtk-greeter --noconfirm
-                #systemctl enable lightdm.service 
+                pacman -S xfce4 pavucontrol xfce4-goodies --noconfirm
+                 
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
              break
