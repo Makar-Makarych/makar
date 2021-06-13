@@ -301,9 +301,8 @@ case $choice in
              ;;
                 "XFCE")
                 clear
-                pacman -S xfce4 pavucontrol xfce4-goodies  --noconfirm
-                pacman -S sddm sddm-kcm --noconfirm
-                systemctl enable sddm.service -f
+                pacman -S xfce4 pavucontrol xfce4-goodies lightdm lightdm-gtk-greeter --noconfirm
+                systemctl enable lightdm.service 
                 #pacman -S lxdm --noconfirm
                 #systemctl enable lxdm.service
              break
@@ -378,7 +377,7 @@ pacman -S exfat-utils ntfs-3g gvfs --noconfirm
 
 #----------------   ПО
 clear
-pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
+pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot mesa firefox firefox-i18n-ru  --noconfirm 
 
 #------------------------ Дополнительное ПО
 
