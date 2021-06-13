@@ -225,12 +225,6 @@ esac
 #-----------  Создадим загрузочный RAM диск
 mkinitcpio -p linux
 
-#-------------  Загрузчик
-pacman -Syy
-pacman -S grub efibootmgr os-prober --noconfirm 
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
-grub-mkconfig -o /boot/grub/grub.cfg
-
 #----------------   Ставим программу для Wi-fi
 pacman -S wpa_supplicant --noconfirm 
 
@@ -244,8 +238,6 @@ pacman -Syy
 
 #-----------  Reflector
 pacman -S reflector --noconfirm
-
-
 
 #--------------------  Обновление зеркал на установленной системе
 
@@ -424,9 +416,17 @@ esac
 mkdir /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}   
 chown -R $username:users  /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}
 
+#-------------  Загрузчик
 
-DIALOG=${DIALOG=dialog}
- 
+$DIALOG --title "GRUB" --clear \
+        --inputbox "На какой диск ставить загрузчик GRUB ? (sda/sdb/sdc - ПРИМЕР: sda )" 16 51 2> $tempfile
+         grubd=`cat $tempfile`
+         pacman -Sy grub os-prober --noconfirm 
+         grub-install /dev/$grubd
+         grub-mkconfig -o /boot/grub/grub.cfg
+
+#------------ END
+
 $DIALOG --title " OK ! " --clear \
         --yesno "УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЬ КОМПЬЮТЕР ?" 10 60
  

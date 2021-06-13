@@ -150,4 +150,4 @@ pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl linux-head
 
 genfstab -pU /mnt >> /mnt/etc/fstab
 
-arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/t-efi-btr3.sh)"
+arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/leg-user.sh)"
