@@ -302,8 +302,10 @@ case $choice in
                 "XFCE")
                 clear
                 pacman -S xfce4 pavucontrol xfce4-goodies  --noconfirm
-                pacman -S lxdm --noconfirm
-                systemctl enable lxdm.service
+                pacman -S sddm sddm-kcm --noconfirm
+                systemctl enable sddm.service -f
+                #pacman -S lxdm --noconfirm
+                #systemctl enable lxdm.service
              break
              ;;
                 "GNOME")
@@ -420,6 +422,7 @@ chown -R $username:users  /home/$username/{Downloads,Music,Pictures,Videos,Docum
 
 $DIALOG --title "GRUB" --clear \
         --inputbox "На какой диск ставить загрузчик GRUB ? (sda/sdb/sdc - ПРИМЕР: sda )" 16 51 2> $tempfile
+         clear
          grubd=`cat $tempfile`
          pacman -Sy grub os-prober --noconfirm 
          grub-install /dev/$grubd
