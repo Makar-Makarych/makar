@@ -31,7 +31,7 @@ if [ $exitstatus = 0 ];
         clear
         mkfs.btrfs -f -L arch /dev/$root
         mount /dev/$root /mnt
-        mkdir /mnt/{boot,home}
+        #mkdir /mnt/{boot,home}
 fi
 
 #------------------   BOOT   ----------------------
@@ -46,8 +46,8 @@ if (whiptail --title "BOOT - РАЗДЕЛ" --yesno "Имеется ли разд
                     then
                         clear
                         mkfs.ext2 /dev/$bootd -L boot    
-                        mkdir /mnt/boot
-                		mount /dev/$bootd /mnt/boot
+                        #mkdir /mnt/boot
+                		#mount /dev/$bootd /mnt/boot
                     else
                         clear
                 fi
@@ -58,8 +58,8 @@ if (whiptail --title "BOOT - РАЗДЕЛ" --yesno "Имеется ли разд
                 if [ $exitstatus = 0 ];  
                     then
                         clear
-                        mkdir /mnt/boot 
-                        mount /dev/$bootd /mnt/boot
+                        #mkdir /mnt/boot 
+                        #mount /dev/$bootd /mnt/boot
                     else
                         clear
                 fi
@@ -83,8 +83,8 @@ if (whiptail --title "HOME - РАЗДЕЛ" --yesno "Имеется ли разд
                     then
                         clear
                         mkfs.btrfs -f -L home /dev/$homed    
-                        mkdir /mnt/home 
-                        mount /dev/$homed /mnt/home
+                        #mkdir /mnt/home 
+                        #mount /dev/$homed /mnt/home
                     else
                         clear
                 fi
@@ -95,8 +95,8 @@ if (whiptail --title "HOME - РАЗДЕЛ" --yesno "Имеется ли разд
                 if [ $exitstatus = 0 ];  
                     then
                         clear
-                        mkdir /mnt/home 
-                        mount /dev/$homed /mnt/home
+                        #mkdir /mnt/home 
+                        #mount /dev/$homed /mnt/home
                     else
                         clear
                 fi
