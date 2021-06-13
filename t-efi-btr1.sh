@@ -50,7 +50,7 @@ case $OPTION in
              break
              ;;
                 "2")
-                sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/leg-ext.sh)"
+                sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/efi-ext4.sh)"
              break
              ;;
                 "3")
@@ -59,7 +59,7 @@ case $OPTION in
              ;;
                 "4")
                 echo ""
-                sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/leg-ext.sh)"
+                sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/mbr-ext.sh)"
              break
              ;;
             255)
