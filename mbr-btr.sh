@@ -47,7 +47,7 @@ if (whiptail --title "BOOT - РАЗДЕЛ" --yesno "Имеется ли разд
                         clear
                         mkfs.ext2 /dev/$bootd -L boot    
                         mkdir /mnt/boot
-                		#mount /dev/$bootd /mnt/boot
+                		mount /dev/$bootd /mnt/boot
                     else
                         clear
                 fi
@@ -59,7 +59,7 @@ if (whiptail --title "BOOT - РАЗДЕЛ" --yesno "Имеется ли разд
                     then
                         clear
                         mkdir /mnt/boot 
-                        #mount /dev/$bootd /mnt/boot
+                        mount /dev/$bootd /mnt/boot
                     else
                         clear
                 fi
@@ -84,7 +84,7 @@ if (whiptail --title "HOME - РАЗДЕЛ" --yesno "Имеется ли разд
                         clear
                         mkfs.ext4 /dev/$homed -L home    
                         mkdir /mnt/home 
-                        #mount /dev/$homed /mnt/home
+                        mount /dev/$homed /mnt/home
                     else
                         clear
                 fi
@@ -96,7 +96,7 @@ if (whiptail --title "HOME - РАЗДЕЛ" --yesno "Имеется ли разд
                     then
                         clear
                         mkdir /mnt/home 
-                        #mount /dev/$homed /mnt/home
+                        mount /dev/$homed /mnt/home
                     else
                         clear
                 fi
