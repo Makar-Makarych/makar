@@ -27,10 +27,10 @@ fi
 #------------  Выбор типа установки  ---------------------
 
 OPTION=$(whiptail --title  "ТИП УСТАНОВКИ" --menu  "Выберите вариант, как Вы хотите установить систему" 15 60 4 \
-"1" "UEFI + BtrFS" \
+"1" "UEFI + BtrFS + Subvolumes" \
 "2" "UEFI + Ext4" \
-"3" "MBR (Legacy) + BtrFS" \
-"4" "MBR (Legacy) + Ext4"  3>&1 1>&2 2>&3)
+"3" "Legacy + BtrFS + Subvolumes" \
+"4" "Legacy + Ext4"  3>&1 1>&2 2>&3)
  
 exitstatus=$?
 if [ $exitstatus = 0 ];  
@@ -59,7 +59,7 @@ case $OPTION in
              ;;
                 "4")
                 echo ""
-                #sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/leg-ext.sh)"
+                sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/leg-ext.sh)"
              break
              ;;
             255)
