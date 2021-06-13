@@ -30,8 +30,8 @@ if [ $exitstatus = 0 ];
     then
         clear
         mkfs.ext4 /dev/$root -L root
-        mount /dev/$root /mnt
-        mkdir /mnt/{boot,home}
+        #mount /dev/$root /mnt
+        #mkdir /mnt/{boot,home}
 fi
 
 #------------------   BOOT   ----------------------
@@ -47,7 +47,7 @@ if (whiptail --title "BOOT - РАЗДЕЛ" --yesno "Имеется ли разд
                         clear
                         mkfs.ext2 /dev/$bootd -L boot    
                         mkdir /mnt/boot
-                		mount /dev/$bootd /mnt/boot
+                		#mount /dev/$bootd /mnt/boot
                     else
                         clear
                 fi
@@ -59,7 +59,7 @@ if (whiptail --title "BOOT - РАЗДЕЛ" --yesno "Имеется ли разд
                     then
                         clear
                         mkdir /mnt/boot 
-                        mount /dev/$bootd /mnt/boot
+                        #mount /dev/$bootd /mnt/boot
                     else
                         clear
                 fi
@@ -84,7 +84,7 @@ if (whiptail --title "HOME - РАЗДЕЛ" --yesno "Имеется ли разд
                         clear
                         mkfs.ext4 /dev/$homed -L home    
                         mkdir /mnt/home 
-                        mount /dev/$homed /mnt/home
+                        #mount /dev/$homed /mnt/home
                     else
                         clear
                 fi
@@ -96,7 +96,7 @@ if (whiptail --title "HOME - РАЗДЕЛ" --yesno "Имеется ли разд
                     then
                         clear
                         mkdir /mnt/home 
-                        mount /dev/$homed /mnt/home
+                        #mount /dev/$homed /mnt/home
                     else
                         clear
                 fi
@@ -127,6 +127,25 @@ if (whiptail --title  "SWAP - РАЗДЕЛ" --yesno  "Подключить SWAP 
         clear
 fi
 
+#------------------    СУБВОЛУМЫ       ----------------------
+clear
+mount /dev/$root /mnt
+
+btrfs subvolume create /mnt/@
+btrfs subvolume create /mnt/@home
+btrfs subvolume create /mnt/@snapshots
+btrfs subvolume create /mnt/@cache
+
+umount -R /mnt
+
+
+mount -o noatime,compress=lzo,space_cache,subvol=@ /dev/"$root" /mnt
+mkdir -p /mnt/{home,boot,boot/efi,var,var/cache,.snapshots}
+mount -o noatime,compress=lzo,space_cache,subvol=@cache /dev/"$root" /mnt/var/cache
+mount -o noatime,compress=lzo,space_cache,subvol=@home /dev/"$root" /mnt/home
+mount -o noatime,compress=lzo,space_cache,subvol=@snapshots /dev/"$root" /mnt/.snapshots
+
+mount /dev/"$bootd" /mnt/boot
 
 
 #------------------    ЗЕРКАЛО       ----------------------
