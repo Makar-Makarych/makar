@@ -4,9 +4,15 @@ setfont cyr-sun16
 clear
 #------------  Разметка   ---------------------
 
-if (whiptail --title  "НУЖНА ЛИ РАЗМЕТКА (переразметка) ВАШЕГО ДИСКА ?" --yesno "$(lsblk)" 30 60)  
+if (whiptail --title  " РАЗМЕТКА " --yesno "
+$(lsblk)
+
+  Нужна ли разметка (переразметка) Вашего диска ?" 30 60)  
 	then
-		cfd=$(whiptail --title  "УКАЖИТЕ ИМЯ ДИСКА (sda/sdb/sdc)" --inputbox  "$(lsblk)" 30 60 3>&1 1>&2 2>&3)
+		cfd=$(whiptail --title  " РАЗМЕТКА " --inputbox  "
+$(lsblk)
+
+  Укажите имя Вашего диска для разметки. Например: sda" 30 60 3>&1 1>&2 2>&3)
 		exitstatus=$?
 		
 		if [ $exitstatus = 0 ];  
@@ -23,7 +29,10 @@ fi
 
 #------------------  ROOT   ----------------------
 
-root=$(whiptail --title  "ROOT - Раздел" --inputbox  "Укажите системный раздел ROOT ( / ) (sda/sdb 1.2.3.4 ( например sda5 ) $(echo "" && echo "" && lsblk)" 30 80 3>&1 1>&2 2>&3)
+root=$(whiptail --title  " ROOT " --inputbox  "
+$(lsblk)
+  
+  Укажите раздел для установки системы. Например: sda5"  30 60 3>&1 1>&2 2>&3)
  
 exitstatus=$?
 if [ $exitstatus = 0 ];  
@@ -34,31 +43,40 @@ fi
 
 #------------------   BOOT   ----------------------
 
-if (whiptail --title  "BOOT - РАЗДЕЛ" --yesno "НУЖНО ЛИ ФОРМАТИРОВАТЬ BOOT - РАЗДЕЛ ВАШЕГО ДИСКА ?$(echo "" && echo "" && lsblk)" 30 60)  
+if (whiptail --title  " BOOT " --yesno "
+$(lsblk)
+  
+  Нужно ли форматировать BOOT раздел Вашего диска ?" 30 60)  
 	then
-		bootd=$(whiptail --title  "BOOT - РАЗДЕЛ" --inputbox  "УКАЖИТЕ ИМЯ РАЗДЕЛА ДЛЯ ФОРМАТИРОВАНИЯ (sda/sdb 1.2.3.4 ( например sda5 )$(echo "" && echo "" && lsblk)" 30 60 3>&1 1>&2 2>&3)
+		bootd=$(whiptail --title  " BOOT " --inputbox  "
+$(lsblk)
+
+  Укажите имя раздела для форматирования. Например: sda5" 30 60 3>&1 1>&2 2>&3)
 		exitstatus=$?
 		
 		if [ $exitstatus = 0 ];  
 			then
 				clear
-     			mkfs.fat -F32 /dev/"$bootd"
-                mkdir /mnt/boot
-            	mkdir /mnt/boot/efi
+     			 mkfs.fat -F32 /dev/"$bootd"
+                 mkdir /mnt/boot
+             	mkdir /mnt/boot/efi
             else
      			clear
 		fi
     	    clear
 	else
     
-		bootd=$(whiptail --title  "BOOT - РАЗДЕЛ" --inputbox  "УКАЖИТЕ ИМЯ РАЗДЕЛА ДЛЯ МОНТИРОВАНИЯ (sda/sdb 1.2.3.4   ( например sda5 )$(echo "" && echo "" && lsblk)" 30 60 3>&1 1>&2 2>&3)
+		bootd=$(whiptail --title  " BOOT " --inputbox  "
+$(lsblk)
+
+  Укажите имя раздела для монтирования. Например: sda5" 30 60 3>&1 1>&2 2>&3)
 		exitstatus=$?
 		
 		if [ $exitstatus = 0 ];  
 			then
 				clear
        			mkdir /mnt/boot/
-            	mkdir /mnt/boot/efi
+             	mkdir /mnt/boot/efi
             else
 				clear
      		fi
@@ -67,10 +85,14 @@ fi
 
 #------------------    SWAP       ----------------------
 
-if (whiptail --title  "SWAP - РАЗДЕЛ" --yesno  "Подключить SWAP раздел ?" 10 60)  
+if (whiptail --title  " SWAP " --yesno  "
+     Подключить SWAP раздел ?" 10 40)  
 	then
     	
-		swaps=$(whiptail --title  "SWAP - РАЗДЕЛ" --inputbox  "УКАЖИТЕ ИМЯ РАЗДЕЛА ДЛЯ SWAP (sda/sdb 1.2.3.4 ( например sda5 )$(echo "" && echo "" && lsblk)" 30 60 3>&1 1>&2 2>&3)
+		swaps=$(whiptail --title  " SWAP " --inputbox  "
+$(lsblk)
+			
+  Укажите имя для SWAP раздела. Например: sda5" 30 60 3>&1 1>&2 2>&3)
  		exitstatus=$?
 		if [ $exitstatus = 0 ];  
 			then
@@ -108,22 +130,21 @@ mount /dev/"$bootd" /mnt/boot/efi
 
 #------------------    ЗЕРКАЛО       ----------------------
 
-if (whiptail --title  "ЗЕРКАЛА" --yesno  "Сейчас можно автоматически выбрать 15 самых быстрых зеркал из ближайших для вашего местоположения, но это займет каое-то время. После обновления (или пропуска) сразу же начнется установка базовой системы. Запустить атоматический выбор зеркал ? " 10 60)  
+if (whiptail --title  " ЗЕРКАЛА " --yesno  "
+  Сейчас можно обновить зеркала, но это займет каое-то время. После обновления (или пропуска) сразу же начнется установка базовой системы.
+
+        Запустить атоматический выбор зеркал ? " 12 60)  
 	then
 		clear
     	pacman -S reflector --noconfirm
-        reflector -a 12 -l 15 -p https,http --sort rate --save /etc/pacman.d/mirrorlist --verbose
-    	pacman -Sy --noconfirm
-    	#echo "Зеркала выбраны $?."
-	else
+        reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
+        pacman -Sy --noconfirm
+    else
 		clear
     	pacman -Sy --noconfirm
-    	#echo "Пропущена. Exit status was $?."
 fi
 
-
-
-######################  Установка базы      ################################### 
+#-------------- Установка базы   
 
 pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl linux-headers which inetutils wget wpa_supplicant git mc dialog
 
