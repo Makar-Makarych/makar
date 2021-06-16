@@ -251,12 +251,12 @@ if (whiptail --title  " ЗЕРКАЛА " --yesno  "
         Запустить атоматический выбор зеркал ? " 12 60)  
  then
     clear
-       pacman -S reflector --noconfirm
-        reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
-        pacman -Sy --noconfirm
+         pacman -Sy reflector --noconfirm
+         reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
+         pacman -Sy --noconfirm
     else
     clear
-       pacman -Sy --noconfirm
+         pacman -Sy --noconfirm
 fi
 
 #------------  Виртуалка или нет
@@ -266,15 +266,15 @@ $DIALOG --title " ВИРТУАЛЬНАЯ МАШИНА " --clear \
   Система устанавливается на виртуальную машину?" 8 60
 case $? in
     0)
-        clear
-        pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
+         clear
+         pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
         ;;
     1)
-        clear
-        pacman -S xorg-server xorg-drivers xorg-xinit
+         clear
+         pacman -S xorg-server xorg-drivers xorg-xinit
         ;;
     255)
-        echo "Нажата клавиша ESC.";;
+         echo "Нажата клавиша ESC.";;
 esac
 
 #--------------    УСТАНОВКА  DE  ------------------------------------------

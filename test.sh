@@ -9,26 +9,145 @@ trap "rm -f $tempfile" 0 1 2 5 15
 #######################################################################################
 
 
+# #------------------  HOME  ----------------------
+
+# if (whiptail --title " HOME " --yesno "
+# $(lsblk)
+
+#   Имеется ли раздел, размеченный как HOME ?" 30 60)
+#     then
+#         if (whiptail --title  " HOME " --yesno "
+# $(lsblk)
+  
+#   Нужно ли форматировать HOME раздел Вашего диска ?" 30 60)  
+#             then
+#                 homed=$(whiptail --title  " HOME " --inputbox  "
+# $(lsblk)
+  
+#   Укажите имя раздела для форматирования. Например: sda5" 30 60 3>&1 1>&2 2>&3)
+#                 exitstatus=$?
+#                 if [ $exitstatus = 0 ];  
+#                     then
+#                         clear
+#                         mkfs.ext4 /dev/$homed -L home    
+#                         mkdir /mnt/home 
+#                         mount /dev/$homed /mnt/home
+#                     else
+#                         clear
+#                 fi
+#                     clear
+#             else
+#                 homed=$(whiptail --title  " HOME " --inputbox  "
+# $(lsblk)
+  
+#   Укажите имя раздела для монтирования. Например: sda5 )" 30 60 3>&1 1>&2 2>&3)
+#                 exitstatus=$?
+#                 if [ $exitstatus = 0 ];  
+#                     then
+#                         clear
+#                         mkdir /mnt/home 
+#                         mount /dev/$homed /mnt/home
+#                     else
+#                         clear
+#                 fi
+#                 clear
+#         fi
+#             clear
+#     else
+#         clear
+# fi        
+
+
+
+# #------------------   BOOT   ----------------------
+
+# if (whiptail --title  " BOOT " --yesno "
+# $(lsblk)
+  
+#   Нужно ли форматировать BOOT раздел Вашего диска ?" 30 60)  
+#     then
+#         bootd=$(whiptail --title  " BOOT " --inputbox  "
+# $(lsblk)
+#   Укажите имя раздела для форматирования. Например: sda5" 30 60 3>&1 1>&2 2>&3)
+#         exitstatus=$?
+#         if [ $exitstatus = 0 ];  
+#             then
+#                 clear
+#                  mkfs.vfat -F32 /dev/$bootd
+#                  mkdir /mnt/boot
+#                  mkdir /mnt/boot/efi
+#                  mount /dev/$bootd /mnt/boot/efi
+#             else
+#                 clear
+#         fi
+#             clear
+#     else
+#         bootd=$(whiptail --title  " BOOT " --inputbox  "
+# $(lsblk)
+#   Укажите имя раздела для монтирования. Например: sda5" 30 60 3>&1 1>&2 2>&3)
+#         exitstatus=$?
+        
+#         if [ $exitstatus = 0 ];  
+#             then
+#                 clear
+#                  mkdir /mnt/boot/
+#                  mkdir /mnt/boot/efi
+#                  mount /dev/$bootd /mnt/boot/efi
+#             else
+#                 clear
+#             fi
+#     clear
+# fi
 
 
 
 
+#-----------------------   ROOT -------------------------------------------
+
+
+# root=$(whiptail --title  " ROOT " --inputbox  "
+# $(lsblk)
+	
+#   Укажите имя раздела для установки системы ROOT. Например: sda5" 30 60 3>&1 1>&2 2>&3)
+ 
+# exitstatus=$?
+# if [ $exitstatus = 0 ];  
+#     then
+#         clear
+#         mkfs.ext4 /dev/$root -L root
+#         mount /dev/$root /mnt
+#         mkdir /mnt/{boot,home}
+# fi
+
+
+# #--------- Разметка  -------------------------------------------
+
+# if (whiptail --title  " РАЗМЕТКА " --yesno "
+# $(lsblk)
+  
+#    Нужна ли разметка ( переразметка ) диска ?" 30 60)  
+#     then
+#         cfd=$(whiptail --title  " РАЗМЕТКА " --inputbox  "
+# $(lsblk)
+  
+#         Укажите имя диска. Например: sda" 30 60 3>&1 1>&2 2>&3)
+#         exitstatus=$?
+        
+#         if [ $exitstatus = 0 ];  
+#             then
+#                 clear
+#                     cfdisk /dev/"$cfd"
+#             else
+#                 clear
+#             fi
+#         clear
+#     else
+#     clear   
+# fi
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-#-----------------------------------------------------------------------------------
+#----------------------  Дополнит. ПО  ---------------------------------------------------------
 
 
 # $DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО" --clear \
@@ -36,10 +155,10 @@ trap "rm -f $tempfile" 0 1 2 5 15
 #   Установить дополнительные приложения (YAY, PAMAC)?" 10 60
 
 
-#------------------------------------------------------------------------------------
+#-------------------------- ЧАСОВЫЕ ПОЯСА    -----------------------------------------------------
 
 
-# $DIALOG --clear --title "  ЧАСОВЫЕ ПОЯСА  " \
+# $DIALOG --clear --title " ЧАСОВЫЕ ПОЯСА " \
 #         --menu "
 #   Выберите Ваш часовой пояс:" 20 51 7 \
 #         "Алматы" ""\
@@ -74,10 +193,10 @@ trap "rm -f $tempfile" 0 1 2 5 15
 # retval=$?
 
 
-#-----------------------------------------------------------------------------------------
+#---------------------------  УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖЕНИЯ   --------
 
 
-# $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖЕНИЯ  " \
+# $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖЕНИЯ " \
 #         --menu "
 #   Выберите из списка : " 15 60 7 \
 #         "KDE" ""\
@@ -91,10 +210,10 @@ trap "rm -f $tempfile" 0 1 2 5 15
 # retval=$?
 
 
-#----------------------------------------------------------------------------------------
+#----------------------  SWAP   ------------------------------------------
 
 
-# #------  SWAP   
+   
 
 # if (whiptail --title  " SWAP " --yesno  "
 #      Подключить SWAP раздел ?" 10 40)  
@@ -128,7 +247,7 @@ trap "rm -f $tempfile" 0 1 2 5 15
 #         Запустить атоматический выбор зеркал ? " 12 60)  
 # 	then
 # 		clear
-#     	pacman -S reflector --noconfirm
+#     	pacman -Sy reflector --noconfirm
 #         reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
 #         pacman -Sy --noconfirm
 #     else
@@ -145,7 +264,7 @@ trap "rm -f $tempfile" 0 1 2 5 15
 #         Запустить атоматический выбор зеркал ? " 12 60)  
 #  then
 #     clear
-#        pacman -S reflector --noconfirm
+#        pacman -Sy reflector --noconfirm
 #         reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
 #         pacman -Sy --noconfirm
 #     else
