@@ -18,32 +18,35 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 #-----------  Создание паролей, пользователя и --------------
 
-$DIALOG --title "  ИМЯ КОМПЬЮТЕРА  " --clear \
-    --inputbox "  ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ КОМПЬЮТЕРА" 10 60 2> $tempfile
+$DIALOG --title " ИМЯ КОМПЬЮТЕРА " --clear \
+    --inputbox "
+  Придумайте и введите имя компьютера ( hostname )" 10 60 2> $tempfile
         hostname=`cat $tempfile`
         echo $hostname > /etc/hostname
 	    
-$DIALOG --title "  ИМЯ ПОЛЬЗОВАТЕЛЯ  " --clear \
-    --inputbox " ПРИДУМАЙТЕ И ВВЕДИТЕ ИМЯ ПОЛЬЗОВАТЕЛЯ  " 10 60 2> $tempfile
+$DIALOG --title " ИМЯ ПОЛЬЗОВАТЕЛЯ " --clear \
+    --inputbox "
+  Придумайте и введите имя пользователя ( user )" 10 60 2> $tempfile
         username=`cat $tempfile`
         useradd -m -g users -G wheel -s /bin/bash $username
 
 clear
         echo ""
-        echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ROOT  "
+        echo -e "  Придумайте и введите пароль ROOT :"
         echo ""
         passwd
 
 clear
         echo ""
-        echo -e " ПРИДУМАЙТЕ И ВВЕДИТЕ ПАРОЛЬ ПОЛЬЗОВАТЕЛЯ  "
+        echo -e "  Придумайте и введите пароль ПОЛЬЗОВАТЕЛЯ :"
     	  echo ""
         passwd $username
 
 #-----------------   Часовые пояса
 
 $DIALOG --clear --title "  ЧАСОВЫЕ ПОЯСА  " \
-        --menu " ВЫБЕРИТЕ ВАШ ЧАСОВОЙ ПОЯС : " 20 51 7 \
+        --menu "
+  Выберите Ваш часовой пояс:" 20 51 7 \
         "Алматы" ""\
 	     "Владивосток" ""\
         "Екатеринбург" ""\
@@ -225,11 +228,11 @@ esac
 #-----------  Создадим загрузочный RAM диск
 mkinitcpio -p linux
 
-#-------------  Загрузчик
+#-----    Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе
+echo '[multilib]' >> /etc/pacman.conf
+echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
-pacman -S grub efibootmgr os-prober --noconfirm 
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
-grub-mkconfig -o /boot/grub/grub.cfg
+
 
 #----------------   Ставим программу для Wi-fi
 pacman -S wpa_supplicant --noconfirm 
@@ -237,38 +240,30 @@ pacman -S wpa_supplicant --noconfirm
 #------------    Настраиваем  SUDO
 echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 
-#-----    Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе
-echo '[multilib]' >> /etc/pacman.conf
-echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
-pacman -Syy
-
 #-----------  Reflector
 pacman -S reflector --noconfirm
 
+#------------------    ЗЕРКАЛО  2     ----------------------
 
+if (whiptail --title  " ЗЕРКАЛА " --yesno  "
+  Сейчас можно обновить зеркала во вновь установленной системе, но это займет каое-то время.
 
-#--------------------  Обновление зеркал на установленной системе
-
-$DIALOG --title "ОБНОВЛЕНИЕ ЗЕРКАЛ" --clear \
-        --yesno "Обновить зеркала на установленной системе ?" 10 40
- 
-case $? in
-    0)
-        clear
-        reflector -a 12 -l 15 -p https,http --sort rate --save /etc/pacman.d/mirrorlist --verbose
-        ;;
-    1)
-        echo " NO "
-        ;;
-    255)
-        echo " ESC."
-        ;;
-esac
+        Запустить атоматический выбор зеркал ? " 12 60)  
+ then
+    clear
+       pacman -S reflector --noconfirm
+        reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
+        pacman -Sy --noconfirm
+    else
+    clear
+       pacman -Sy --noconfirm
+fi
 
 #------------  Виртуалка или нет
 
-$DIALOG --title " ВМРТУАЛЬНАЯ или РЕАЛЬНАЯ МАШИНА " --clear \
-        --yesno "УСТАНОВКА ПРОХОДИТ НА ВИРТУАЛЬНУЮ МАШИНУ ?" 10 40
+$DIALOG --title " ВИРТУАЛЬНАЯ МАШИНА " --clear \
+        --yesno "
+  Система устанавливается на виртуальную машину?" 8 60
 case $? in
     0)
         clear
@@ -285,7 +280,8 @@ esac
 #--------------    УСТАНОВКА  DE  ------------------------------------------
 
 $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖЕНИЯ  " \
-        --menu " ВЫБЕРИТЕ ИЗ СПИСКА : " 20 51 7 \
+        --menu "
+  Выберите из списка : " 15 60 7 \
         "KDE" ""\
         "XFCE" ""\
         "GNOME" "" \
@@ -356,9 +352,6 @@ case $choice in
 esac
 
 
-
-#------------------  Завершение установки
-
 #-----------    Шрифты
 clear
 pacman -S ttf-arphic-ukai git ttf-liberation ttf-dejavu ttf-arphic-uming ttf-fireflysung ttf-sazanami --noconfirm
@@ -389,7 +382,8 @@ pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neo
 #------------------------ Дополнительное ПО
 
 $DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО" --clear \
-        --yesno "УСТАНОВИТЬ ДОПОЛНИТЕЛЬНЫЕ ПРОГРАММЫ (YAY,  PAMAC)?" 10 60
+        --yesno "
+  Установить дополнительные приложения (YAY, PAMAC)?" 10 60
  
 case $? in
             0)
@@ -424,11 +418,16 @@ esac
 mkdir /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}   
 chown -R $username:users  /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}
 
+#-------------  ЗАГРУЗЧИК 
+pacman -Syy
+pacman -S grub efibootmgr os-prober --noconfirm 
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
+grub-mkconfig -o /boot/grub/grub.cfg
 
-DIALOG=${DIALOG=dialog}
  
 $DIALOG --title " OK ! " --clear \
-        --yesno "УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЬ КОМПЬЮТЕР ?" 10 60
+        --yesno "
+  УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЬ КОМПЬЮТЕР ?" 10 60
  
 case $? in
     0)
