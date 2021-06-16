@@ -227,8 +227,8 @@ trap "rm -f $tempfile" 0 1 2 5 15
 # 		if [ $exitstatus = 0 ];  
 # 			then
 # 				clear
-#      			# mkswap /dev/"$swaps" -L swap
-#      			# swapon /dev/"$swaps"
+#      			mkswap /dev/"$swaps" -L swap
+#      			swapon /dev/"$swaps"
 #      		else
 # 				clear
 #      	fi
