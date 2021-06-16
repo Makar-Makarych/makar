@@ -241,7 +241,7 @@ pacman -S wpa_supplicant --noconfirm
 echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 
 #-----------  Reflector
-pacman -S reflector --noconfirm
+pacman -Sy reflector --noconfirm
 
 #------------------    ЗЕРКАЛО  2     ----------------------
 
