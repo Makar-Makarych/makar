@@ -167,9 +167,10 @@ if (whiptail --title  " ЗЕРКАЛА " --yesno  "
 
         Запустить атоматический выбор зеркал ? " 12 60)  
   then
-      clear
-      pacman -Sy reflector --noconfirm
-        reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
+        clear
+        pacman -Sy reflector --noconfirm
+        reflector --verbose --country 'Russia' -p http -p https --sort rate --save /etc/pacman.d/mirrorlist
+        #reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
         pacman -Sy --noconfirm
     else
       clear
