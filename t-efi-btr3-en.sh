@@ -10,7 +10,7 @@ trap "rm -f $tempfile" 0 1 2 5 15
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo 'LANG="en_US.UTF-8"' > /etc/locale.conf 
-# echo "KEYMAP=us" >> /etc/vconsole.conf
+echo "KEYMAP=us" >> /etc/vconsole.conf
 # echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 #-----------  Creating user and root passwords --------------
