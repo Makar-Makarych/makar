@@ -426,6 +426,7 @@ case $? in
 
 #-------------------  PAMAC-AUR
             clear
+            
             cd /home/$username
             git clone https://aur.archlinux.org/pamac-aur.git
             chown -R $username:users /home/$username/pamac-aur
