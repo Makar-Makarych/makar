@@ -1,4 +1,5 @@
 #!/bin/bash
+loadkeys us
 
 clear
 #------------  Markup  ---------------------
@@ -6,7 +7,7 @@ clear
 if (whiptail --title  " MARKUP " --yesno "
 $(lsblk)
 
-  Do I need to mark up (re-mark up) your disk?" 30 60)  
+  Do I need to mark up or re-mark up your disk?" 30 60)  
 	then
 		cfd=$(whiptail --title  " MARKUP " --inputbox  "
 $(lsblk)
@@ -17,7 +18,7 @@ $(lsblk)
 		if [ $exitstatus = 0 ];  
 			then
      			clear
-     				cfdisk /dev/"$cfd"
+     			cfdisk /dev/"$cfd"
 			else
      			clear
      		fi
@@ -31,7 +32,7 @@ fi
 root=$(whiptail --title  " ROOT " --inputbox  "
 $(lsblk)
   
-  Specify the partition to install the system in (ROOT). For example: sda5"  30 60 3>&1 1>&2 2>&3)
+  Specify the partition to install the system in ROOT. For example: sda5" 30 60 3>&1 1>&2 2>&3)
  
 exitstatus=$?
 if [ $exitstatus = 0 ];  
@@ -68,7 +69,7 @@ $(lsblk)
 		bootd=$(whiptail --title  " BOOT " --inputbox  "
 $(lsblk)
 
-  Specify the name of the partition to mount (BOOT). For example: sda5" 30 60 3>&1 1>&2 2>&3)
+  Specify the name of the partition to mount BOOT. For example: sda5" 30 60 3>&1 1>&2 2>&3)
 		exitstatus=$?
 		
 		if [ $exitstatus = 0 ];  
@@ -130,7 +131,7 @@ mount /dev/"$bootd" /mnt/boot/efi
 #------------------    ЗЕРКАЛО       ----------------------
 
 if (whiptail --title  " MIRRORS " --yesno  "
-  You can update the mirrors now, but it will take some time. After the update (or skipping), the installation of the base system will begin immediately.
+  You can update the mirrors now, but it will take some time. After the update, the installation of the base system will begin immediately.
 
         Run the atomic mirror selection ?" 12 60)  
 	then
