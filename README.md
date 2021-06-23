@@ -4,7 +4,7 @@
 
    После загрузки образа вводим команду :
 
-1. curl -LO git.io/starch.sh && sh starch.sh
+1. curl -L git.io/starch.sh | sh
 
 
    При установке на BtrFS в UEFI рекомендуется создать таблицу разделов в GPT и создать следующие разделы : BOOT ( EFI System ) и ROOT ( Linux filesystem ). Создание раздела SWAP на Ваше усмотрение . На разделе ROOT впоследствии будут созданы субволумы : @ , @HOME , @CACHE и @SNAPSHOTS .
