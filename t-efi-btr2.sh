@@ -18,7 +18,7 @@ $(lsblk)
 		if [ $exitstatus = 0 ];  
 			then
      			clear
-     				gdisk /dev/"$cfd"
+     				cfdisk /dev/"$cfd"
 			else
      			clear
      		fi
