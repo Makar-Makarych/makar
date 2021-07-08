@@ -283,37 +283,7 @@ case $? in
          echo "Нажата клавиша ESC.";;
 esac
 
-
-
-
-
-
-
-
-
-
-
-
-
-# #------------  Виртуалка или нет
-
-# $DIALOG --title " ВИРТУАЛЬНАЯ МАШИНА " --clear \
-#         --yesno "
-#   Система устанавливается на виртуальную машину?" 8 60
-# case $? in
-#     0)
-#          clear
-#          pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
-#         ;;
-#     1)
-#          clear
-#          pacman -S xorg-server xorg-drivers xorg-xinit
-#         ;;
-#     255)
-#          echo "Нажата клавиша ESC.";;
-# esac
-
-#--------------    УСТАНОВКА  DE  ------------------------------------------
+# ------------   Установка DE
 
 $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖЕНИЯ  " \
         --menu "
@@ -418,7 +388,7 @@ pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neo
 
 $DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО" --clear \
         --yesno "
-  Установить YAY  и Pamac ?" 10 60
+  Установить YAY ?" 10 60
  
 case $? in
             0)
@@ -431,15 +401,7 @@ case $? in
             cd /home/"$username"/yay || exit  
             sudo -u "$username"  makepkg -si --noconfirm  
             rm -Rf /home/"$username"/yay
-            
-# ------------------------------- Pamac
-
-
-            echo "Server = https://repo.archlinuxcn.org/$arch" >> /etc/pacman.conf
-            pacman -Syy && sudo pacman -S archlinuxcn-keyring 
-            pacman -S pamac-aur
-            pacman -S archlinux-appstream-data
-            ;;
+         ;;
             1)
             clear
             ;;
