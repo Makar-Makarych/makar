@@ -401,9 +401,7 @@ case $? in
             cd /home/"$username"/yay || exit  
             sudo -u "$username"  makepkg -si --noconfirm  
             rm -Rf /home/"$username"/yay
-
-            yay -S pamac-aur --noconfirm
-            ;;
+             ;;
             1)
             clear
             ;;
