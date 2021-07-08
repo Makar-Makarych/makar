@@ -1,6 +1,18 @@
+#!/bin/bash
+
+
 DIALOG=${DIALOG=dialog}
 temp=(mktemp) 2> /dev/null || temp=(/tmp/test$$)
 trap 'rm -f $temp' 0 1 2 15
+
+
+# DIALOG=${DIALOG=dialog}
+# tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+# trap "rm -f $tempfile" 0 1 2 5 15
+
+
+
+
 
 #-----------  Добавляем русскую локаль  и язык системы
 
