@@ -1,8 +1,3 @@
-#!/bin/bash
-loadkeys ru
-setfont cyr-sun16
-clear
-
 DIALOG=${DIALOG=dialog}
 temp=(mktemp) 2> /dev/null || temp=(/tmp/test$$)
 trap 'rm -f $temp' 0 1 2 15
@@ -23,7 +18,7 @@ $DIALOG --title " ИМЯ КОМПЬЮТЕРА " --clear \
   Придумайте и введите имя компьютера ( hostname )" 10 60 2> "$(temp)"
         hostname=$(cat "$(temp)")
         echo "$hostname" > /etc/hostname
-	    
+       
 $DIALOG --title " ИМЯ ПОЛЬЗОВАТЕЛЯ " --clear \
     --inputbox "
   Придумайте и введите имя пользователя ( user )" 10 60 2> "$(temp)"
@@ -39,8 +34,9 @@ clear
 clear
         echo ""
         echo -e "  Придумайте и введите пароль ПОЛЬЗОВАТЕЛЯ :"
-    	  echo ""
+        echo ""
         passwd "$username"
+
 
 #-----------------   Часовые пояса
 
@@ -317,7 +313,7 @@ $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖ
         "MATE" ""\
         "LXQT" "" 2> "$(temp)"
  
-#retval=$?
+retval=$?
  
 choice=$(cat "$(temp)")
  
@@ -429,6 +425,7 @@ case $? in
             echo "Server = https://repo.archlinuxcn.org/$arch" >> /etc/pacman.conf
             pacman -Syy && sudo pacman -S archlinuxcn-keyring 
             pacman -S pamac-aur
+            pacman -S archlinux-appstream-data
             ;;
             1)
             clear
