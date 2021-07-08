@@ -401,6 +401,16 @@ case $? in
             cd /home/"$username"/yay || exit  
             sudo -u "$username"  makepkg -si --noconfirm  
             rm -Rf /home/"$username"/yay
+
+#-------------- Pamac
+            cd /home/"$username" || exit 
+            git clone https://github.com/atomlong/pamac-aur
+            chown -R "$username":users /home/"$username"/pamac-aur
+            chown -R "$username":users /home/"$username"/pamac-aur/PKGBUILD
+            cd /home/"$username"/pamac-aur || exit  
+            sudo -u "$username"  makepkg -si --noconfirm  
+            rm -Rf /home/"$username"/pamac-aur
+
          ;;
             1)
             clear
