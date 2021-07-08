@@ -266,20 +266,29 @@ pacman -Sy reflector --noconfirm
 
 #------------------    ЗЕРКАЛО  2     ----------------------
 
-if (whiptail --title  " ЗЕРКАЛА " --yesno  "
-  Сейчас можно обновить зеркала во вновь установленной системе, но это займет каое-то время.
+$DIALOG --title " ЗЕРКАЛА " --clear \
+        --yesno "
+  
+Сейчас можно обновить зеркала во вновь установленной системе, но это займет каое-то время.
 
-        Запустить атоматический выбор зеркал ? " 12 60)  
- then
-    clear
-         pacman -Sy reflector --noconfirm
+        Запустить атоматический выбор зеркал ? " 12 60)
+case $? in
+    0)
+         clear
+         pacman -S reflector --noconfirm
+         #reflector --verbose -l 20 -p https --sort rate --save /etc/pacman.d/mirrorlist
          reflector --verbose --country 'Russia' -p http -p https --sort rate --save /etc/pacman.d/mirrorlist
          #reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
          pacman -Sy --noconfirm
-    else
-    clear
+        ;;
+    1)
+         clear
          pacman -Sy --noconfirm
-fi
+        
+        ;;
+    255)
+         echo "Нажата клавиша ESC.";;
+esac
 
 #------------  Виртуалка или нет
 
