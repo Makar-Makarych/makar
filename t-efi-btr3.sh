@@ -310,11 +310,11 @@ $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖ
         "LXDE" ""\
         "DEEPIN" ""\
         "MATE" ""\
-        "LXQT" "" 2> "$(temp)"
+        "LXQT" "" 2> $tempfile
  
 retval=$?
  
-choice=$(cat "$(temp)")
+choice=`cat $tempfile`
  
 case $choice in
                 "KDE")
