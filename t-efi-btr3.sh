@@ -423,20 +423,5 @@ grub-mkconfig -o /boot/grub/grub.cfg
  
 $DIALOG --title " OK ! " --clear \
         --yesno "
-  УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЬ КОМПЬЮТЕР ?" 10 60
+  УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЕ КОМПЬЮТЕР" 10 60
  
-case $? in
-    0)
-         umount -R /mnt
-         shutdown -r now
-         ;;
-    1)
-         clear
-        exit;;
-    255)
-         echo "Нажата клавиша ESC.";;
-esac
-
-   clear
-echo "УСТАНОВКА ЗАВЕРШЕНА"
-exit
