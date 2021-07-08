@@ -37,8 +37,8 @@ exitstatus=$?
 if [ $exitstatus = 0 ];  
     then
         clear
-        mkfs.ext4 /dev/$root -L root
-        mount /dev/$root /mnt
+        mkfs.ext4 /dev/"$root" -L root
+        mount /dev/"$root" /mnt
         mkdir /mnt/{boot,home}
 fi
 
@@ -57,9 +57,9 @@ $(lsblk)
         if [ $exitstatus = 0 ];  
             then
                 clear
-                mkfs.ext2 /dev/$bootd -L boot    
+                mkfs.ext2 /dev/"$bootd" -L boot    
                 mkdir /mnt/boot
-                mount /dev/$bootd /mnt/boot
+                mount /dev/"$bootd" /mnt/boot
             else
                 clear
         fi
@@ -75,7 +75,7 @@ $(lsblk)
             then
                 clear
                 mkdir /mnt/boot 
-                mount /dev/$bootd /mnt/boot
+                mount /dev/"$bootd" /mnt/boot
             else
                 clear
             fi
@@ -104,9 +104,9 @@ $(lsblk)
                 if [ $exitstatus = 0 ];  
                     then
                         clear
-                        mkfs.ext4 /dev/$homed -L home    
+                        mkfs.ext4 /dev/"$homed" -L home    
                         mkdir /mnt/home 
-                        mount /dev/$homed /mnt/home
+                        mount /dev/"$homed" /mnt/home
                     else
                         clear
                 fi
@@ -121,7 +121,7 @@ $(lsblk)
                     then
                         clear
                         mkdir /mnt/home 
-                        mount /dev/$homed /mnt/home
+                        mount /dev/"ифы" /mnt/home
                     else
                         clear
                 fi

@@ -2,7 +2,7 @@
 loadkeys ru
 setfont cyr-sun16
 
---------- Разметка  -------------------------------------------
+# Разметка  -------------------------------------------
 
 if (whiptail --title  " РАЗМЕТКА " --yesno "
 $(lsblk)
@@ -28,7 +28,7 @@ $(lsblk)
 fi
 
 
------------------------   ROOT -------------------------------------------
+#   ROOT -------------------------------------------
 
 
 root=$(whiptail --title  " ROOT " --inputbox  "
@@ -40,8 +40,8 @@ exitstatus=$?
 if [ $exitstatus = 0 ];  
     then
         clear
-        mkfs.btrfs -f -L arch /dev/$root
-        mount /dev/$root /mnt
+        mkfs.btrfs -f -L arch /dev/"$root"
+        mount /dev/"$root" /mnt
 fi
 
 #------------------   BOOT   ----------------------
@@ -59,7 +59,7 @@ $(lsblk)
         if [ $exitstatus = 0 ];  
             then
                 clear
-                mkfs.ext2 /dev/$bootd -L boot 
+                mkfs.ext2 /dev/"$bootd" -L boot 
             else
                 clear
         fi
@@ -103,7 +103,7 @@ $(lsblk)
                     then
                         clear
                         clear
-                        mkfs.btrfs -f -L home /dev/$homed
+                        mkfs.btrfs -f -L home /dev/"$homed"
                     else
                         clear
                 fi
@@ -127,7 +127,7 @@ $(lsblk)
         clear
 fi        
 
-----------------------  SWAP   ------------------------------------------
+#  SWAP   ------------------------------------------
 
 
    
@@ -156,7 +156,7 @@ fi
 
 #------------------    СУБВОЛУМЫ       ----------------------
 clear
-mount /dev/$root /mnt
+mount /dev/"$root" /mnt
 
 btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@home

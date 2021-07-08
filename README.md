@@ -24,7 +24,6 @@
     Push to the branch (git push origin my-new-feature)
     Create new Pull Request!
 
---------------------------------------------------
 
    Поддержать чашечкой Кофе :
 

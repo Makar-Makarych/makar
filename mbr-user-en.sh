@@ -2,8 +2,8 @@
 
 
 DIALOG=${DIALOG=dialog}
-tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
-trap "rm -f $tempfile" 0 1 2 5 15
+tmp=(mktemp) 2> /dev/null || tmp=(/tmp/test$$)
+trap 'rm -f "$tmp"' 0 1 2 15
 
 #-----------  Adding the locale and language of the system
 
@@ -17,15 +17,15 @@ echo 'LANG="en_US.UTF-8"' > /etc/locale.conf
 
 $DIALOG --title " COMPUTER NAME " --clear \
     --inputbox "
-  Come up with and enter the computer name (hostname)" 10 60 2> $tempfile
-        hostname=`cat $tempfile`
-        echo $hostname > /etc/hostname
+  Come up with and enter the computer name (hostname)" 10 60 2> "$(tmp)"
+        hostname=$(cat "$(tmp)")
+        echo "$hostname" > /etc/hostname
        
 $DIALOG --title " USER NAME " --clear \
     --inputbox "
-  Come up with and enter the user name (user)" 10 60 2> $tempfile
-        username=`cat $tempfile`
-        useradd -m -g users -G wheel -s /bin/bash $username
+  Come up with and enter the user name (user)" 10 60 2> "$(tmp)"
+        username=$(cat "$(tmp)")
+        useradd -m -g users -G wheel -s /bin/bash "$username"
 
 clear
         echo ""
@@ -37,14 +37,14 @@ clear
         echo ""
         echo -e "  Create and enter a USER password :"
         echo ""
-        passwd $username
+        passwd "$username"
 
 #-----------------   Localization 
 
 clear
 echo ""
-tzz=`tzselect`
-      ln -sf /usr/share/zoneinfo/$tzz /etc/localtime
+tzz=$(tzselect)
+      ln -sf /usr/share/zoneinfo/"$tzz" /etc/localtime
 
 #-----------  Creating a bootable RAM disk
 
@@ -114,12 +114,12 @@ $DIALOG --clear --title " INSTALLING THE GRAPHICAL ENVIRONMENT " \
         "LXDE" ""\
         "DEEPIN" ""\
         "MATE" ""\
-        "LXQT" "" 2> $tempfile
+        "LXQT" "" 2> "$(tmp)"
  
-retval=$?
+#retval=$?
  
-choice=`cat $tempfile`
- 
+choice=$(cat "$(tmp)")
+
 case $choice in
                 "KDE")
                 clear
@@ -127,7 +127,7 @@ case $choice in
                 pacman -R konqueror --noconfirm
                 pacman -S sddm sddm-kcm --noconfirm
                 systemctl enable sddm.service -f
-             break
+             
              ;;
                 "XFCE")
                 clear
@@ -135,21 +135,21 @@ case $choice in
                  
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
-             break
+                
              ;;
                 "GNOME")
                 clear
                 pacman -S gnome gnome-extra --noconfirm
                 pacman -S gdm --noconfirm
                 systemctl enable gdm.service -f
-             break
+             
              ;;
                 "LXDE")
                 clear
                 pacman -S lxde --noconfirm
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
-              break
+              
              ;;
                 "DEEPIN")
                 clear
@@ -158,21 +158,21 @@ case $choice in
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
                 echo "greeter-session=lightdm-deepin-greeter" >> /etc/lightdm/lightdm.conf
-             break
+             
              ;;
                 "MATE")
                 clear
                 pacman -S  mate mate-extra  --noconfirm
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
-              break
+              
              ;;
                 "LXQT")
                 clear
                 pacman -S lxqt lxqt-qtplugin lxqt-themes --noconfirm
                 pacman -S sddm sddm-kcm --noconfirm
                 systemctl enable sddm.service -f
-             break
+             
              ;;
             255)
             echo "Нажата клавиша ESC.";;
@@ -215,23 +215,23 @@ case $? in
             0)
 #----------------  YAY
             clear
-            cd /home/$username
+            cd /home/"$username" || exit
             git clone https://aur.archlinux.org/yay.git
-            chown -R $username:users /home/$username/yay
-            chown -R $username:users /home/$username/yay/PKGBUILD 
-            cd /home/$username/yay  
-            sudo -u $username  makepkg -si --noconfirm  
-            rm -Rf /home/$username/yay
+            chown -R "$username":users /home/"$username"/yay
+            chown -R "$username":users /home/"$username"/yay/PKGBUILD 
+            cd /home/"$username"/yay || exit  
+            sudo -u "$username"  makepkg -si --noconfirm  
+            rm -Rf /home/"$username"/yay
 
 #-------------------  PAMAC-AUR
             clear
-            cd /home/$username
+            cd /home/"$username" || exit
             git clone https://aur.archlinux.org/pamac-aur.git
-            chown -R $username:users /home/$username/pamac-aur
-            chown -R $username:users /home/$username/pamac-aur/PKGBUILD 
-            cd /home/$username/pamac-aur
-            sudo -u $username  makepkg -si --noconfirm  
-            rm -Rf /home/$username/pamac-aur
+            chown -R "$username":users /home/"$username"/pamac-aur
+            chown -R "$username":users /home/"$username"/pamac-aur/PKGBUILD 
+            cd /home/"$username"/pamac-aur || exit
+            sudo -u "$username"  makepkg -si --noconfirm  
+            rm -Rf /home/"$username"/pamac-aur
             ;;
             1)
             clear
@@ -242,18 +242,18 @@ esac
 
 #-----------  User 
 
-mkdir /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}   
-chown -R $username:users  /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}
+mkdir /home/"$username"/{Downloads,Music,Pictures,Videos,Documents,time}   
+chown -R "$username":users  /home/"$username"/{Downloads,Music,Pictures,Videos,Documents,time}
 
 #-------------  Grub
 
 $DIALOG --title "GRUB" --clear \
         --inputbox "
-  Specify which disk to install the GRUB bootloader on (entered during partitioning) For example: sda" 10 60 2> $tempfile
+  Specify which disk to install the GRUB bootloader on (entered during partitioning) For example: sda" 10 60 2> "$(tmp)"
          clear
-         grubd=`cat $tempfile`
+         grubd=$(cat "$(tmp)")
          pacman -S grub os-prober --noconfirm 
-         grub-install /dev/$grubd
+         grub-install /dev/"$grubd"
          grub-mkconfig -o /boot/grub/grub.cfg
 
 #------------ END

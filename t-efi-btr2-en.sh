@@ -109,7 +109,7 @@ fi
 
 #------------------    SUBVOLUMS       ----------------------
 clear
-mount /dev/$root /mnt
+mount /dev/"$root" /mnt
 
 btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@home

@@ -18,7 +18,7 @@ fi
         
 #----------  Проверка BOOT / EFI  ---------------------
 
-variable=`efibootmgr  | awk '/BootOrder: / {print $2}'`
+variable=$(efibootmgr  | awk '/BootOrder: / {print $2}')
 if [[ $variable ]]; 
     then
         whiptail --title " ПРОВЕРКА BOOT / UEFI " --msgbox "
@@ -55,21 +55,21 @@ fi
 case $OPTION in
                 "1")
                 sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/t-efi-btr2.sh)"
-             break
+             
              ;;
                 "2")
                 sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/efi-ext4.sh)"
-             break
+             
              ;;
                 "3")
                 echo ""
                 sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/mbr-btr.sh)"
-             break
+             
              ;;
                 "4")
                 echo ""
                 sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/mbr-ext.sh)"
-             break
+             
              ;;
             255)
             echo "Нажата клавиша ESC.";;

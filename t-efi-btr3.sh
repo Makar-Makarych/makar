@@ -4,8 +4,8 @@ setfont cyr-sun16
 clear
 
 DIALOG=${DIALOG=dialog}
-tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
-trap "rm -f $tempfile" 0 1 2 5 15
+temp=(mktemp) 2> /dev/null || temp=(/tmp/test$$)
+trap 'rm -f $temp' 0 1 2 15
 
 #-----------  Добавляем русскую локаль  и язык системы
 
@@ -20,15 +20,15 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 $DIALOG --title " ИМЯ КОМПЬЮТЕРА " --clear \
     --inputbox "
-  Придумайте и введите имя компьютера ( hostname )" 10 60 2> $tempfile
-        hostname=`cat $tempfile`
-        echo $hostname > /etc/hostname
+  Придумайте и введите имя компьютера ( hostname )" 10 60 2> "$(temp)"
+        hostname=$(cat "$(temp)")
+        echo "$hostname" > /etc/hostname
 	    
 $DIALOG --title " ИМЯ ПОЛЬЗОВАТЕЛЯ " --clear \
     --inputbox "
-  Придумайте и введите имя пользователя ( user )" 10 60 2> $tempfile
-        username=`cat $tempfile`
-        useradd -m -g users -G wheel -s /bin/bash $username
+  Придумайте и введите имя пользователя ( user )" 10 60 2> "$(temp)"
+        username=$(cat "$(temp)")
+        useradd -m -g users -G wheel -s /bin/bash "$username"
 
 clear
         echo ""
@@ -40,7 +40,7 @@ clear
         echo ""
         echo -e "  Придумайте и введите пароль ПОЛЬЗОВАТЕЛЯ :"
     	  echo ""
-        passwd $username
+        passwd "$username"
 
 #-----------------   Часовые пояса
 
@@ -74,152 +74,152 @@ $DIALOG --clear --title "  ЧАСОВЫЕ ПОЯСА  " \
         "Ульяновск" ""\
         "Уральск" ""\
         "Чита" ""\
-        "Якутск" "" 2> $tempfile
+        "Якутск" "" 2> "$(temp)"
  
-retval=$?
+#retval=$?
  
-choice=`cat $tempfile`
+choice=$(cat "$(temp)")
  
 case $choice in
                 "Алматы")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Almaty /etc/localtime
-             break
+             
              ;;
                   "Владивосток")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Vladivostok /etc/localtime
-             break
+             
              ;;     
                 "Екатеринбург")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Yekaterinburg /etc/localtime
-             break
+             
              ;;
                 "Ереван")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Yerevan /etc/localtime
-             break
+             
              ;;
                 "Запарожье")
                 clear
                 ln -sf /usr/share/zoneinfo/Europe/Zaporozhye /etc/localtime
-             break
+             
              ;;
                 "Иркутск")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Irkutsk /etc/localtime
-             break
+             
              ;;
                 "Калининград")
                 clear
                 ln -sf /usr/share/zoneinfo/Europe/Kaliningrad /etc/localtime
-             break
+             
              ;;
                 "Камчатка")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Kamchatka /etc/localtime
-             break
+             
              ;;
                 "Киев")
                 clear
                 ln -sf /usr/share/zoneinfo/Europe/Kiev /etc/localtime
-             break
+             
              ;;
                 "Киров" )
                 clear
                 ln -sf /usr/share/zoneinfo/Europe/Kirov /etc/localtime      
-             break
+             
              ;;
                 "Красноярск")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Krasnoyarsk /etc/localtime
-             break
+             
              ;;
                 "Магадан")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Magadan /etc/localtime
-             break
+             
              ;;
                 "Минск")
                 clear
                 ln -sf /usr/share/zoneinfo/Europe/Minsk /etc/localtime
-             break
+             
              ;;
                 "Москва")
                 clear
                 ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
-             break
+             
              ;;
                 "Новокузнецк")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Novokuznetsk /etc/localtime
-             break
+             
              ;;
                 "Новосибирск")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Novosibirsk /etc/localtime
-             break
+             
              ;;
                 "Омск")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Omsk /etc/localtime
-             break
+             
              ;;
                 "Самара")
                 clear
                 ln -sf /usr/share/zoneinfo/Europe/Samara /etc/localtime
-             break
+             
              ;;
                 "Саратов")
                 clear
                 ln -sf /usr/share/zoneinfo/Europe/Saratov /etc/localtime
-             break
+             
              ;;
                 "Среднеколымск")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Srednekolymsk /etc/localtime
-             break
+             
              ;;
                 "Стамбул")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Istanbul /etc/localtime
-             break
+             
              ;;
                 "Ташкент")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Tashkent /etc/localtime
-             break
+             
              ;;
                 "Тбилиси")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Tbilisi /etc/localtime
-             break
+             
              ;;
                 "Томск")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Tomsk /etc/localtime
-             break
+             
              ;;
                 "Ульяновск")
                 clear
                 ln -sf /usr/share/zoneinfo/Europe/Ulyanovsk /etc/localtime
-             break
+             
              ;;
                 "Уральск")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Oral /etc/localtime
-             break
+             
              ;;
                 "Чита")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Chita /etc/localtime
-             break
+             
              ;;
                 "Якутск")
                 clear
                 ln -sf /usr/share/zoneinfo/Asia/Yakutsk /etc/localtime
-             break
+             
              ;;
         255)
             echo "Нажата клавиша ESC.";;
@@ -315,11 +315,11 @@ $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖ
         "LXDE" ""\
         "DEEPIN" ""\
         "MATE" ""\
-        "LXQT" "" 2> $tempfile
+        "LXQT" "" 2> "$(temp)"
  
-retval=$?
+#retval=$?
  
-choice=`cat $tempfile`
+choice=$(cat "$(temp)")
  
 case $choice in
                 "KDE")
@@ -328,28 +328,28 @@ case $choice in
                 pacman -R konqueror --noconfirm
                 pacman -S sddm sddm-kcm --noconfirm
                 systemctl enable sddm.service -f
-             break
+             
              ;;
                 "XFCE")
                 clear
                 pacman -S xfce4 pavucontrol xfce4-goodies  --noconfirm
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
-             break
+             
              ;;
                 "GNOME")
                 clear
                 pacman -S gnome gnome-extra --noconfirm
                 pacman -S gdm --noconfirm
                 systemctl enable gdm.service -f
-             break
+             
              ;;
                 "LXDE")
                 clear
                 pacman -S lxde --noconfirm
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
-              break
+              
              ;;
                 "DEEPIN")
                 clear
@@ -358,21 +358,20 @@ case $choice in
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
                 echo "greeter-session=lightdm-deepin-greeter" >> /etc/lightdm/lightdm.conf
-             break
+             
              ;;
                 "MATE")
                 clear
                 pacman -S  mate mate-extra  --noconfirm
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
-              break
              ;;
                 "LXQT")
                 clear
                 pacman -S lxqt lxqt-qtplugin lxqt-themes --noconfirm
                 pacman -S sddm sddm-kcm --noconfirm
                 systemctl enable sddm.service -f
-             break
+             
              ;;
             255)
             echo "Нажата клавиша ESC.";;
@@ -410,41 +409,38 @@ pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neo
 
 $DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО" --clear \
         --yesno "
-  Установить дополнительные приложения (YAY, PAMAC)?" 10 60
+  Установить YAY  и Pamac ?" 10 60
  
 case $? in
             0)
 #----------------  YAY
             clear
-            cd /home/$username
+            cd /home/"$username" || exit
             git clone https://aur.archlinux.org/yay.git
-            chown -R $username:users /home/$username/yay
-            chown -R $username:users /home/$username/yay/PKGBUILD 
-            cd /home/$username/yay  
-            sudo -u $username  makepkg -si --noconfirm  
-            rm -Rf /home/$username/yay
-
-#-------------------  PAMAC-AUR
-            clear
+            chown -R "$username":users /home/"$username"/yay
+            chown -R "$username":users /home/"$username"/yay/PKGBUILD 
+            cd /home/"$username"/yay || exit  
+            sudo -u "$username"  makepkg -si --noconfirm  
+            rm -Rf /home/"$username"/yay
             
-            cd /home/$username
-            git clone https://aur.archlinux.org/pamac-aur.git
-            chown -R $username:users /home/$username/pamac-aur
-            chown -R $username:users /home/$username/pamac-aur/PKGBUILD 
-            cd /home/$username/pamac-aur
-            sudo -u $username  makepkg -si --noconfirm  
-            rm -Rf /home/$username/pamac-aur
+# ------------------------------- Pamac
+
+
+            echo "Server = https://repo.archlinuxcn.org/$arch" >> /etc/pacman.conf
+            pacman -Syy && sudo pacman -S archlinuxcn-keyring 
+            pacman -S pamac-aur
             ;;
             1)
             clear
             ;;
             255)
             echo "Нажата клавиша ESC.";;
+
 esac
 
 #-----------  Папки пользователя 
-mkdir /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}   
-chown -R $username:users  /home/$username/{Downloads,Music,Pictures,Videos,Documents,time}
+mkdir /home/"$username"/{Downloads,Music,Pictures,Videos,Documents,time}   
+chown -R "$username":users  /home/"$username"/{Downloads,Music,Pictures,Videos,Documents,time}
 
 #-------------  ЗАГРУЗЧИК 
 pacman -Syy
@@ -460,7 +456,8 @@ $DIALOG --title " OK ! " --clear \
 case $? in
     0)
          umount -R /mnt
-         reboot;;
+         shutdown -r now
+         ;;
     1)
          clear
         exit;;

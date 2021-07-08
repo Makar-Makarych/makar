@@ -2,114 +2,140 @@
 loadkeys ru
 setfont cyr-sun16
 clear
-#------------  Разметка   ---------------------
+
+#------------  Разметка  new  ---------------------
 
 if (whiptail --title  " РАЗМЕТКА " --yesno "
 $(lsblk)
 
-  Нужна ли разметка или переразметка Вашего диска ?" 30 60)  
-	then
-		cfd=$(whiptail --title  " РАЗМЕТКА " --inputbox  "
-$(lsblk)
-
-  Укажите имя Вашего диска для разметки. Например: sda" 30 60 3>&1 1>&2 2>&3)
-		exitstatus=$?
-		
-		if [ $exitstatus = 0 ];  
-			then
-     			clear
-     				cfdisk /dev/"$cfd"
-			else
-     			clear
-     		fi
-		clear
-   	else
-	clear	
+  Нужна ли разметка или переразметка Вашего диска ?" 0 0)  
+    then
+		    cfds=$(lsblk -d -p -n -l -o NAME -e 7,11)       
+		    options=()
+		    for cfd in ${cfds}; do
+		        options+=("${cfd}" "")
+		    done
+		    cfddev=$(whiptail --title "Выберите диск" --menu "" 0 0 0 \
+		        "none" "-" \
+		        "${options[@]}" \
+		        3>&1 1>&2 2>&3)
+		    
+            if ! make mytarget; then
+		        echo ""
+		    else
+		        if [ "${cfddev}" = "none" ]; then
+		            cfddev=
+		        fi
+		    fi
+		    	cfdisk "$cfddev"
+    else
+    clear   
 fi
 
-#------------------  ROOT   ----------------------
+#-----------  Выбрать раздел ROOT new
 
-root=$(whiptail --title  " ROOT " --inputbox  "
-$(lsblk)
-  
-  Укажите раздел для установки системы. Например: sda5" 30 60 3>&1 1>&2 2>&3)
- 
-exitstatus=$?
-if [ $exitstatus = 0 ];  
-	then
-     	clear
-     	mkfs.btrfs -f -L arch /dev/"$root"
-fi
+chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            root=$(whiptail --title " ROOT " --menu "Выберите раздел для ROOT" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
+            else
+                if [ "${root}" = "none" ]; then
+                    root=
+                fi
+            fi
+                mkfs.btrfs -f -L ROOT "$root"
 
-#------------------   BOOT   ----------------------
+#------------------   BOOT  new ----------------------
 
 if (whiptail --title  " BOOT " --yesno "
-$(lsblk)
-  
-  Нужно ли форматировать BOOT раздел Вашего диска ?" 30 60)  
-	then
-		bootd=$(whiptail --title  " BOOT " --inputbox  "
-$(lsblk)
 
-  Укажите имя раздела для форматирования. Например: sda5" 30 60 3>&1 1>&2 2>&3)
-		exitstatus=$?
-		
-		if [ $exitstatus = 0 ];  
-			then
-				clear
-     			 mkfs.fat -F32 /dev/"$bootd"
-                 mkdir /mnt/boot
-             	mkdir /mnt/boot/efi
+  Нужно ли форматировать BOOT раздел Вашего диска ?" 0 0)  
+    then
+        
+            chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            boot=$(whiptail --title " ROOT " --menu "Выберите раздел для форматирования BOOT" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
             else
-     			clear
-		fi
-    	    clear
-	else
-    
-		bootd=$(whiptail --title  " BOOT " --inputbox  "
-$(lsblk)
+                if [ "${boot}" = "none" ]; then
+                    root=
+                fi
+            fi
+clear
+mkfs -t vfat -n BOOT "$boot"
+ #mkfs.fat -F32 "$boot"
+mkdir /mnt/boot
+mkdir /mnt/boot/efi
 
-  Укажите имя раздела для монтирования. Например: sda5" 30 60 3>&1 1>&2 2>&3)
-		exitstatus=$?
-		
-		if [ $exitstatus = 0 ];  
-			then
-				clear
-       			mkdir /mnt/boot/
-             	mkdir /mnt/boot/efi
+    else
+ 
+ chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            boot=$(whiptail --title " ROOT " --menu "Выберите раздел для монтирования BOOT" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
             else
-				clear
-     		fi
-    clear
+                if [ "${boot}" = "none" ]; then
+                    root=
+                fi
+            fi
+clear
+mkdir /mnt/boot
+mkdir /mnt/boot/efi  
 fi
 
-#------------------    SWAP       ----------------------
+#------------------    SWAP   new    ----------------------
+
 
 if (whiptail --title  " SWAP " --yesno  "
      Подключить SWAP раздел ?" 10 40)  
-	then
-    	
-		swaps=$(whiptail --title  " SWAP " --inputbox  "
-$(lsblk)
-			
-  Укажите имя для SWAP раздела. Например: sda5" 30 60 3>&1 1>&2 2>&3)
- 		exitstatus=$?
-		if [ $exitstatus = 0 ];  
-			then
-				clear
-     			mkswap /dev/"$swaps" -L swap
-     			swapon /dev/"$swaps"
-     		else
-				clear
-     	fi
-    		clear
-    else
-    	clear
+    then
+
+chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            swap=$(whiptail --title " SWAP " --menu "Выберите раздел для монтирования SWAP" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
+            else
+                if [ "${swap}" = "none" ]; then
+                    swap=
+                fi
+            fi
+                mkswap "$swap" -L SWAP
+                swapon "$swap"
+            
 fi
 
 #------------------    СУБВОЛУМЫ       ----------------------
 clear
-mount /dev/$root /mnt
+
+mount "$root" /mnt
 
 btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@home
@@ -118,20 +144,18 @@ btrfs subvolume create /mnt/@cache
 
 umount -R /mnt
 
-
-mount -o noatime,compress=lzo,space_cache,subvol=@ /dev/"$root" /mnt
+mount -o noatime,compress=lzo,space_cache,subvol=@ "$root" /mnt
 mkdir -p /mnt/{home,boot,boot/efi,var,var/cache,.snapshots}
-mount -o noatime,compress=lzo,space_cache,subvol=@cache /dev/"$root" /mnt/var/cache
-mount -o noatime,compress=lzo,space_cache,subvol=@home /dev/"$root" /mnt/home
-mount -o noatime,compress=lzo,space_cache,subvol=@snapshots /dev/"$root" /mnt/.snapshots
+mount -o noatime,compress=lzo,space_cache,subvol=@cache "$root" /mnt/var/cache
+mount -o noatime,compress=lzo,space_cache,subvol=@home "$root" /mnt/home
+mount -o noatime,compress=lzo,space_cache,subvol=@snapshots "$root" /mnt/.snapshots
 
-mount /dev/"$bootd" /mnt/boot/efi
-
+mount "$boot" /mnt/boot/efi
 
 #------------------    ЗЕРКАЛО       ----------------------
 
 if (whiptail --title  " ЗЕРКАЛА " --yesno  "
-  Сейчас можно обновить зеркала, но это займет каое-то время. После обновления сазу начнется установка базовой системы.
+  Сейчас можно обновить зеркала на Российские, но это займет каое-то время. После обновления сазу начнется установка базовой системы.
 
         Запустить атоматический выбор зеркал ? " 12 60)  
 	then
