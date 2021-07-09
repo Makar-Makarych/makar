@@ -1,4 +1,5 @@
 #!/bin/bash
+
 loadkeys ru
 setfont cyr-sun16
 clear
@@ -6,13 +7,6 @@ clear
 DIALOG=${DIALOG=dialog}
 tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
 trap "rm -f $tempfile" 0 1 2 5 15
-
-
-
-
-# DIALOG=${DIALOG=dialog}
-# temp=(mktemp) 2> /dev/null || temp=(/tmp/test$$)
-# trap 'rm -f $temp' 0 1 2 15
 
 #-----------  Добавляем русскую локаль  и язык системы
 
@@ -27,15 +21,15 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 $DIALOG --title " ИМЯ КОМПЬЮТЕРА " --clear \
     --inputbox "
-  Придумайте и введите имя компьютера ( hostname )" 10 60 2> "$(tempfile)"
-        hostname=$(cat "$(tempfile)")
-        echo "$hostname" > /etc/hostname
+  Придумайте и введите имя компьютера ( hostname )" 10 60 2> $tempfile
+        hostname=`cat $tempfile`
+        echo $hostname > /etc/hostname
        
 $DIALOG --title " ИМЯ ПОЛЬЗОВАТЕЛЯ " --clear \
     --inputbox "
-  Придумайте и введите имя пользователя ( user )" 10 60 2> "$(tempfile)"
-        username=$(cat "$(tempfile)")
-        useradd -m -g users -G wheel -s /bin/bash "$username"
+  Придумайте и введите имя пользователя ( user )" 10 60 2> $tempfile
+        username=`cat $tempfile`
+        useradd -m -g users -G wheel -s /bin/bash $username
 
 clear
         echo ""
@@ -47,7 +41,7 @@ clear
         echo ""
         echo -e "  Придумайте и введите пароль ПОЛЬЗОВАТЕЛЯ :"
         echo ""
-        passwd "$username"
+        passwd $username
 
 #-----------------   Часовые пояса
 
