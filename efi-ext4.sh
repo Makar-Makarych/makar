@@ -2,85 +2,109 @@
 loadkeys ru
 setfont cyr-sun16
 
-#------------  Разметка   ---------------------
+#------------  Разметка  new  ---------------------
 
 if (whiptail --title  " РАЗМЕТКА " --yesno "
 $(lsblk)
-  
-   Нужна ли разметка ( переразметка ) диска ?" 30 60)  
+
+  Нужна ли разметка или переразметка Вашего диска ?" 0 0)  
     then
-        cfd=$(whiptail --title  " РАЗМЕТКА " --inputbox  "
-$(lsblk)
-  
-        Укажите имя диска. Например: sda" 30 60 3>&1 1>&2 2>&3)
-        exitstatus=$?
-        
-        if [ $exitstatus = 0 ];  
-            then
-                clear
-                    cfdisk /dev/"$cfd"
+            cfds=$(lsblk -d -p -n -l -o NAME -e 7,11)       
+            options=()
+            for cfd in ${cfds}; do
+                options+=("${cfd}" "")
+            done
+            cfddev=$(whiptail --title "Выберите диск" --menu "" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            
+            if ! make mytarget; then
+                echo ""
             else
-                clear
+                if [ "${cfddev}" = "none" ]; then
+                    cfddev=
+                fi
             fi
-        clear
+                cfdisk "$cfddev"
     else
     clear   
 fi
 
-#------------------  ROOT   ----------------------
+#-----------  Выбрать раздел ROOT new
 
-root=$(whiptail --title  " ROOT " --inputbox  "
-$(lsblk)
-    
-  Укажите имя раздела для установки системы ROOT. Например: sda5" 30 60 3>&1 1>&2 2>&3)
- 
-exitstatus=$?
-if [ $exitstatus = 0 ];  
-    then
-        clear
-        mkfs.ext4 /dev/$root -L root
-        mount /dev/$root /mnt
-        mkdir /mnt/{boot,home}
-fi
+chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            root=$(whiptail --title " ROOT " --menu "Выберите раздел для ROOT" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
+            else
+                if [ "${root}" = "none" ]; then
+                    root=
+                fi
+            fi
+                mkfs.ext4 /dev/$root -L root
+                mount /dev/$root /mnt
+                mkdir /mnt/{boot,home}
 
-#------------------   BOOT   ----------------------
+#------------------   BOOT  ----------------------
 
 if (whiptail --title  " BOOT " --yesno "
-$(lsblk)
-  
-  Нужно ли форматировать BOOT раздел Вашего диска ?" 30 60)  
+
+  Нужно ли форматировать BOOT раздел Вашего диска ?" 0 0)  
     then
-        bootd=$(whiptail --title  " BOOT " --inputbox  "
-$(lsblk)
-  Укажите имя раздела для форматирования. Например: sda5" 30 60 3>&1 1>&2 2>&3)
-        exitstatus=$?
-        if [ $exitstatus = 0 ];  
-            then
-                clear
-                 mkfs.vfat -F32 /dev/$bootd
+        
+            chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            boot=$(whiptail --title " ROOT " --menu "Выберите раздел для форматирования BOOT" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
+            else
+                if [ "${boot}" = "none" ]; then
+                    boot=
+                fi
+            fi
+            clear
+                 mkfs.vfat -F32 /dev/$boot
                  mkdir /mnt/boot
                  mkdir /mnt/boot/efi
-                 mount /dev/$bootd /mnt/boot/efi
-            else
-                clear
-        fi
-            clear
+                 mount /dev/$boot /mnt/boot/efi
+
     else
-        bootd=$(whiptail --title  " BOOT " --inputbox  "
-$(lsblk)
-  Укажите имя раздела для монтирования. Например: sda5" 30 60 3>&1 1>&2 2>&3)
-        exitstatus=$?
-        
-        if [ $exitstatus = 0 ];  
-            then
-                clear
+ 
+ chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            boot=$(whiptail --title " ROOT " --menu "Выберите раздел для монтирования BOOT" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
+            else
+                if [ "${boot}" = "none" ]; then
+                    boot=
+                fi
+            fi
+
+            clear
                  mkdir /mnt/boot/
                  mkdir /mnt/boot/efi
-                 mount /dev/$bootd /mnt/boot/efi
-            else
-                clear
-            fi
-    clear
+                 mount /dev/$boot /mnt/boot/efi
 fi
 
 #------------------  HOME  ----------------------
@@ -131,33 +155,83 @@ $(lsblk)
         clear
 fi
 
+#------------------   HOME  ----------------------
 
-#----------------------  SWAP   ------------------------------------------
+if (whiptail --title  " HOME " --yesno "
 
+  Нужно ли форматировать HOME раздел Вашего диска ?" 0 0)  
+    then
+        
+            chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            home=$(whiptail --title " HOME " --menu "Выберите раздел для форматирования HOME" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
+            else
+                if [ "${home}" = "none" ]; then
+                    home=
+                fi
+            fi
 
-   
+            clear
+                mkfs.ext4 /dev/$home -L home    
+                mkdir /mnt/home 
+                mount /dev/$home /mnt/home
+    else
+ 
+ chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            home=$(whiptail --title " ROOT " --menu "Выберите раздел для монтирования HOME" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
+            else
+                if [ "${home}" = "none" ]; then
+                    home=
+                fi
+            fi
+            clear
+                mkdir /mnt/home 
+                mount /dev/$home /mnt/home
+fi
+
+#------------------    SWAP   new    ----------------------
 
 if (whiptail --title  " SWAP " --yesno  "
      Подключить SWAP раздел ?" 10 40)  
-  then
-        
-      swaps=$(whiptail --title  " SWAP " --inputbox  "
-$(lsblk)
-            
-  Укажите имя для SWAP раздела. Например: sda5" 30 60 3>&1 1>&2 2>&3)
-      exitstatus=$?
-      if [ $exitstatus = 0 ];  
-          then
-              clear
-              mkswap /dev/"$swaps" -L swap
-              swapon /dev/"$swaps"
-          else
-              clear
-      fi
-          clear
-    else
-      clear
+    then
+
+chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            swap=$(whiptail --title " SWAP " --menu "Выберите раздел для монтирования SWAP" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
+            else
+                if [ "${swap}" = "none" ]; then
+                    swap=
+                fi
+            fi
+                mkswap "$swap" -L SWAP
+                swapon "$swap"
 fi
+
 
 #------------------    ЗЕРКАЛО       ----------------------
 

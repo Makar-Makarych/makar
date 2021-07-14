@@ -72,7 +72,7 @@ if (whiptail --title  " BOOT " --yesno "
                 echo ""
             else
                 if [ "${boot}" = "none" ]; then
-                    root=
+                    boot=
                 fi
             fi
 clear
@@ -96,7 +96,7 @@ mkdir /mnt/boot/efi
                 echo ""
             else
                 if [ "${boot}" = "none" ]; then
-                    root=
+                    boot=
                 fi
             fi
 clear

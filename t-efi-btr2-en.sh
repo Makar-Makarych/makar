@@ -7,105 +7,129 @@ clear
 if (whiptail --title  " MARKUP " --yesno "
 $(lsblk)
 
-  Do I need to mark up or re-mark up your disk?" 30 60)  
-	then
-		cfd=$(whiptail --title  " MARKUP " --inputbox  "
-$(lsblk)
-
-  Specify the name of your disk to mark up. For example: sda" 30 60 3>&1 1>&2 2>&3)
-		exitstatus=$?
-		
-		if [ $exitstatus = 0 ];  
-			then
-     			clear
-     			cfdisk /dev/"$cfd"
-			else
-     			clear
-     		fi
-		clear
-   	else
-	clear	
+  Do I need to mark up or re-mark up your disk?" 0 0)  
+    then
+		    cfds=$(lsblk -d -p -n -l -o NAME -e 7,11)       
+		    options=()
+		    for cfd in ${cfds}; do
+		        options+=("${cfd}" "")
+		    done
+		    cfddev=$(whiptail --title "Specify the disk" --menu "" 0 0 0 \
+		        "none" "-" \
+		        "${options[@]}" \
+		        3>&1 1>&2 2>&3)
+		    
+            if ! make mytarget; then
+		        echo ""
+		    else
+		        if [ "${cfddev}" = "none" ]; then
+		            cfddev=
+		        fi
+		    fi
+		    	cfdisk "$cfddev"
+    else
+    clear   
 fi
 
 #------------------  ROOT   ----------------------
 
-root=$(whiptail --title  " ROOT " --inputbox  "
-$(lsblk)
-  
-  Specify the partition to install the system in ROOT. For example: sda5" 30 60 3>&1 1>&2 2>&3)
- 
-exitstatus=$?
-if [ $exitstatus = 0 ];  
-	then
-     	clear
-     	mkfs.btrfs -f -L arch /dev/"$root"
-fi
+chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            root=$(whiptail --title " ROOT " --menu "Specify the partition to install the system in ROOT" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
+            else
+                if [ "${root}" = "none" ]; then
+                    root=
+                fi
+            fi
+                mkfs.btrfs -f -L ROOT "$root"
 
-#------------------   BOOT   ----------------------
+#------------------   BOOT  new ----------------------
 
 if (whiptail --title  " BOOT " --yesno "
-$(lsblk)
-  
-  Do I need to format the BOOT partition of your disk ?" 30 60)  
-	then
-		bootd=$(whiptail --title  " BOOT " --inputbox  "
-$(lsblk)
 
-  Specify the name of the section to format. For example: sda5" 30 60 3>&1 1>&2 2>&3)
-		exitstatus=$?
-		
-		if [ $exitstatus = 0 ];  
-			then
-				clear
-     			 mkfs.fat -F32 /dev/"$bootd"
-                 mkdir /mnt/boot
-             	mkdir /mnt/boot/efi
+  Do I need to format the BOOT partition of your disk ?" 0 0)  
+    then
+        
+            chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            boot=$(whiptail --title " ROOT " --menu "Specify the name of the section to format" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
             else
-     			clear
-		fi
-    	    clear
-	else
-    
-		bootd=$(whiptail --title  " BOOT " --inputbox  "
-$(lsblk)
+                if [ "${boot}" = "none" ]; then
+                    boot=
+                fi
+            fi
+clear
+mkfs -t vfat -n BOOT "$boot"
+ #mkfs.fat -F32 "$boot"
+mkdir /mnt/boot
+mkdir /mnt/boot/efi
 
-  Specify the name of the partition to mount BOOT. For example: sda5" 30 60 3>&1 1>&2 2>&3)
-		exitstatus=$?
-		
-		if [ $exitstatus = 0 ];  
-			then
-				clear
-       			mkdir /mnt/boot/
-             	mkdir /mnt/boot/efi
+    else
+ 
+ chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            boot=$(whiptail --title " ROOT " --menu "Specify the name of the partition to mount BOOT" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
             else
-				clear
-     		fi
-    clear
+                if [ "${boot}" = "none" ]; then
+                    boot=
+                fi
+            fi
+clear
+mkdir /mnt/boot
+mkdir /mnt/boot/efi  
 fi
 
-#------------------    SWAP       ----------------------
+#------------------    SWAP   new    ----------------------
 
 if (whiptail --title  " SWAP " --yesno  "
      Connect a SWAP partition ?" 10 40)  
-	then
-    	
-		swaps=$(whiptail --title  " SWAP " --inputbox  "
-$(lsblk)
-			
-  Specify a name for the SWAP partition. For example: sda5" 30 60 3>&1 1>&2 2>&3)
- 		exitstatus=$?
-		if [ $exitstatus = 0 ];  
-			then
-				clear
-     			mkswap /dev/"$swaps" -L swap
-     			swapon /dev/"$swaps"
-     		else
-				clear
-     	fi
-    		clear
-    else
-    	clear
+    then
+
+chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+            options=()
+            for chd in ${chds}; do
+                options+=("${chd}" "")
+            done
+            swap=$(whiptail --title " SWAP " --menu "Specify a name for the SWAP partition" 0 0 0 \
+                "none" "-" \
+                "${options[@]}" \
+                3>&1 1>&2 2>&3)
+            if ! make mytarget; then
+                echo ""
+            else
+                if [ "${swap}" = "none" ]; then
+                    swap=
+                fi
+            fi
+                mkswap "$swap" -L SWAP
+                swapon "$swap"
+            
 fi
+
 
 #------------------    SUBVOLUMS       ----------------------
 clear
@@ -137,7 +161,8 @@ if (whiptail --title  " MIRRORS " --yesno  "
 	then
 		clear
     	pacman -Sy reflector --noconfirm
-        reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
+        reflector --verbose -l 20 -p https --sort rate --save /etc/pacman.d/mirrorlist
+        #reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
         pacman -Sy --noconfirm
     else
 		clear
