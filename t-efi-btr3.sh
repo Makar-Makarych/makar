@@ -417,7 +417,7 @@ chown -R "$username":users  /home/"$username"/{Downloads,Music,Pictures,Videos,D
 #-------------  ЗАГРУЗЧИК 
 pacman -Syy
 pacman -S grub efibootmgr os-prober --noconfirm 
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
  
