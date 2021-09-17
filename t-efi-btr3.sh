@@ -287,7 +287,8 @@ esac
 
 $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖЕНИЯ  " \
         --menu "
-  Выберите из списка : " 15 60 7 \
+  Выберите из списка : " 15 60 8 \
+        "Cinnamon" ""\
         "KDE" ""\
         "XFCE" ""\
         "GNOME" "" \
@@ -301,6 +302,13 @@ retval=$?
 choice=`cat $tempfile`
  
 case $choice in
+                "Cinnamon")
+                clear
+                pacman -S cinnamon gnome-terminal xorg gdm nemo-fileroller gnome-system-monitor faenza-icon-theme --noconfirm
+                systemctl enable gdm.service
+                systemctl start gdm.service
+                
+              ;;
                 "KDE")
                 clear
                 pacman -S plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
