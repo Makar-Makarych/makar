@@ -304,7 +304,7 @@ choice=`cat $tempfile`
 case $choice in
                 "Cinnamon")
                 clear
-                pacman -S cinnamon gnome-terminal xorg gdm nemo-fileroller gnome-system-monitor faenza-icon-theme --noconfirm
+                pacman -S cinnamon  cinnamon-translations gnome-terminal xorg gdm nemo-fileroller gnome-system-monitor faenza-icon-theme --noconfirm
                 systemctl enable gdm.service
                 systemctl start gdm.service
                 
