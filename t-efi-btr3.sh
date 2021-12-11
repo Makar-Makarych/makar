@@ -333,7 +333,7 @@ case $choice in
              ;;
                 "LXDE")
                 clear
-                pacman -S lxde-common lxsession lxdm --noconfirm
+                pacman -S lxde lxde-common lxsession lxdm --noconfirm
                 systemctl enable lxdm.service
               
              ;;
