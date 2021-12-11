@@ -55,9 +55,9 @@ chds=$(lsblk -p -n -l -o NAME -e 7,11)
 
 #------------------   BOOT  ----------------------
 
-if (whiptail --title  " BOOT " --yesno "
+if (whiptail --title  " BOOT-EFI " --yesno "
 
-  Нужно ли форматировать BOOT раздел Вашего диска ?" 0 0)  
+  Нужно ли форматировать BOOT-EFI раздел Вашего диска ?" 0 0)  
     then
         
             chds=$(lsblk -p -n -l -o NAME -e 7,11)       
@@ -65,7 +65,7 @@ if (whiptail --title  " BOOT " --yesno "
             for chd in ${chds}; do
                 options+=("${chd}" "")
             done
-            boot=$(whiptail --title " ROOT " --menu "Выберите раздел для форматирования BOOT" 0 0 0 \
+            boot=$(whiptail --title " BOOT-EFI " --menu "Выберите раздел для форматирования BOOT-EFI" 0 0 0 \
                 "none" "-" \
                 "${options[@]}" \
                 3>&1 1>&2 2>&3)
@@ -89,7 +89,7 @@ if (whiptail --title  " BOOT " --yesno "
             for chd in ${chds}; do
                 options+=("${chd}" "")
             done
-            boot=$(whiptail --title " ROOT " --menu "Выберите раздел для монтирования BOOT" 0 0 0 \
+            boot=$(whiptail --title " BOOT-EFI " --menu "Выберите раздел для монтирования BOOT-EFI" 0 0 0 \
                 "none" "-" \
                 "${options[@]}" \
                 3>&1 1>&2 2>&3)
@@ -113,12 +113,12 @@ if (whiptail --title " HOME " --yesno "
 $(lsblk)
 
   Имеется ли раздел, размеченный как HOME ?" 30 60)
-    then
+    then  
         if (whiptail --title  " HOME " --yesno "
 $(lsblk)
   
   Нужно ли форматировать HOME раздел Вашего диска ?" 30 60)  
-            then
+            then  
                 homed=$(whiptail --title  " HOME " --inputbox  "
 $(lsblk)
   
@@ -134,7 +134,7 @@ $(lsblk)
                         clear
                 fi
                     clear
-            else
+            else   
                 homed=$(whiptail --title  " HOME " --inputbox  "
 $(lsblk)
   
@@ -151,14 +151,16 @@ $(lsblk)
                 clear
         fi
             clear
-    else
+    else 
         clear
 fi
 
 #------------------   HOME  ----------------------
 
 if (whiptail --title  " HOME " --yesno "
-
+  
+  
+  
   Нужно ли форматировать HOME раздел Вашего диска ?" 0 0)  
     then
         
@@ -190,7 +192,7 @@ if (whiptail --title  " HOME " --yesno "
             for chd in ${chds}; do
                 options+=("${chd}" "")
             done
-            home=$(whiptail --title " ROOT " --menu "Выберите раздел для монтирования HOME" 0 0 0 \
+            home=$(whiptail --title " HOME " --menu "Выберите раздел для монтирования HOME" 0 0 0 \
                 "none" "-" \
                 "${options[@]}" \
                 3>&1 1>&2 2>&3)
