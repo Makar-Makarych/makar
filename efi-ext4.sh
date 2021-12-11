@@ -49,11 +49,11 @@ chds=$(lsblk -p -n -l -o NAME -e 7,11)
                     root=
                 fi
             fi
-                mkfs.ext4 /dev/$root -L root
-                mount /dev/$root /mnt
+                mkfs.ext4 "$root" -L ROOT
+                mount "$root" /mnt
                 mkdir /mnt/{boot,home}
 
-#------------------   BOOT  ----------------------
+#------------------   BOOT - EFI ----------------------
 
 if (whiptail --title  " BOOT-EFI " --yesno "
 
@@ -77,10 +77,10 @@ if (whiptail --title  " BOOT-EFI " --yesno "
                 fi
             fi
             clear
-                 mkfs.vfat -F32 /dev/$boot
+                 mkfs.vfat -F32 "$boot"
                  mkdir /mnt/boot
                  mkdir /mnt/boot/efi
-                 mount /dev/$boot /mnt/boot/efi
+                 mount "$boot" /mnt/boot/efi
 
     else
  
@@ -104,7 +104,7 @@ if (whiptail --title  " BOOT-EFI " --yesno "
             clear
                  mkdir /mnt/boot/
                  mkdir /mnt/boot/efi
-                 mount /dev/$boot /mnt/boot/efi
+                 mount "$boot" /mnt/boot/efi
 fi
 
 #------------------  HOME  ----------------------
@@ -127,9 +127,9 @@ $(lsblk)
                 if [ $exitstatus = 0 ];  
                     then
                         clear
-                        mkfs.ext4 /dev/$homed -L home    
+                        mkfs.ext4 "$homed" -L home    
                         mkdir /mnt/home 
-                        mount /dev/$homed /mnt/home
+                        mount "$homed" /mnt/home
                     else
                         clear
                 fi
@@ -144,7 +144,7 @@ $(lsblk)
                     then
                         clear
                         mkdir /mnt/home 
-                        mount /dev/$homed /mnt/home
+                        mount "$homed" /mnt/home
                     else
                         clear
                 fi
@@ -155,58 +155,58 @@ $(lsblk)
         clear
 fi
 
-#------------------   HOME  ----------------------
+##------------------   HOME  ----------------------
+#
+#if (whiptail --title  " HOME " --yesno "
+#  
+#  
+#  
+#  Нужно ли форматировать HOME раздел Вашего диска ?" 0 0)  
+#    then
+#        
+#            chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+#            options=()
+#            for chd in ${chds}; do
+#                options+=("${chd}" "")
+#            done
+#            home=$(whiptail --title " HOME " --menu "Выберите раздел для форматирования HOME" 0 0 0 \
+#                "none" "-" \
+#                "${options[@]}" \
+#                3>&1 1>&2 2>&3)
+#            if ! make mytarget; then
+#                echo ""
+#            else
+#                 if [ "${home}" = "none" ]; then
+#                     home=
+#                 fi
+#             fi
 
-if (whiptail --title  " HOME " --yesno "
-  
-  
-  
-  Нужно ли форматировать HOME раздел Вашего диска ?" 0 0)  
-    then
-        
-            chds=$(lsblk -p -n -l -o NAME -e 7,11)       
-            options=()
-            for chd in ${chds}; do
-                options+=("${chd}" "")
-            done
-            home=$(whiptail --title " HOME " --menu "Выберите раздел для форматирования HOME" 0 0 0 \
-                "none" "-" \
-                "${options[@]}" \
-                3>&1 1>&2 2>&3)
-            if ! make mytarget; then
-                echo ""
-            else
-                if [ "${home}" = "none" ]; then
-                    home=
-                fi
-            fi
-
-            clear
-                mkfs.ext4 /dev/$home -L home    
-                mkdir /mnt/home 
-                mount /dev/$home /mnt/home
-    else
+#             clear
+#                 mkfs.ext4 /dev/$home -L home    
+#                 mkdir /mnt/home 
+#                 mount /dev/$home /mnt/home
+#     else
  
- chds=$(lsblk -p -n -l -o NAME -e 7,11)       
-            options=()
-            for chd in ${chds}; do
-                options+=("${chd}" "")
-            done
-            home=$(whiptail --title " HOME " --menu "Выберите раздел для монтирования HOME" 0 0 0 \
-                "none" "-" \
-                "${options[@]}" \
-                3>&1 1>&2 2>&3)
-            if ! make mytarget; then
-                echo ""
-            else
-                if [ "${home}" = "none" ]; then
-                    home=
-                fi
-            fi
-            clear
-                mkdir /mnt/home 
-                mount /dev/$home /mnt/home
-fi
+#  chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+#             options=()
+#             for chd in ${chds}; do
+#                 options+=("${chd}" "")
+#             done
+#             home=$(whiptail --title " HOME " --menu "Выберите раздел для монтирования HOME" 0 0 0 \
+#                 "none" "-" \
+#                 "${options[@]}" \
+#                 3>&1 1>&2 2>&3)
+#             if ! make mytarget; then
+#                 echo ""
+#             else
+#                 if [ "${home}" = "none" ]; then
+#                     home=
+#                 fi
+#             fi
+#             clear
+#                 mkdir /mnt/home 
+#                 mount /dev/$home /mnt/home
+# fi
 
 #------------------    SWAP   new    ----------------------
 
