@@ -433,3 +433,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 $DIALOG --title " OK ! " --clear \
         --yesno "
   УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЕ КОМПЬЮТЕР" 10 60
+
+exit
+exit
+reboot
