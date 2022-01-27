@@ -36,7 +36,7 @@ OPTION=$(whiptail --title  " ТИП УСТАНОВКИ " --menu  "
   Выберите вариант, как Вы хотите установить систему" 15 60 4 \
 "1" "UEFI + BtrFS + Subvolumes" \
 "2" "UEFI + Ext4 (пока не работает)" \
-"3" "MBR (Legacy) + BtrFS + Subvolumes (пока не работает)" \
+"3" "MBR (Legacy) + BtrFS + Subvolumes" \
 "4" "MBR (Legacy) + Ext4 (пока не работает)"  3>&1 1>&2 2>&3)
  
 exitstatus=$?
