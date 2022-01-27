@@ -17,32 +17,6 @@ echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf
 echo "KEYMAP=ru" >> /etc/vconsole.conf
 echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
-#-----------  Создание паролей, пользователя и --------------
-
-$DIALOG --title " ИМЯ КОМПЬЮТЕРА " --clear \
-    --inputbox "
-  Придумайте и введите имя компьютера ( hostname )" 10 60 2> $tempfile
-        hostname=`cat $tempfile`
-        echo $hostname > /etc/hostname
-       
-$DIALOG --title " ИМЯ ПОЛЬЗОВАТЕЛЯ " --clear \
-    --inputbox "
-  Придумайте и введите имя пользователя ( user )" 10 60 2> $tempfile
-        username=`cat $tempfile`
-        useradd -m -g users -G wheel -s /bin/bash $username
-
-clear
-        echo ""
-        echo -e "  Придумайте и введите пароль ROOT :"
-        echo ""
-        passwd
-
-clear
-        echo ""
-        echo -e "  Придумайте и введите пароль ПОЛЬЗОВАТЕЛЯ :"
-        echo ""
-        passwd $username
-
 #-----------------   Часовые пояса
 
 $DIALOG --clear --title "  ЧАСОВЫЕ ПОЯСА  " \
@@ -225,6 +199,34 @@ case $choice in
         255)
             echo "Нажата клавиша ESC.";;
 esac
+
+#-----------  Создание паролей, пользователя и --------------
+
+$DIALOG --title " ИМЯ КОМПЬЮТЕРА " --clear \
+    --inputbox "
+  Придумайте и введите имя компьютера ( hostname )" 10 60 2> $tempfile
+        hostname=`cat $tempfile`
+        echo $hostname > /etc/hostname
+       
+$DIALOG --title " ИМЯ ПОЛЬЗОВАТЕЛЯ " --clear \
+    --inputbox "
+  Придумайте и введите имя пользователя ( user )" 10 60 2> $tempfile
+        username=`cat $tempfile`
+        useradd -m -g users -G wheel -s /bin/bash $username
+
+clear
+        echo ""
+        echo -e "  Придумайте и введите пароль ROOT :"
+        echo ""
+        passwd
+
+clear
+        echo ""
+        echo -e "  Придумайте и введите пароль ПОЛЬЗОВАТЕЛЯ :"
+        echo ""
+        passwd $username
+
+
 
 #-----------------   Часовые пояса утилита на англ. 
 
@@ -431,4 +433,3 @@ grub-mkconfig -o /boot/grub/grub.cfg
 $DIALOG --title " OK ! " --clear \
         --yesno "
   УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЕ КОМПЬЮТЕР" 10 60
- 
