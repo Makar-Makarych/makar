@@ -2,30 +2,34 @@
 loadkeys ru
 setfont cyr-sun16
 
-# Разметка  -------------------------------------------
+#------------  Разметка  new  ---------------------
 
 if (whiptail --title  " РАЗМЕТКА " --yesno "
 $(lsblk)
-  
-   Нужна ли разметка ( переразметка ) диска ?" 30 60)  
+  Нужна ли разметка или переразметка Вашего диска ?" 0 0)  
     then
-        cfd=$(whiptail --title  " РАЗМЕТКА " --inputbox  "
-$(lsblk)
-  
-        Укажите имя диска. Например: sda" 30 60 3>&1 1>&2 2>&3)
-        exitstatus=$?
-        
-        if [ $exitstatus = 0 ];  
-            then
-                clear
-                    cfdisk /dev/"$cfd"
-            else
-                clear
-            fi
-        clear
+		    cfds=$(lsblk -d -p -n -l -o NAME -e 7,11)       
+		    options=()
+		    for cfd in ${cfds}; do
+		        options+=("${cfd}" "")
+		    done
+		    cfddev=$(whiptail --title "Выберите диск" --menu "" 0 0 0 \
+		        "none" "-" \
+		        "${options[@]}" \
+		        3>&1 1>&2 2>&3)
+		    
+            if ! make mytarget; then
+		        echo ""
+		    else
+		        if [ "${cfddev}" = "none" ]; then
+		            cfddev=
+		        fi
+		    fi
+		    	cfdisk "$cfddev"
     else
     clear   
 fi
+
 
 
 #-----------  Выбрать раздел ROOT new
