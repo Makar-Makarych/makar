@@ -271,7 +271,7 @@ pacman -Sy reflector --noconfirm
 
 $DIALOG --title " ВИРТУАЛЬНАЯ МАШИНА " --clear \
         --yesno "
-  Система устанавливается на виртуальную машину?" 8 60
+  Это виртуальная машина?" 8 60
 case $? in
     0)
          clear
