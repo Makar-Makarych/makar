@@ -78,8 +78,9 @@ if (whiptail --title  " BOOT " --yesno "
 clear
 mkfs -t vfat -n BOOT "$boot"
  #mkfs.fat -F32 "$boot"
-mkdir /mnt/boot
-mkdir /mnt/boot/efi
+
+#-# mkdir /mnt/boot
+#-# mkdir /mnt/boot/efi
 
     else
  
@@ -100,8 +101,8 @@ mkdir /mnt/boot/efi
                 fi
             fi
 clear
-mkdir /mnt/boot
-mkdir /mnt/boot/efi  
+ #-# mkdir /mnt/boot
+ #-# mkdir /mnt/boot/efi  
 fi
 
 #------------------    SWAP   new    ----------------------
@@ -128,7 +129,7 @@ chds=$(lsblk -p -n -l -o NAME -e 7,11)
                 fi
             fi
                 mkswap "$swap" -L SWAP
-                swapon "$swap"
+              #-#  swapon "$swap"
             
 fi
 
@@ -151,13 +152,13 @@ mount -o noatime,compress=lzo,=@home "$root" /mnt/home
 mount -o noatime,compress=lzo,subvol=@snapshots "$root" /mnt/.snapshots
 
 mount "$boot" /mnt/boot/efi
-
+swapon "$swap"
 #------------------    ЗЕРКАЛО       ----------------------
 
 if (whiptail --title  " ЗЕРКАЛА " --yesno  "
-  Сейчас можно обновить зеркала на Российские, но это займет каое-то время. После обновления сазу начнется установка базовой системы.
+  Сейчас можно обновить зеркала на Российские. После обновления сазу начнется установка базовой системы.
 
-        Запустить атоматический выбор зеркал ? " 12 60)  
+        Запустить атоматический выбор Российских зеркал ? " 12 60)  
 	then
 		clear
     	pacman -Sy reflector --noconfirm
