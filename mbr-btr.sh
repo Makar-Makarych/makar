@@ -6,6 +6,7 @@ setfont cyr-sun16
 
 if (whiptail --title  " РАЗМЕТКА " --yesno "
 $(lsblk)
+
   Нужна ли разметка или переразметка Вашего диска ?" 0 0)  
     then
 		    cfds=$(lsblk -d -p -n -l -o NAME -e 7,11)       
@@ -29,6 +30,7 @@ $(lsblk)
     else
     clear   
 fi
+
 
 
 
