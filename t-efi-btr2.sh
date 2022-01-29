@@ -141,11 +141,11 @@ btrfs subvolume create /mnt/@cache
 
 umount -R /mnt
 
-mount -o noatime,compress=lzo,subvol=@ "$root" /mnt
+mount -o noatime,compress=zstd,subvol=@ "$root" /mnt
 mkdir -p /mnt/{home,boot,boot/efi,var,var/cache,.snapshots}
-mount -o noatime,compress=lzo,subvol=@cache "$root" /mnt/var/cache
-mount -o noatime,compress=lzo,subvol=@home "$root" /mnt/home
-mount -o noatime,compress=lzo,subvol=@snapshots "$root" /mnt/.snapshots
+mount -o noatime,compress=zstd,subvol=@cache "$root" /mnt/var/cache
+mount -o noatime,compress=zstd,subvol=@home "$root" /mnt/home
+mount -o noatime,compress=zstd,subvol=@snapshots "$root" /mnt/.snapshots
 
 mount "$boot" /mnt/boot/efi
 swapon "$swap"
