@@ -149,6 +149,7 @@ mount -o noatime,compress=lzo,subvol=@snapshots "$root" /mnt/.snapshots
 
 mount "$boot" /mnt/boot/efi
 swapon "$swap"
+
 #------------------    ЗЕРКАЛО       ----------------------
 
 if (whiptail --title  " ЗЕРКАЛА " --yesno  "
