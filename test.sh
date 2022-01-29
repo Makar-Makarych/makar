@@ -19,6 +19,11 @@ grubd=$(lsblk -p -n -l -o NAME -e 7,11)
                 fi
             fi
             
+            
+            
+            
+            
+            kjhkjhkhjkjhkhkj
 
 
 
