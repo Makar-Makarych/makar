@@ -2,31 +2,18 @@
 loadkeys ru
 setfont cyr-sun16
 
-grubd=$(lsblk -p -n -l -o NAME -e 7,11)       
-            options=()
-            for chd in ${grubd}; do
-                options+=("${chd}" "")
-            done
-            grub=$(whiptail --title " GRUB " --menu "Выберите диск для установки GRUB" 0 0 0 \
-                "none" "-" \
-                "${options[@]}" \
-                3>&1 1>&2 2>&3)
-            if ! make mytarget; then
-                echo ""
-            else
-                if [ "${grub}" = "none" ]; then
-                    grub=
-                fi
-            fi
-            
-            
-            
-            
-            
-            kjhkjhkhjkjhkhkj
+## https://ipapi.co/timezone | http://ip-api.com/line?fields=timezone | https://ipwhois.app/line/?objects=timezone
+
+time_zone=$(curl -s https://ipinfo.io/timezone)
+
+#time_zone=$(curl -s https://ipapi.co/timezone)
+
+#time_zone=$(curl -s http://ip-api.com/line?fields=timezone)
+
+#time_zone=$(curl -s https://ipwhois.app/line/?objects=timezone)
 
 
-
-echo "grubd ---  "$grubd  
-echo "grub ---  "$grub 
-
+#timedatectl set-timezone $time_zone
+echo " ВЫВОД : "
+echo " "
+echo $time_zone
