@@ -156,14 +156,14 @@ choice=`cat $tempfile`
 case $choice in
                 "Cinnamon")
                 clear
-                pacman -Sy cinnamon  cinnamon-translations gnome-terminal xorg gdm nemo-fileroller gnome-system-monitor faenza-icon-theme --noconfirm
+                pacman -S cinnamon  cinnamon-translations gnome-terminal xorg gdm nemo-fileroller gnome-system-monitor faenza-icon-theme --noconfirm
                 systemctl enable gdm.service
                 systemctl start gdm.service
                 
               ;;
                 "KDE")
                 clear
-                pacman -Sy plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
+                pacman -S plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
                 pacman -R konqueror --noconfirm
                 pacman -S sddm sddm-kcm --noconfirm
                 systemctl enable sddm.service -f
@@ -171,28 +171,27 @@ case $choice in
              ;;
                 "XFCE")
                 clear
-                pacman -Sy xfce4 pavucontrol xfce4-goodies  --noconfirm
+                pacman -S xfce4 pavucontrol xfce4-goodies  --noconfirm
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
              
              ;;
                 "GNOME")
                 clear
-                pacman -Sy gnome --noconfirm
-                pacman -S gnome-extra --noconfirm
+                pacman -S gnome gnome-extra
                 pacman -S gdm --noconfirm
                 systemctl enable gdm.service -f
              
              ;;
                 "LXDE")
                 clear
-                pacman -Sy lxde lxde-common lxsession lxdm --noconfirm
+                pacman -S lxde lxde-common lxsession lxdm --noconfirm
                 systemctl enable lxdm.service
               
              ;;
                 "DEEPIN")
                 clear
-                pacman -Sy deepin
+                pacman -S deepin
                 pacman -S deepin-extra 
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
@@ -201,13 +200,13 @@ case $choice in
              ;;
                 "MATE")
                 clear
-                pacman -Sy  mate mate-extra  --noconfirm
+                pacman -S  mate mate-extra  --noconfirm
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
              ;;
                 "LXQT")
                 clear
-                pacman -Sy lxqt lxqt-qtplugin lxqt-themes --noconfirm
+                pacman -S lxqt lxqt-qtplugin lxqt-themes --noconfirm
                 pacman -S sddm sddm-kcm --noconfirm
                 systemctl enable sddm.service -f
              
@@ -270,7 +269,7 @@ mkdir /home/"$username"/{Downloads,Music,Pictures,Videos,Documents}
 chown -R "$username":users  /home/"$username"/{Downloads,Music,Pictures,Videos,Documents}
 
 #-------------  ЗАГРУЗЧИК 
-pacman -S grub efibootmgr os-prober --noconfirm 
+pacman -Sy grub efibootmgr os-prober --noconfirm
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -280,7 +279,7 @@ $DIALOG --title " ПЕРЕЗАГРУЗКА " --clear \
 
 case $? in
     0)
-    shutdown -r now
+    sudo shutdown -r now
     ;;
     1)
     clear
