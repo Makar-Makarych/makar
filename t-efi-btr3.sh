@@ -218,7 +218,7 @@ pacman -S exfat-utils ntfs-3g gvfs --noconfirm
 
 $DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО " --clear \
         --yesno "
- Установить YAY ? ( Нужно будет вводить пароль ROOT )" 10 60
+ Установить YAY и PAMAC-AUR ? ( Нужно будет вводить пароль ROOT )" 10 60
 case $? in
             0)
             clear
@@ -229,6 +229,9 @@ case $? in
             cd /home/"$username"/yay || exit  
             sudo -u "$username"  makepkg -si --noconfirm
             rm -Rf /home/"$username"/yay
+
+            yay -S pamac-aur archlinux-appstream-data-pamac
+
              ;;
             1)
             clear
