@@ -136,15 +136,15 @@ mount "$root" /mnt
 btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@home
 btrfs subvolume create /mnt/@snapshots
-btrfs subvolume create /mnt/@cache
+btrfs subvolume create /mnt/@var
 
 umount -R /mnt
 
-mount -o noatime,compress=zstd,subvol=@ "$root" /mnt
-mkdir -p /mnt/{home,boot,boot/efi,var,var/cache,.snapshots}
-mount -o noatime,compress=zstd,subvol=@cache "$root" /mnt/var/cache
-mount -o noatime,compress=zstd,subvol=@home "$root" /mnt/home
-mount -o noatime,compress=zstd,subvol=@snapshots "$root" /mnt/.snapshots
+mount -o subvol=@ "$root" /mnt
+mkdir -p /mnt/{home,boot,boot/efi,var,.snapshots}
+mount -o subvol=@var "$root" /mnt/var
+mount -o subvol=@home "$root" /mnt/home
+mount -o subvol=@snapshots "$root" /mnt/.snapshots
 mount "$boot" /mnt/boot/efi
 swapon "$swap"
 
@@ -168,7 +168,7 @@ fi
 
 pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl linux-headers which inetutils wget wpa_supplicant git mc dialog
 
-genfstab -pU /mnt >> /mnt/etc/fstab
+genfstab -U -p /mnt >> /mnt/etc/fstab
 
 #--------------  CHROOT  в систему
 
