@@ -21,194 +21,13 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 time_zone=$(curl -s https://ipinfo.io/timezone)  # Определяет место положения по IP
 
-timedatectl set-timezone $time_zone
+#timedatectl set-timezone $time_zone
 
+ln -sf /usr/share/zoneinfo/Asia/$time_zone /etc/localtime
 
+#                 Москва
 
-
-
-##-----------------   Часовые пояса
-
-# $DIALOG --clear --title "  ЧАСОВЫЕ ПОЯСА  " \
-#         --menu "
-#   Выберите Ваш часовой пояс:" 20 51 7 \
-#         "Алматы" ""\
-#         "Владивосток" ""\
-#         "Екатеринбург" ""\
-#         "Ереван" "" \
-#         "Запарожье" ""\
-#         "Иркутск" ""\
-#         "Калининград" ""\
-#         "Камчатка" ""\
-#         "Киев" ""\
-#         "Киров" ""\
-#         "Красноярск" ""\
-#         "Магадан" ""\
-#         "Минск" ""\
-#         "Москва" ""\
-#         "Новокузнецк" ""\
-#         "Новосибирск" ""\
-#         "Омск" ""\
-#         "Самара" ""\
-#         "Саратов" ""\
-#         "Среднеколымск" ""\
-#         "Стамбул" ""\
-#         "Ташкент" ""\
-#         "Тбилиси" ""\
-#         "Томск" ""\
-#         "Ульяновск" ""\
-#         "Уральск" ""\
-#         "Чита" ""\
-#         "Якутск" "" 2> $tempfile
-#
-# retval=$?
-#
-# choice=`cat $tempfile`
-#
-# case $choice in
-#                 "Алматы")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Almaty /etc/localtime
-#              break
-#              ;;
-#                   "Владивосток")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Vladivostok /etc/localtime
-#              break
-#              ;;
-#                 "Екатеринбург")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Yekaterinburg /etc/localtime
-#              break
-#              ;;
-#                 "Ереван")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Yerevan /etc/localtime
-#              break
-#              ;;
-#                 "Запарожье")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Europe/Zaporozhye /etc/localtime
-#              break
-#              ;;
-#                 "Иркутск")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Irkutsk /etc/localtime
-#              break
-#              ;;
-#                 "Калининград")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Europe/Kaliningrad /etc/localtime
-#              break
-#              ;;
-#                 "Камчатка")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Kamchatka /etc/localtime
-#              break
-#              ;;
-#                 "Киев")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Europe/Kiev /etc/localtime
-#              break
-#              ;;
-#                 "Киров" )
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Europe/Kirov /etc/localtime
-#              break
-#              ;;
-#                 "Красноярск")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Krasnoyarsk /etc/localtime
-#              break
-#              ;;
-#                 "Магадан")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Magadan /etc/localtime
-#              break
-#              ;;
-#                 "Минск")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Europe/Minsk /etc/localtime
-#              break
-#              ;;
-#                 "Москва")
-#                 clear
 #                 ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
-#              break
-#              ;;
-#                 "Новокузнецк")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Novokuznetsk /etc/localtime
-#              break
-#              ;;
-#                 "Новосибирск")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Novosibirsk /etc/localtime
-#              break
-#              ;;
-#                 "Омск")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Omsk /etc/localtime
-#              break
-#              ;;
-#                 "Самара")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Europe/Samara /etc/localtime
-#              break
-#              ;;
-#                 "Саратов")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Europe/Saratov /etc/localtime
-#              break
-#              ;;
-#                 "Среднеколымск")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Srednekolymsk /etc/localtime
-#              break
-#              ;;
-#                 "Стамбул")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Istanbul /etc/localtime
-#              break
-#              ;;
-#                 "Ташкент")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Tashkent /etc/localtime
-#              break
-#              ;;
-#                 "Тбилиси")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Tbilisi /etc/localtime
-#              break
-#              ;;
-#                 "Томск")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Tomsk /etc/localtime
-#              break
-#              ;;
-#                 "Ульяновск")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Europe/Ulyanovsk /etc/localtime
-#              break
-#              ;;
-#                 "Уральск")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Oral /etc/localtime
-#              break
-#              ;;
-#                 "Чита")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Chita /etc/localtime
-#              break
-#              ;;
-#                 "Якутск")
-#                 clear
-#                 ln -sf /usr/share/zoneinfo/Asia/Yakutsk /etc/localtime
-#              break
-#              ;;
-#         255)
-#             echo "Нажата клавиша ESC.";;
-# esac
 
 #-----------  Создание паролей, пользователя и --------------
 
@@ -296,7 +115,7 @@ echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 
 #-----------  Reflector
 
-pacman -Sy reflector --noconfirm
+pacman -S reflector --noconfirm
 
 #------------  Виртуалка или нет
 
@@ -450,19 +269,18 @@ mkdir /home/"$username"/{Downloads,Music,Pictures,Videos,Documents}
 chown -R "$username":users  /home/"$username"/{Downloads,Music,Pictures,Videos,Documents}
 
 #-------------  ЗАГРУЗЧИК 
-pacman -Syy
 pacman -S grub efibootmgr os-prober --noconfirm 
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
  
 $DIALOG --title " ПЕРЕЗАГРУЗКА " --clear \
-        --yesno "УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЬ КОМПЬЮТЕР ?" 10 40
+        --yesno " УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЬ КОМПЬЮТЕР ?" 10 40
 
 case $? in
     0)
     umount -R /mnt
-	reboot
+	systemctl reboot
 	;;
     1)
     umount -R /mnt
