@@ -78,7 +78,6 @@ if (whiptail --title  " BOOT " --yesno "
 clear
 mkfs -t vfat -n BOOT "$boot"
 
-
     else
  
  chds=$(lsblk -p -n -l -o NAME -e 7,11)       
@@ -102,7 +101,6 @@ clear
 fi
 
 #------------------    SWAP   new    ----------------------
-
 
 if (whiptail --title  " SWAP " --yesno  "
      Подключить SWAP раздел ?" 10 40)  
@@ -130,6 +128,7 @@ chds=$(lsblk -p -n -l -o NAME -e 7,11)
 fi
 
 #------------------    СУБВОЛУМЫ       ----------------------
+
 clear
 
 mount "$root" /mnt
@@ -146,7 +145,6 @@ mkdir -p /mnt/{home,boot,boot/efi,var,var/cache,.snapshots}
 mount -o noatime,compress=zstd,subvol=@cache "$root" /mnt/var/cache
 mount -o noatime,compress=zstd,subvol=@home "$root" /mnt/home
 mount -o noatime,compress=zstd,subvol=@snapshots "$root" /mnt/.snapshots
-
 mount "$boot" /mnt/boot/efi
 swapon "$swap"
 

@@ -12,7 +12,9 @@ trap "rm -f $tempfile" 0 1 2 5 15
 
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen
-locale-gen
+
+    locale-gen
+
 echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf 
 echo "KEYMAP=ru" >> /etc/vconsole.conf
 echo "FONT=cyr-sun16" >> /etc/vconsole.conf
@@ -20,14 +22,7 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 # -----------   Часовой пояс NEW  
 
 time_zone=$(curl -s https://ipinfo.io/timezone)  # Определяет место положения по IP
-
-#timedatectl set-timezone $time_zone
-
 ln -sf /usr/share/zoneinfo/$time_zone /etc/localtime
-
-#                 Москва
-
-#                 ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 
 #-----------  Создание паролей, пользователя и --------------
 
@@ -62,23 +57,38 @@ $DIALOG --title " ПАРОЛЬ USER " --clear \
 	echo $userpass
 ) | passwd $username
 
-
-
 #-----------  Создадим загрузочный RAM диск
+
+echo " "
+echo "   СОЗДАЕМ ЗАГРУЗОЧНЫЙ RAM ДИСК
+echo " "
 mkinitcpio -p linux
 
 #-----    Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе
+
+echo " "
+echo "   РЕПОЗИТОРИЙ  MULTILIB
+echo " "
 echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
 #----------------   Ставим программу для Wi-fi
+
+echo " "
+echo "   СТАВИМ WI-FI
+echo " "
 pacman -S wpa_supplicant --noconfirm 
 
 #------------    Настраиваем  SUDO
+
 echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 
 #-----------  Reflector
+
+echo " "
+echo "   УСТАНОВКА REFLECTOR
+echo " "
 pacman -S reflector --noconfirm
 
 #------------  Виртуалка или нет
@@ -105,7 +115,7 @@ $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖ
         "Cinnamon" ""\
         "KDE" ""\
         "XFCE" ""\
-        "GNOME" "" \
+#        "GNOME" "" \
         "LXDE" ""\
         "DEEPIN" ""\
         "MATE" ""\
@@ -138,15 +148,15 @@ case $choice in
                 systemctl enable lxdm.service
              
              ;;
-                "GNOME")
-                clear
-                #---------------- Убираем проблемы с ключами  PGP
-                sudo pacman-key --refresh-keys
-                pacman -S gnome gnome-extra --noconfirm
-                pacman -S gdm --noconfirm
-                systemctl enable gdm.service -f
-             
-             ;;
+#                 "GNOME")
+#                 clear
+#                # ---------------- Убираем проблемы с ключами  PGP
+#                 sudo pacman-key --refresh-keys
+#                 pacman -S gnome gnome-extra --noconfirm
+#                 pacman -S gdm --noconfirm
+#                 systemctl enable gdm.service -f
+#
+#              ;;
                 "LXDE")
                 clear
                 pacman -S lxde lxde-common lxsession lxdm --noconfirm
@@ -181,28 +191,52 @@ esac
 
 
 #-----------    Шрифты
+
+echo " "
+echo "   ШРИФТЫ
+echo " "
 pacman -S ttf-arphic-ukai git ttf-liberation ttf-dejavu ttf-arphic-uming ttf-fireflysung ttf-sazanami --noconfirm
 
 #-------------- Сеть
+
+echo " "
+echo "   СЕТЬ
+echo " "
 pacman -S networkmanager networkmanager-openvpn network-manager-applet ppp openssh --noconfirm
 systemctl enable NetworkManager.service
 systemctl enable dhcpcd.service
 systemctl enable sshd.service
 
 #-------------  Звук
+
+echo " "
+echo "   ЗВУК
+echo " "
 pacman -S pulseaudio-bluetooth alsa-utils pulseaudio-equalizer-ladspa   --noconfirm
 systemctl enable bluetooth.service
 
 #--------  Для Bash и Btrfs
+
+echo " "
+echo "   Для Bash и Btrfs
+echo " "
 pacman -S bash-completion grub-btrfs --noconfirm
 
 #-------------  Ntfs & FAT + gvfs
+
+echo " "
+echo "   Ntfs & FAT + gvfs
+echo " "
 pacman -S exfat-utils ntfs-3g gvfs --noconfirm
 
 #----------------   ПО
+
+echo " "
+echo "   НЕСКОЛЬКО ПРОГРАММ
+echo " "
 pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
 
-#------------------------ Дополнительное ПО
+#------------------------ Дополнительное ПО YAY
 
 $DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО " --clear \
         --yesno "
@@ -228,32 +262,50 @@ case $? in
 
 esac
 
+#------------------------ Дополнительное ПО PAMAC
+
+$DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО " --clear \
+        --yesno "
+  Установить Pamac-AUR ? ( Нужно будет вводить пароль ROOT )" 10 60
+
+case $? in
+            0)
+#-------------------  Pamac-aur
+            clear
+            cd /home/$username
+            git clone https://aur.archlinux.org/pamac-aur.git
+            chown -R $username:users /home/$username/pamac-aur
+            chown -R $username:users /home/$username/pamac-aur/PKGBUILD
+            cd /home/$username/pamac-aur
+            sudo -u $username  makepkg -si --noconfirm
+            rm -Rf /home/$username/pamac-aur
+#----------------------  archlinux-appstream-data-pamac
+            cd /home/$username
+            git clone https://aur.archlinux.org/archlinux-appstream-data-pamac.git
+            chown -R $username:users /home/$username/archlinux-appstream-data-pamac
+            chown -R $username:users /home/$username/archlinux-appstream-data-pamac/PKGBUILD
+            cd /home/$username/archlinux-appstream-data-pamac
+            sudo -u $username  makepkg -si --noconfirm
+            rm -Rf /home/$username/archlinux-appstream-data-pamac
+            ;;
+            1)
+            clear
+            ;;
+            255)
+            echo " ESC.";;
+esac
+
 #-----------  Папки пользователя 
+
 mkdir /home/"$username"/{Downloads,Music,Pictures,Videos,Documents}   
 chown -R "$username":users  /home/"$username"/{Downloads,Music,Pictures,Videos,Documents}
 
 #-------------  ЗАГРУЗЧИК 
+
 pacman -Sy grub efibootmgr os-prober --noconfirm
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/reboot.sh)"
+#-----------------------   ВСЁ !!!!
 
-
-
-#  $DIALOG --title " ПЕРЕЗАГРУЗКА " --clear \
-#         --yesno " УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЬ КОМПЬЮТЕР ?" 10 40
-#
-# case $? in
-#     0)
-#     umount -R /mnt
-#     shutdown -r now
-#     ;;
-#     1)
-#     umount -R /mnt
-#     clear
-# 	;;
-#     255)
-# 	echo "Нажата клавиша ESC.";;
-# esac
-
+$DIALOG --title " ПЕРЕЗАГРУЗКА " --clear --msgbox " УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЕ КОМПЬЮТЕР " 10 40
