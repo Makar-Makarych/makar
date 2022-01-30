@@ -59,25 +59,16 @@ $DIALOG --title " ПАРОЛЬ USER " --clear \
 
 #-----------  Создадим загрузочный RAM диск
 
-echo " "
-echo "   СОЗДАЕМ ЗАГРУЗОЧНЫЙ RAM ДИСК
-echo " "
 mkinitcpio -p linux
 
 #-----    Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе
 
-echo " "
-echo "   РЕПОЗИТОРИЙ  MULTILIB
-echo " "
 echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
 #----------------   Ставим программу для Wi-fi
 
-echo " "
-echo "   СТАВИМ WI-FI
-echo " "
 pacman -S wpa_supplicant --noconfirm 
 
 #------------    Настраиваем  SUDO
@@ -86,15 +77,13 @@ echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 
 #-----------  Reflector
 
-echo " "
-echo "   УСТАНОВКА REFLECTOR
-echo " "
 pacman -S reflector --noconfirm
 
 #------------  Виртуалка или нет
+
 $DIALOG --title " ВИРТУАЛЬНАЯ МАШИНА " --clear \
         --yesno "
-  Это виртуальная машина?" 8 60
+    Это виртуальная машина?" 8 60
 case $? in
     0)
         clear
@@ -107,6 +96,9 @@ case $? in
     255)
          echo "Нажата клавиша ESC.";;
 esac
+# ---------------- Убираем проблемы с ключами  PGP
+
+sudo pacman-key --refresh-keys
 
 # ------------   Установка DE
 $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖЕНИЯ  " \
@@ -115,7 +107,7 @@ $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖ
         "Cinnamon" ""\
         "KDE" ""\
         "XFCE" ""\
-#        "GNOME" "" \
+        "GNOME" "" \
         "LXDE" ""\
         "DEEPIN" ""\
         "MATE" ""\
@@ -148,15 +140,14 @@ case $choice in
                 systemctl enable lxdm.service
              
              ;;
-#                 "GNOME")
-#                 clear
-#                # ---------------- Убираем проблемы с ключами  PGP
-#                 sudo pacman-key --refresh-keys
-#                 pacman -S gnome gnome-extra --noconfirm
-#                 pacman -S gdm --noconfirm
-#                 systemctl enable gdm.service -f
-#
-#              ;;
+                "GNOME")
+                clear
+
+                pacman -S gnome gnome-extra --noconfirm
+                pacman -S gdm --noconfirm
+                systemctl enable gdm.service -f
+
+             ;;
                 "LXDE")
                 clear
                 pacman -S lxde lxde-common lxsession lxdm --noconfirm
@@ -192,16 +183,10 @@ esac
 
 #-----------    Шрифты
 
-echo " "
-echo "   ШРИФТЫ
-echo " "
 pacman -S ttf-arphic-ukai git ttf-liberation ttf-dejavu ttf-arphic-uming ttf-fireflysung ttf-sazanami --noconfirm
 
 #-------------- Сеть
 
-echo " "
-echo "   СЕТЬ
-echo " "
 pacman -S networkmanager networkmanager-openvpn network-manager-applet ppp openssh --noconfirm
 systemctl enable NetworkManager.service
 systemctl enable dhcpcd.service
@@ -209,42 +194,24 @@ systemctl enable sshd.service
 
 #-------------  Звук
 
-echo " "
-echo "   ЗВУК
-echo " "
 pacman -S pulseaudio-bluetooth alsa-utils pulseaudio-equalizer-ladspa   --noconfirm
 systemctl enable bluetooth.service
 
 #--------  Для Bash и Btrfs
 
-echo " "
-echo "   Для Bash и Btrfs
-echo " "
 pacman -S bash-completion grub-btrfs --noconfirm
 
 #-------------  Ntfs & FAT + gvfs
 
-echo " "
-echo "   Ntfs & FAT + gvfs
-echo " "
 pacman -S exfat-utils ntfs-3g gvfs --noconfirm
-
-#----------------   ПО
-
-echo " "
-echo "   НЕСКОЛЬКО ПРОГРАММ
-echo " "
-pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
 
 #------------------------ Дополнительное ПО YAY
 
 $DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО " --clear \
         --yesno "
-  Установить YAY ? ( Нужно будет ввести пароль ROOT )" 10 60
- 
+ Установить YAY ? ( Нужно будет вводить пароль ROOT )" 10 60
 case $? in
             0)
-#----------------  YAY
             clear
             cd /home/"$username" || exit
             git clone https://aur.archlinux.org/yay.git
@@ -261,6 +228,10 @@ case $? in
             echo "Нажата клавиша ESC.";;
 
 esac
+
+#----------------   ПО
+
+pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm
 
 #------------------------ Дополнительное ПО PAMAC
 
