@@ -305,18 +305,12 @@ $DIALOG --title " ВИРТУАЛЬНАЯ МАШИНА " --clear \
   Это виртуальная машина?" 8 60
 case $? in
     0)
-         clear
-         (
-	echo $rootpass
-	echo $rootpass
-) | pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
+        clear
+        pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
         ;;
     1)
-         clear
-         (
-	echo $rootpass
-	echo $rootpass
-) | pacman -S xorg-server xorg-drivers xorg-xinit
+        clear
+        pacman -S xorg-server xorg-drivers xorg-xinit
         ;;
     255)
          echo "Нажата клавиша ESC.";;
@@ -427,7 +421,7 @@ pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neo
 
 #------------------------ Дополнительное ПО
 
-$DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО" --clear \
+$DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО ( Нужно ввести пароль )" --clear \
         --yesno "
   Установить YAY ?" 10 60
  
@@ -440,9 +434,7 @@ case $? in
             chown -R "$username":users /home/"$username"/yay
             chown -R "$username":users /home/"$username"/yay/PKGBUILD 
             cd /home/"$username"/yay || exit  
-(
-	echo $rootpass
-) | sudo -u "$username"  makepkg -si --noconfirm
+            sudo -u "$username"  makepkg -si --noconfirm
             rm -Rf /home/"$username"/yay
              ;;
             1)
