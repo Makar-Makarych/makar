@@ -19,6 +19,11 @@ echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf
 echo "KEYMAP=ru" >> /etc/vconsole.conf
 echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
+#------------------------- Обновление ключей ---------------------------------------
+
+        pacman-key --init
+        pacman-key --populate archlinux
+
 # -----------   Часовой пояс NEW  
 
 time_zone=$(curl -s https://ipinfo.io/timezone)  # Определяет место положения по IP
@@ -141,7 +146,7 @@ case $choice in
                 clear
 # ---------------- Убираем проблемы с ключами  PGP
 
-sudo pacman-key --refresh-keys
+#sudo pacman-key --refresh-keys
 
                 pacman -S gnome gnome-extra --noconfirm
                 pacman -S gdm --noconfirm
@@ -167,7 +172,7 @@ sudo pacman-key --refresh-keys
                 clear
                 # ---------------- Убираем проблемы с ключами  PGP
 
-sudo pacman-key --refresh-keys
+#sudo pacman-key --refresh-keys
 
                 pacman -S  mate mate-extra  --noconfirm
                 pacman -S lxdm --noconfirm
