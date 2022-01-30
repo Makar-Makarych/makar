@@ -230,7 +230,7 @@ case $? in
             sudo -u "$username"  makepkg -si --noconfirm
             rm -Rf /home/"$username"/yay
 
-            yay -S pamac-aur archlinux-appstream-data-pamac
+            yay -S pamac-aur archlinux-appstream-data-pamac --noconfirm
 
              ;;
             1)
