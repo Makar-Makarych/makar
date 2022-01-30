@@ -156,14 +156,14 @@ choice=`cat $tempfile`
 case $choice in
                 "Cinnamon")
                 clear
-                pacman -S cinnamon  cinnamon-translations gnome-terminal xorg gdm nemo-fileroller gnome-system-monitor faenza-icon-theme --noconfirm
+                pacman -Sy cinnamon  cinnamon-translations gnome-terminal xorg gdm nemo-fileroller gnome-system-monitor faenza-icon-theme --noconfirm
                 systemctl enable gdm.service
                 systemctl start gdm.service
                 
               ;;
                 "KDE")
                 clear
-                pacman -S plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
+                pacman -Sy plasma plasma-meta plasma-pa plasma-desktop kde-system-meta kde-utilities-meta kio-extras kwalletmanager latte-dock  konsole  kwalletmanager --noconfirm
                 pacman -R konqueror --noconfirm
                 pacman -S sddm sddm-kcm --noconfirm
                 systemctl enable sddm.service -f
@@ -171,27 +171,28 @@ case $choice in
              ;;
                 "XFCE")
                 clear
-                pacman -S xfce4 pavucontrol xfce4-goodies  --noconfirm
+                pacman -Sy xfce4 pavucontrol xfce4-goodies  --noconfirm
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
              
              ;;
                 "GNOME")
                 clear
-                pacman -S gnome gnome-extra --noconfirm
+                pacman -Sy gnome --noconfirm
+                pacman -S gnome-extra --noconfirm
                 pacman -S gdm --noconfirm
                 systemctl enable gdm.service -f
              
              ;;
                 "LXDE")
                 clear
-                pacman -S lxde lxde-common lxsession lxdm --noconfirm
+                pacman -Sy lxde lxde-common lxsession lxdm --noconfirm
                 systemctl enable lxdm.service
               
              ;;
                 "DEEPIN")
                 clear
-                pacman -S deepin 
+                pacman -Sy deepin
                 pacman -S deepin-extra 
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
@@ -200,13 +201,13 @@ case $choice in
              ;;
                 "MATE")
                 clear
-                pacman -S  mate mate-extra  --noconfirm
+                pacman -Sy  mate mate-extra  --noconfirm
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
              ;;
                 "LXQT")
                 clear
-                pacman -S lxqt lxqt-qtplugin lxqt-themes --noconfirm
+                pacman -Sy lxqt lxqt-qtplugin lxqt-themes --noconfirm
                 pacman -S sddm sddm-kcm --noconfirm
                 systemctl enable sddm.service -f
              
