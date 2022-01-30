@@ -140,11 +140,11 @@ btrfs subvolume create /mnt/@var
 
 umount -R /mnt
 
-mount -o subvol=@ "$root" /mnt
+mount -o default,compress=zstd,subvol=@ "$root" /mnt
 mkdir -p /mnt/{home,boot,boot/efi,var,.snapshots}
-mount -o subvol=@var "$root" /mnt/var
-mount -o subvol=@home "$root" /mnt/home
-mount -o subvol=@snapshots "$root" /mnt/.snapshots
+mount -o default,compress=zstd,subvol=@var "$root" /mnt/var
+mount -o default,compress=zstd,subvol=@home "$root" /mnt/home
+mount -o default,compress=zstd,subvol=@snapshots "$root" /mnt/.snapshots
 mount "$boot" /mnt/boot/efi
 swapon "$swap"
 
