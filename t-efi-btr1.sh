@@ -4,10 +4,10 @@ setfont cyr-sun16
 clear
 #------------------------- Обновление ключей ---------------------------------------
 
-whiptail --title  " Arch Linux " --msgbox  "  ДОБРО ПОЖАЛОВАТЬ В УСТАНОВЩИК ! " 12 60)
+whiptail --title  " Arch Linux " --msgbox  "  ДОБРО ПОЖАЛОВАТЬ В УСТАНОВЩИК ! " 12 60
         pacman-key --init
         pacman-key --populate archlinux
-        
+
 #----------  Проверка BOOT / EFI  ---------------------
 
 variable=$(efibootmgr  | awk '/BootOrder: / {print $2}')
