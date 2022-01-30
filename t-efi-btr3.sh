@@ -279,11 +279,9 @@ $DIALOG --title " ПЕРЕЗАГРУЗКА " --clear \
 
 case $? in
     0)
-    umount -R /mnt
-	systemctl reboot
-	;;
+    shutdown -r now
+    ;;
     1)
-    umount -R /mnt
     clear
 	;;
     255)
