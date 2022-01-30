@@ -306,11 +306,17 @@ $DIALOG --title " ВИРТУАЛЬНАЯ МАШИНА " --clear \
 case $? in
     0)
          clear
-         pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
+         (
+	echo $rootpass
+	echo $rootpass
+) | pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils
         ;;
     1)
          clear
-         pacman -S xorg-server xorg-drivers xorg-xinit
+         (
+	echo $rootpass
+	echo $rootpass
+) | pacman -S xorg-server xorg-drivers xorg-xinit
         ;;
     255)
          echo "Нажата клавиша ESC.";;
@@ -398,18 +404,15 @@ esac
 
 
 #-----------    Шрифты
-clear
 pacman -S ttf-arphic-ukai git ttf-liberation ttf-dejavu ttf-arphic-uming ttf-fireflysung ttf-sazanami --noconfirm
 
 #-------------- Сеть
-clear
 pacman -S networkmanager networkmanager-openvpn network-manager-applet ppp openssh --noconfirm
 systemctl enable NetworkManager.service
 systemctl enable dhcpcd.service
 systemctl enable sshd.service
 
 #-------------  Звук
-clear
 pacman -S pulseaudio-bluetooth alsa-utils pulseaudio-equalizer-ladspa   --noconfirm
 systemctl enable bluetooth.service
 
@@ -417,11 +420,9 @@ systemctl enable bluetooth.service
 pacman -S bash-completion grub-btrfs --noconfirm
 
 #-------------  Ntfs & FAT + gvfs
-clear
 pacman -S exfat-utils ntfs-3g gvfs --noconfirm
 
 #----------------   ПО
-clear
 pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm 
 
 #------------------------ Дополнительное ПО
@@ -439,7 +440,9 @@ case $? in
             chown -R "$username":users /home/"$username"/yay
             chown -R "$username":users /home/"$username"/yay/PKGBUILD 
             cd /home/"$username"/yay || exit  
-            sudo -u "$username"  makepkg -si --noconfirm  
+(
+	echo $rootpass
+) | sudo -u "$username"  makepkg -si --noconfirm
             rm -Rf /home/"$username"/yay
              ;;
             1)
@@ -461,10 +464,19 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
  
-$DIALOG --title " OK ! " --clear \
-        --yesno "
-  УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЕ КОМПЬЮТЕР" 10 60
+$DIALOG --title " ПЕРЕЗАГРУЗКА " --clear \
+        --yesno "УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЬ КОМПЬЮТЕР ?" 10 40
 
-exit
-exit
-reboot
+case $? in
+    0)
+    umount -R /mnt
+	reboot
+	;;
+    1)
+    umount -R /mnt
+    clear
+	;;
+    255)
+	echo "Нажата клавиша ESC.";;
+esac
+
