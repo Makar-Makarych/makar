@@ -4,7 +4,12 @@ setfont cyr-sun16
 clear
 #------------------------- Обновление ключей ---------------------------------------
 
-whiptail --title  " Arch Linux " --msgbox  "  ДОБРО ПОЖАЛОВАТЬ В УСТАНОВЩИК ! " 12 60
+whiptail --title " Arch Linux " --msgbox "
+
+  Добро пожаловать в установщик" 10 60
+
+
+#whiptail --title  " Arch Linux " --msgbox  "  ДОБРО ПОЖАЛОВАТЬ В УСТАНОВЩИК ! " 12 60
         pacman-key --init
         pacman-key --populate archlinux
 
