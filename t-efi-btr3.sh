@@ -23,7 +23,7 @@ time_zone=$(curl -s https://ipinfo.io/timezone)  # Определяет мест
 
 #timedatectl set-timezone $time_zone
 
-ln -sf /usr/share/zoneinfo/Asia/$time_zone /etc/localtime
+ln -sf /usr/share/zoneinfo/$time_zone /etc/localtime
 
 #                 Москва
 
