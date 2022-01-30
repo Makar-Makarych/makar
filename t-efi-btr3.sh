@@ -64,40 +64,6 @@ $DIALOG --title " ПАРОЛЬ USER " --clear \
 
 
 
-# clear
-#         echo ""
-#         echo -e "  Придумайте и введите пароль ROOT :"
-#         echo ""
-#         passwd
-#
-# clear
-#         echo ""
-#         echo -e "  Придумайте и введите пароль ПОЛЬЗОВАТЕЛЯ :"
-#         echo ""
-#         passwd $username
-
-
-
-#-----------------   Часовые пояса утилита на англ. 
-
-# $DIALOG --title " ЧАСОВОЙ ПОЯС " --clear \
-#         --yesno "
-#   На следующем шаге можно установить часовой пояс. Либо вы можете его поменять в настройках после установки системы.
-
-#             Установить часовой пояс сейчас ?" 10 60
- 
-# case $? in
-#     0)  
-#       clear
-#       tzz=`tzselect`
-#       ln -sf /usr/share/zoneinfo/$tzz /etc/localtime
-#       ;;
-#     1)
-#         echo "Выбрано 'Нет'.";;
-#     255)
-#         echo "Нажата клавиша ESC.";;
-# esac
-
 #-----------  Создадим загрузочный RAM диск
 mkinitcpio -p linux
 
@@ -106,7 +72,6 @@ echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
-
 #----------------   Ставим программу для Wi-fi
 pacman -S wpa_supplicant --noconfirm 
 
@@ -114,11 +79,9 @@ pacman -S wpa_supplicant --noconfirm
 echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 
 #-----------  Reflector
-
 pacman -S reflector --noconfirm
 
 #------------  Виртуалка или нет
-
 $DIALOG --title " ВИРТУАЛЬНАЯ МАШИНА " --clear \
         --yesno "
   Это виртуальная машина?" 8 60
@@ -136,7 +99,6 @@ case $? in
 esac
 
 # ------------   Установка DE
-
 $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖЕНИЯ  " \
         --menu "
   Выберите из списка : " 15 60 8 \
@@ -178,6 +140,8 @@ case $choice in
              ;;
                 "GNOME")
                 clear
+                #---------------- Убираем проблемы с ключами  PGP
+                sudo pacman-key --refresh-keys
                 pacman -S gnome gnome-extra --noconfirm
                 pacman -S gdm --noconfirm
                 systemctl enable gdm.service -f
@@ -240,9 +204,9 @@ pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neo
 
 #------------------------ Дополнительное ПО
 
-$DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО ( Нужно ввести пароль )" --clear \
+$DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО " --clear \
         --yesno "
-  Установить YAY ?" 10 60
+  Установить YAY ? ( Нужно будет ввести пароль ROOT )" 10 60
  
 case $? in
             0)
@@ -273,20 +237,23 @@ pacman -Sy grub efibootmgr os-prober --noconfirm
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
- 
-$DIALOG --title " ПЕРЕЗАГРУЗКА " --clear \
-        --yesno " УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЬ КОМПЬЮТЕР ?" 10 40
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/reboot.sh)"
 
-case $? in
-    0)
-    exit
-    sudo shutdown -r now
-    ;;
-    1)
-    exit
-    clear
-	;;
-    255)
-	echo "Нажата клавиша ESC.";;
-esac
+
+
+#  $DIALOG --title " ПЕРЕЗАГРУЗКА " --clear \
+#         --yesno " УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЬ КОМПЬЮТЕР ?" 10 40
+#
+# case $? in
+#     0)
+#     umount -R /mnt
+#     shutdown -r now
+#     ;;
+#     1)
+#     umount -R /mnt
+#     clear
+# 	;;
+#     255)
+# 	echo "Нажата клавиша ESC.";;
+# esac
 
