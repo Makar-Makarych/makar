@@ -224,17 +224,38 @@ $DIALOG --title " ИМЯ ПОЛЬЗОВАТЕЛЯ " --clear \
         username=`cat $tempfile`
         useradd -m -g users -G wheel -s /bin/bash $username
 
-clear
-        echo ""
-        echo -e "  Придумайте и введите пароль ROOT :"
-        echo ""
-        passwd
+$DIALOG --title " ПАРОЛЬ ROOT " --clear \
+    --inputbox "
+  Придумайте и введите пароль администратора ( ROOT )" 10 60 2> $tempfile
+        rootpass=`cat $tempfile`
+        (
+	echo $rootpass
+	echo $rootpass
+) | passwd
 
-clear
-        echo ""
-        echo -e "  Придумайте и введите пароль ПОЛЬЗОВАТЕЛЯ :"
-        echo ""
-        passwd $username
+$DIALOG --title " ПАРОЛЬ USER " --clear \
+    --inputbox "
+  Придумайте и введите пароль пользователя ( USER )" 10 60 2> $tempfile
+        userpass=`cat $tempfile`
+
+        (
+	echo $userpass
+	echo $userpass
+) | passwd $username
+
+
+
+# clear
+#         echo ""
+#         echo -e "  Придумайте и введите пароль ROOT :"
+#         echo ""
+#         passwd
+#
+# clear
+#         echo ""
+#         echo -e "  Придумайте и введите пароль ПОЛЬЗОВАТЕЛЯ :"
+#         echo ""
+#         passwd $username
 
 
 

@@ -2,18 +2,26 @@
 loadkeys ru
 setfont cyr-sun16
 
-## https://ipapi.co/timezone | http://ip-api.com/line?fields=timezone | https://ipwhois.app/line/?objects=timezone
-
-time_zone=$(curl -s https://ipinfo.io/timezone)
-
-#time_zone=$(curl -s https://ipapi.co/timezone)
-
-#time_zone=$(curl -s http://ip-api.com/line?fields=timezone)
-
-#time_zone=$(curl -s https://ipwhois.app/line/?objects=timezone)
+username="user"
+hostname="VIRTUAL"
+pass='123'
 
 
-#timedatectl set-timezone $time_zone
-echo " ВЫВОД : "
-echo " "
-echo $time_zone
+echo '>> Имя компьютера '$hostname
+echo $hostname > /etc/hostname
+echo -e '127.0.0.1 localhost\n::1 localhost\n' > /etc/hosts
+
+# Настройка администратора и создание пользователя $username
+echo '>> Пароль root'
+(
+	echo $pass
+	echo $pass
+) | passwd
+useradd -G wheel -s /bin/bash -m $username
+echo '>> Пароль пользователя '$username
+(
+	echo $pass
+	echo $pass
+) | passwd $username
+
+
