@@ -178,7 +178,7 @@ case $choice in
              ;;
                 "GNOME")
                 clear
-                pacman -S gnome gnome-extra
+                pacman -S gnome gnome-extra --noconfirm
                 pacman -S gdm --noconfirm
                 systemctl enable gdm.service -f
              
@@ -279,9 +279,11 @@ $DIALOG --title " ПЕРЕЗАГРУЗКА " --clear \
 
 case $? in
     0)
+    exit
     sudo shutdown -r now
     ;;
     1)
+    exit
     clear
 	;;
     255)
