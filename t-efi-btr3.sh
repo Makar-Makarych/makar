@@ -96,9 +96,6 @@ case $? in
     255)
          echo "Нажата клавиша ESC.";;
 esac
-# ---------------- Убираем проблемы с ключами  PGP
-
-sudo pacman-key --refresh-keys
 
 # ------------   Установка DE
 $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖЕНИЯ  " \
@@ -142,6 +139,9 @@ case $choice in
              ;;
                 "GNOME")
                 clear
+# ---------------- Убираем проблемы с ключами  PGP
+
+sudo pacman-key --refresh-keys
 
                 pacman -S gnome gnome-extra --noconfirm
                 pacman -S gdm --noconfirm
@@ -165,6 +165,10 @@ case $choice in
              ;;
                 "MATE")
                 clear
+                # ---------------- Убираем проблемы с ключами  PGP
+
+sudo pacman-key --refresh-keys
+
                 pacman -S  mate mate-extra  --noconfirm
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
