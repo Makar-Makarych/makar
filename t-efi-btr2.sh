@@ -56,10 +56,10 @@ chds=$(lsblk -p -n -l -o NAME -e 7,11)
 
 if (whiptail --title  " BOOT " --yesno "
 
-  Нужно ли форматировать BOOT раздел Вашего диска ?" 0 0)  
+  Нужно ли форматировать BOOT раздел Вашего диска ?" 0 0)
     then
-        
-            chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+
+            chds=$(lsblk -p -n -l -o NAME -e 7,11)
             options=()
             for chd in ${chds}; do
                 options+=("${chd}" "")
@@ -79,8 +79,8 @@ clear
 mkfs -t vfat -n BOOT "$boot"
 
     else
- 
- chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+
+ chds=$(lsblk -p -n -l -o NAME -e 7,11)
             options=()
             for chd in ${chds}; do
                 options+=("${chd}" "")
@@ -97,7 +97,7 @@ mkfs -t vfat -n BOOT "$boot"
                 fi
             fi
 clear
-   
+
 fi
 
 #------------------    SWAP   new    ----------------------
@@ -138,11 +138,11 @@ btrfs subvolume create /mnt/@var
 
 umount -R /mnt
 
-mount -o default,compress=zstd,subvol=@ "$root" /mnt
+mount -o compress=zstd,subvol=@ "$root" /mnt
 mkdir -p /mnt/{home,boot,boot/efi,var,.snapshots}
-mount -o default,compress=zstd,subvol=@var "$root" /mnt/var
-mount -o default,compress=zstd,subvol=@home "$root" /mnt/home
-mount -o default,compress=zstd,subvol=@snapshots "$root" /mnt/.snapshots
+mount -o compress=zstd,subvol=@var "$root" /mnt/var
+mount -o compress=zstd,subvol=@home "$root" /mnt/home
+mount -o compress=zstd,subvol=@snapshots "$root" /mnt/.snapshots
 
 mount "$boot" /mnt/boot/efi
 
