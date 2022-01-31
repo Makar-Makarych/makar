@@ -78,7 +78,7 @@ if (whiptail --title  " BOOT " --yesno "
 clear
 
 mkfs.ext2 "$boot" -L BOOT
-mount "$boot" /mnt/boot
+#mount "$boot" /mnt/boot
     else
  
  chds=$(lsblk -p -n -l -o NAME -e 7,11)       
@@ -98,7 +98,7 @@ mount "$boot" /mnt/boot
                 fi
             fi
 clear
-mount "$boot" /mnt/boot
+#mount "$boot" /mnt/boot
 fi
 
 #------------------    SWAP   new    ----------------------
@@ -145,6 +145,7 @@ mount -o default,compress=zstd,subvol=@var "$root" /mnt/var
 mount -o default,compress=zstd,subvol=@home "$root" /mnt/home
 mount -o default,compress=zstd,subvol=@snapshots "$root" /mnt/.snapshots
 
+mount "$boot" /mnt/boot
 
 
 #------------------    ЗЕРКАЛО       ----------------------
