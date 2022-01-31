@@ -56,10 +56,10 @@ chds=$(lsblk -p -n -l -o NAME -e 7,11)
 
 if (whiptail --title  " BOOT " --yesno "
 
-  Нужно ли форматировать BOOT раздел Вашего диска ?" 0 0)  
+  Нужно ли форматировать BOOT раздел Вашего диска ?" 0 0)
     then
-        
-            chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+
+            chds=$(lsblk -p -n -l -o NAME -e 7,11)
             options=()
             for chd in ${chds}; do
                 options+=("${chd}" "")
@@ -77,11 +77,10 @@ if (whiptail --title  " BOOT " --yesno "
             fi
 clear
 mkfs -t vfat -n BOOT "$boot"
-#mkfs.ext2 "$boot" -L BOOT
-#mount "$boot" /mnt/boot
+
     else
- 
- chds=$(lsblk -p -n -l -o NAME -e 7,11)       
+
+ chds=$(lsblk -p -n -l -o NAME -e 7,11)
             options=()
             for chd in ${chds}; do
                 options+=("${chd}" "")
@@ -98,7 +97,7 @@ mkfs -t vfat -n BOOT "$boot"
                 fi
             fi
 clear
-#mount "$boot" /mnt/boot
+
 fi
 
 #------------------    SWAP   new    ----------------------
