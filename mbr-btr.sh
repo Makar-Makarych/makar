@@ -77,7 +77,7 @@ if (whiptail --title  " BOOT " --yesno "
             fi
 clear
 
-mkfs.ext2 "$boot" -L boot -y
+mkfs.ext2 "$boot" -L boot
     else
  
  chds=$(lsblk -p -n -l -o NAME -e 7,11)       
