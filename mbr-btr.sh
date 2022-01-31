@@ -76,8 +76,8 @@ if (whiptail --title  " BOOT " --yesno "
                 fi
             fi
 clear
-
-mkfs.ext2 "$boot" -L BOOT
+mkfs -t vfat -n BOOT "$boot"
+#mkfs.ext2 "$boot" -L BOOT
 #mount "$boot" /mnt/boot
     else
  
