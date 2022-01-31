@@ -1,6 +1,7 @@
 #!/bin/bash
 loadkeys ru
 setfont cyr-sun16
+clear
 
 #------------  Разметка  new  ---------------------
 
@@ -30,9 +31,6 @@ $(lsblk)
     else
     clear   
 fi
-
-
-
 
 #-----------  Выбрать раздел ROOT new
 
@@ -102,60 +100,7 @@ clear
 
 fi
 
-#  раздел HOME создается как субволум
-
-##------------------   HOME  new ----------------------
-#
-#if (whiptail --title  " HOME " --yesno "
-#
-#  Нужно ли форматировать HOME раздел Вашего диска ?" 0 0)  
-#    then
-#        
-#            homed=$(lsblk -p -n -l -o NAME -e 7,11)       
-#            options=()
-#            for chd in ${homed}; do
-#                options+=("${chd}" "")
-#            done
-#            home=$(whiptail --title " HOME " --menu "Выберите раздел для форматирования HOME" 0 0 0 \
-#                "none" "-" \
-#                "${options[@]}" \
-#                3>&1 1>&2 2>&3)
-#            if ! make mytarget; then
-#                echo ""
-#            else
-#                if [ "${home}" = "none" ]; then
-#                    home=
-#                fi
-#            fi
-#clear
-#               mkfs.btrfs -f -L HOME "$home"
-#
-#
-#    else
-# 
-# homed=$(lsblk -p -n -l -o NAME -e 7,11)       
-#            options=()
-#            for chd in ${homed}; do
-#                options+=("${chd}" "")
-#            done
-#            home=$(whiptail --title " HOME " --menu "Выберите раздел для монтирования HOME" 0 0 0 \
-#                "none" "-" \
-#                "${options[@]}" \
-#                3>&1 1>&2 2>&3)
-#            if ! make mytarget; then
-#                echo ""
-#            else
-#                if [ "${home}" = "none" ]; then
-#                    home=
-#                fi
-#            fi
-#clear
-#   
-#fi
-
-
 #------------------    SWAP   new    ----------------------
-
 
 if (whiptail --title  " SWAP " --yesno  "
      Подключить SWAP раздел ?" 10 40)  
@@ -182,29 +127,22 @@ chds=$(lsblk -p -n -l -o NAME -e 7,11)
             
 fi
 
-
-   
-
-
-
 #------------------    СУБВОЛУМЫ       ----------------------
-clear
 
 mount "$root" /mnt
 
 btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@home
 btrfs subvolume create /mnt/@snapshots
-btrfs subvolume create /mnt/@cache
+btrfs subvolume create /mnt/@var
 
 umount -R /mnt
 
-mount -o noatime,compress=zstd,subvol=@ "$root" /mnt
-mkdir -p /mnt/{home,boot,boot/efi,var,var/cache,.snapshots}
-mount -o noatime,compress=zstd,subvol=@cache "$root" /mnt/var/cache
-mount -o noatime,compress=zstd,subvol=@home "$root" /mnt/home
-mount -o noatime,compress=zstd,subvol=@snapshots "$root" /mnt/.snapshots
-
+mount -o default,compress=zstd,subvol=@ "$root" /mnt
+mkdir -p /mnt/{home,boot,boot/efi,var,.snapshots}
+mount -o default,compress=zstd,subvol=@var "$root" /mnt/var
+mount -o default,compress=zstd,subvol=@home "$root" /mnt/home
+mount -o default,compress=zstd,subvol=@snapshots "$root" /mnt/.snapshots
 mount "$boot" /mnt/boot/efi
 swapon "$swap"
 
@@ -218,7 +156,6 @@ if (whiptail --title  " ЗЕРКАЛА " --yesno  "
 		clear
     	pacman -Sy reflector --noconfirm
         reflector --verbose --country Russia -p http -p https --sort rate --save /etc/pacman.d/mirrorlist
-        #reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
         pacman -Sy --noconfirm
     else
 		clear
@@ -230,5 +167,7 @@ fi
 pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl linux-headers which inetutils wget wpa_supplicant git mc dialog
 
 genfstab -pU /mnt >> /mnt/etc/fstab
+
+#--------------  CHROOT  в систему
 
 arch-chroot /mnt sh -c "$(curl -fsSL https://raw.githubusercontent.com/Makar-Makarych/makar/main/mbr-user.sh)"

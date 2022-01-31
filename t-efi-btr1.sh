@@ -6,7 +6,7 @@ clear
 
 whiptail --title " Arch Linux " --msgbox "
 
-  Добро пожаловать в установщик" 10 60
+        Добро пожаловать в установщик" 10 60
 
 
 #whiptail --title  " Arch Linux " --msgbox  "  ДОБРО ПОЖАЛОВАТЬ В УСТАНОВЩИК ! " 12 60

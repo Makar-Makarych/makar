@@ -103,6 +103,7 @@ case $? in
 esac
 
 # ------------   Установка DE
+
 $DIALOG --clear --title " УСТАНОВКА ГРАФИЧЕСКОГО ОКРУЖЕНИЯ  " \
         --menu "
   Выберите из списка : " 15 60 8 \
@@ -144,10 +145,6 @@ case $choice in
              ;;
                 "GNOME")
                 clear
-# ---------------- Убираем проблемы с ключами  PGP
-
-#sudo pacman-key --refresh-keys
-
                 pacman -S gnome gnome-extra --noconfirm
                 pacman -S gdm --noconfirm
                 systemctl enable gdm.service -f
@@ -170,10 +167,6 @@ case $choice in
              ;;
                 "MATE")
                 clear
-                # ---------------- Убираем проблемы с ключами  PGP
-
-#sudo pacman-key --refresh-keys
-
                 pacman -S  mate mate-extra  --noconfirm
                 pacman -S lxdm --noconfirm
                 systemctl enable lxdm.service
@@ -188,7 +181,6 @@ case $choice in
             255)
             echo "Нажата клавиша ESC.";;
 esac
-
 
 #-----------    Шрифты
 
