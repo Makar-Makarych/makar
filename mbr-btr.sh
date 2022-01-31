@@ -138,11 +138,11 @@ btrfs subvolume create /mnt/@var
 
 umount -R /mnt
 
-mount -o default,compress=zstd,subvol=@ "$root" /mnt
+mount -o compress=zstd,subvol=@ "$root" /mnt
 mkdir -p /mnt/{home,boot,var,.snapshots}
-mount -o default,compress=zstd,subvol=@var "$root" /mnt/var
-mount -o default,compress=zstd,subvol=@home "$root" /mnt/home
-mount -o default,compress=zstd,subvol=@snapshots "$root" /mnt/.snapshots
+mount -o compress=zstd,subvol=@var "$root" /mnt/var
+mount -o compress=zstd,subvol=@home "$root" /mnt/home
+mount -o compress=zstd,subvol=@snapshots "$root" /mnt/.snapshots
 
 mount "$boot" /mnt/boot
 
