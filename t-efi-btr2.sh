@@ -1,7 +1,6 @@
 #!/bin/bash
 loadkeys ru
 setfont cyr-sun16
-clear
 
 #------------  Разметка  new  ---------------------
 
@@ -29,7 +28,6 @@ $(lsblk)
 		    fi
 		    	cfdisk "$cfddev"
     else
-    clear   
 fi
 
 #-----------  Выбрать раздел ROOT new
@@ -75,7 +73,6 @@ if (whiptail --title  " BOOT " --yesno "
                     boot=
                 fi
             fi
-clear
 mkfs -t vfat -n BOOT "$boot"
 
     else
@@ -96,8 +93,6 @@ mkfs -t vfat -n BOOT "$boot"
                     boot=
                 fi
             fi
-clear
-
 fi
 
 #------------------    SWAP   new    ----------------------

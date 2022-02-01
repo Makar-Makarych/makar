@@ -78,8 +78,6 @@ if (whiptail --title  " BOOT-EFI " --yesno "
             fi
             clear
                  mkfs -t vfat -n BOOT "$boot"
-##--##                 mkfs.vfat -F32 "$boot"
-##--##                 mkdir /mnt/boot
                  mkdir /mnt/boot/efi
                  mount "$boot" /mnt/boot/efi
 
@@ -101,9 +99,6 @@ if (whiptail --title  " BOOT-EFI " --yesno "
                     boot=
                 fi
             fi
-
-            clear
-##--##                 mkdir /mnt/boot/
                  mkdir /mnt/boot/efi
                  mount "$boot" /mnt/boot/efi
 fi
@@ -131,10 +126,7 @@ if (whiptail --title  " HOME " --yesno "
                     home=
                 fi
             fi
-clear
-##--##               mkfs.btrfs -f -L HOME "$home"
                         mkfs.ext4 "$home" -L HOME    
-##--##                        mkdir /mnt/home 
                         mount "$home" /mnt/home
 
     else
@@ -155,10 +147,8 @@ clear
                     home=
                 fi
             fi
-clear
              mount "$home" /mnt/home      
 fi
-
 
 #------------------    SWAP   new    ----------------------
 
@@ -196,7 +186,6 @@ if (whiptail --title  " ЗЕРКАЛА " --yesno  "
 		clear
     	pacman -Sy reflector --noconfirm
         reflector --verbose --country Russia -p http -p https --sort rate --save /etc/pacman.d/mirrorlist
-        #reflector --verbose -a1 -f10 -l70 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
         pacman -Sy --noconfirm
     else
 		clear
@@ -207,7 +196,7 @@ fi
 
 pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl linux-headers which inetutils wget wpa_supplicant git mc dialog
 
-genfstab -pU /mnt >> /mnt/etc/fstab
+genfstab -U -p /mnt >> /mnt/etc/fstab
 
 #--------------  CHROOT  в систему
 
