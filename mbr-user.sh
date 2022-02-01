@@ -184,7 +184,7 @@ esac
 
 #-----------    Шрифты
 
-pacman -S ttf-arphic-ukai git ttf-liberation ttf-dejavu ttf-arphic-uming ttf-fireflysung ttf-sazanami --noconfirm
+pacman -S ttf-ubuntu-font-family noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-arphic-ukai git ttf-liberation ttf-dejavu ttf-arphic-uming ttf-fireflysung ttf-sazanami --noconfirm
 
 #-------------- Сеть
 
