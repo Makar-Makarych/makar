@@ -232,7 +232,7 @@ esac
 
 #----------------   ПО
 
-pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm
+pacman -S xdg-user-dirs gparted p7zip unace unrar lrzip gvfs-afc htop gvfs-mtp neofetch blueman --noconfirm
 
 
 #-----------  Папки пользователя 
