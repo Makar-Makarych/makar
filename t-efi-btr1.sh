@@ -35,7 +35,7 @@ OPTION=$(whiptail --title  " ТИП УСТАНОВКИ " --menu  "
 "1" "UEFI + BtrFS + Subvolumes" \
 "2" "UEFI + Ext4 (пока не работает)" \
 "3" "MBR (Legacy) + BtrFS + Subvolumes" \
-"4" "MBR (Legacy) + Ext4 (пока не работает)"  3>&1 1>&2 2>&3)
+"4" "MBR (Legacy) + Ext4"  3>&1 1>&2 2>&3)
  
 exitstatus=$?
 if [ $exitstatus = 0 ];  
