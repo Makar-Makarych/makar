@@ -26,9 +26,9 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 # -----------   Часовой пояс NEW
 
-time_zone=$(curl -s https://ipinfo.io/timezone)  # Определяет место положения по IP
-ln -sf /usr/share/zoneinfo/$time_zone /etc/localtime
-
+#time_zone=$(curl -s https://ipinfo.io/timezone)  # Определяет место положения по IP
+#ln -sf /usr/share/zoneinfo/$time_zone /etc/localtime
+sudo timedatectl set-timezone "$(curl -s https://ipinfo.io/timezone)"
 #-----------  Создание паролей, пользователя и --------------
 
 $DIALOG --title " ИМЯ КОМПЬЮТЕРА " --clear \
