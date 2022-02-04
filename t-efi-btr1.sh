@@ -10,8 +10,9 @@ whiptail --title " Arch Linux " --msgbox "
 
 
 #whiptail --title  " Arch Linux " --msgbox  "  ДОБРО ПОЖАЛОВАТЬ В УСТАНОВЩИК ! " 12 60
-        pacman-key --init
-        pacman-key --populate archlinux
+
+#         pacman-key --init
+#         pacman-key --populate archlinux
 
 #----------  Проверка BOOT / EFI  ---------------------
 

@@ -21,8 +21,8 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 #------------------------- Обновление ключей ---------------------------------------
 
-        pacman-key --init
-        pacman-key --populate archlinux
+#         pacman-key --init
+#         pacman-key --populate archlinux
 
 # -----------   Часовой пояс NEW  
 
