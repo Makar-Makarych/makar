@@ -232,40 +232,7 @@ esac
 
 #----------------   ПО
 
-pacman -S file-roller gparted p7zip unace lrzip gvfs-afc htop xterm gvfs-mtp neofetch blueman flameshot firefox firefox-i18n-ru  --noconfirm
-
-# #------------------------ Дополнительное ПО PAMAC
-#
-# $DIALOG --title " ДОПОЛНИТЕЛНОЕ ПО " --clear \
-#         --yesno "
-#   Установить Pamac-AUR ? ( Нужно будет вводить пароль ROOT )" 10 60
-#
-# case $? in
-#             0)
-# #-------------------  Pamac-aur
-#             clear
-#             cd /home/$username
-#             git clone https://aur.archlinux.org/pamac-aur.git
-#             chown -R $username:users /home/$username/pamac-aur
-#             chown -R $username:users /home/$username/pamac-aur/PKGBUILD
-#             cd /home/$username/pamac-aur
-#             sudo -u $username  makepkg -si --noconfirm
-#             rm -Rf /home/$username/pamac-aur
-# #----------------------  archlinux-appstream-data-pamac
-#             cd /home/$username
-#             git clone https://aur.archlinux.org/archlinux-appstream-data-pamac.git
-#             chown -R $username:users /home/$username/archlinux-appstream-data-pamac
-#             chown -R $username:users /home/$username/archlinux-appstream-data-pamac/PKGBUILD
-#             cd /home/$username/archlinux-appstream-data-pamac
-#             sudo -u $username  makepkg -si --noconfirm
-#             rm -Rf /home/$username/archlinux-appstream-data-pamac
-#             ;;
-#             1)
-#             clear
-#             ;;
-#             255)
-#             echo " ESC.";;
-# esac
+pacman -S xdg-user-dirs gparted p7zip unace unrar lrzip gvfs-afc htop gvfs-mtp neofetch blueman --noconfirm
 
 #-----------  Папки пользователя 
 
