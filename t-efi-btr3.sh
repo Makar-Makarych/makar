@@ -92,11 +92,11 @@ $DIALOG --title " ВИРТУАЛЬНАЯ МАШИНА " --clear \
 case $? in
     0)
         clear
-        pacman -S xorg-server xorg-drivers xorg-xinit virtualbox-guest-utils --noconfirm
+        pacman -S xorg-server xf86-input-libinput xf86-video-vesa xf86-video-ati xf86-video-amdgpu xf86-video-intel xf86-video-vmware xorg-xinit virtualbox-guest-utils --noconfirm
         ;;
     1)
         clear
-        pacman -S xorg-server xorg-drivers xorg-xinit --noconfirm
+        pacman -S xorg-server xf86-input-libinput xf86-video-vesa xf86-video-ati xf86-video-amdgpu xf86-video-intel xorg-xinit --noconfirm
         ;;
     255)
          echo "Нажата клавиша ESC.";;
