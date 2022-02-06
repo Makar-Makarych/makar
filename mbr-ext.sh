@@ -188,7 +188,7 @@ fi
 
 #-------------------- Установка базы  
 
-pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl linux-headers which inetutils wget wpa_supplicant git mc dialog
+pacstrap /mnt base base-devel linux linux-firmware nano dhcpcd netctl linux-headers which inetutils wget wpa_supplicant git mc dialog amd-ucode intel-ucode
 
 genfstab -pU /mnt >> /mnt/etc/fstab
 
