@@ -28,6 +28,8 @@ $(lsblk)
 		    fi
 		    	cfdisk "$cfddev"
     else
+    clear
+    
 fi
 
 #-----------  Выбрать раздел ROOT new
