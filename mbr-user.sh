@@ -1,7 +1,9 @@
 #!/bin/bash
 
 loadkeys ru
-setfont cyr-sun16
+###setfont cyr-sun16
+setfont ter-v32b
+
 clear
 
 DIALOG=${DIALOG=dialog}
