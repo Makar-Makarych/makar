@@ -184,14 +184,14 @@ fi
 #------------------    ЗЕРКАЛО       ----------------------
 
 if (whiptail --title  " ЗЕРКАЛА " --yesno  "
-  Сейчас можно обновить зеркала на Российские. После обновления сазу начнется установка базовой системы.
+  Сейчас можно обновить зеркала . После обновления сазу начнется установка базовой системы.
 
-        Запустить атоматический выбор Российских зеркал ? " 12 60)  
+        Запустить атоматический выбор  зеркал ? " 12 60)  
 	then
 		clear
     	pacman -Sy reflector --noconfirm
-        reflector --verbose --country Russia -p http -p https --sort rate --save /etc/pacman.d/mirrorlist
-        pacman -Sy --noconfirm
+        reflector -c ru,by,pl,de -p https,http --sort rate -a 12 -l 10 --save /etc/pacman.d/mirrorlist
+	pacman -Sy --noconfirm
     else
 		clear
     	pacman -Sy --noconfirm
