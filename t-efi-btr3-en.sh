@@ -1,5 +1,9 @@
 #!/bin/bash
 setfont ter-v32b
+echo "Color" >> /etc/pacman.conf
+echo "VerbosePkgLists" >> /etc/pacman.conf
+echo "IloveCandy" >> /etc/pacman.conf
+echo "ParallelDownloads = 5" >> /etc/pacman.conf
 
 DIALOG=${DIALOG=dialog}
 tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
