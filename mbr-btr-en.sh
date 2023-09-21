@@ -1,5 +1,5 @@
 #!/bin/bash
-
+setfont ter-v32b
 # ------------  Markup    -------------------------------------------
 
 if (whiptail --title  " MARKUP " --yesno "
