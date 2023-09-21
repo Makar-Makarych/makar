@@ -1,6 +1,6 @@
 #!/bin/bash
 loadkeys us
-
+setfont ter-v32b
 clear
 #------------  Markup  ---------------------
 
