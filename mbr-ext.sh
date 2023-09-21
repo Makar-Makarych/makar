@@ -178,18 +178,20 @@ chds=$(lsblk -p -n -l -o NAME -e 7,11)
                 mkswap "$swap" -L SWAP
                 swapon "$swap"
 fi
-
 #------------------    ЗЕРКАЛО       ----------------------
 
 if (whiptail --title  " ЗЕРКАЛА " --yesno  "
-  Сейчас можно обновить зеркала, но это займет каое-то время. После обновления (или пропуска) сразу же начнется установка базовой системы.
+  Сейчас можно обновить зеркала . После обновления сазу начнется установка базовой системы.
 
-        Запустить атоматический выбор зеркал ? " 12 60)  
-  then
-        pacman -Sy reflector --noconfirm
-        pacman -Sy --noconfirm
+        Запустить атоматический выбор  зеркал ? " 12 60)  
+	then
+		clear
+    	pacman -Sy reflector --noconfirm
+        reflector -c ru,by,pl,de -p https,http --sort rate -a 12 -l 10 --save /etc/pacman.d/mirrorlist
+	pacman -Sy --noconfirm
     else
-        pacman -Sy --no confirm
+		clear
+    	pacman -Sy --noconfirm
 fi
 
 #-------------------- Установка базы  
