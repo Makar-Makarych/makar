@@ -1,6 +1,7 @@
 #!/bin/bash
 loadkeys ru
-setfont cyr-sun16
+###setfont cyr-sun16
+setfont ter-v32b
 
 DIALOG=${DIALOG=dialog}
 tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
