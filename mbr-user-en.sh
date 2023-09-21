@@ -1,4 +1,5 @@
 #!/bin/bash
+setfont ter-v32b
 
 
 DIALOG=${DIALOG=dialog}
