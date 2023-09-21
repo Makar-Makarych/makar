@@ -1,5 +1,6 @@
 #!/bin/bash
-setfont cyr-sun16
+###setfont cyr-sun16
+setfont ter-v32b
 
 #OPTION=$(whiptail --title  " LANGUAGE " --menu  "
 #
