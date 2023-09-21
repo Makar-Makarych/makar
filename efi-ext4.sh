@@ -2,6 +2,11 @@
 loadkeys ru
 ###setfont cyr-sun16
 setfont ter-v32b
+
+echo "Color" >> /etc/pacman.conf
+echo "VerbosePkgLists" >> /etc/pacman.conf
+echo "IloveCandy" >> /etc/pacman.conf
+echo "ParallelDownloads = 5" >> /etc/pacman.conf
 #------------  Разметка  new  ---------------------
 
 if (whiptail --title  " РАЗМЕТКА " --yesno "
