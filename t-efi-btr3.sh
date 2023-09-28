@@ -70,10 +70,10 @@ mkinitcpio -p linux
 
 #-------------- Pacman.conf
 
-echo "Color" >> /etc/pacman.conf
-echo "VerbosePkgLists" >> /etc/pacman.conf
-echo "IloveCandy" >> /etc/pacman.conf
-echo "ParallelDownloads = 5" >> /etc/pacman.conf
+#echo "Color" >> /etc/pacman.conf
+#echo "VerbosePkgLists" >> /etc/pacman.conf
+#echo "IloveCandy" >> /etc/pacman.conf
+#echo "ParallelDownloads = 5" >> /etc/pacman.conf
 
 #-----    Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе
 
