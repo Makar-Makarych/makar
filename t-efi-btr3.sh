@@ -74,7 +74,6 @@ echo "Color" >> /etc/pacman.conf
 echo "VerbosePkgLists" >> /etc/pacman.conf
 echo "IloveCandy" >> /etc/pacman.conf
 echo "ParallelDownloads = 5" >> /etc/pacman.conf
-echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
 #-----    Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе
 
