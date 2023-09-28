@@ -74,6 +74,13 @@ echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
+#-------------- Pacman.conf
+
+echo "Color" >> /etc/pacman.conf
+echo "VerbosePkgLists" >> /etc/pacman.conf
+echo "IloveCandy" >> /etc/pacman.conf
+echo "ParallelDownloads = 5" >> /etc/pacman.conf
+
 #----------------   Ставим программу для Wi-fi
 
 pacman -S wpa_supplicant --noconfirm 
