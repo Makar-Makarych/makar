@@ -245,8 +245,8 @@ pacman -S xdg-user-dirs gparted p7zip unace unrar lrzip gvfs-afc htop gvfs-mtp n
 
 
 #-----------  Папки пользователя 
-mkdir /home/"$username"/{Downloads,Music,Pictures,Videos,Documents,time}   
-chown -R "$username":users  /home/"$username"/{Downloads,Music,Pictures,Videos,Documents,time}
+#mkdir /home/"$username"/{Downloads,Music,Pictures,Videos,Documents,time}   
+#chown -R "$username":users  /home/"$username"/{Downloads,Music,Pictures,Videos,Documents,time}
 
 #-------------  Загрузчик
 
