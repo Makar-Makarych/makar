@@ -195,10 +195,10 @@ fi
 
 #-------------- Pacman.conf
 
-echo "Color" >> /etc/pacman.conf
-echo "VerbosePkgLists" >> /etc/pacman.conf
-echo "IloveCandy" >> /etc/pacman.conf
-echo "ParallelDownloads = 5" >> /etc/pacman.conf
+#echo "Color" >> /etc/pacman.conf
+#echo "VerbosePkgLists" >> /etc/pacman.conf
+#echo "IloveCandy" >> /etc/pacman.conf
+#echo "ParallelDownloads = 5" >> /etc/pacman.conf
 
 #----------------  Установка базы   
 
