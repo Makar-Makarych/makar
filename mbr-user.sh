@@ -80,7 +80,9 @@ pacman -Syy
 #echo "VerbosePkgLists" >> /etc/pacman.conf
 #echo "IloveCandy" >> /etc/pacman.conf
 #echo "ParallelDownloads = 5" >> /etc/pacman.conf
-
+sed -i 's/#Color/Color/' /etc/pacman.conf
+sed -i 's/#VerbosePkgLists/VerbosePkgLists/' /etc/pacman.conf
+sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 #----------------   Ставим программу для Wi-fi
 
 pacman -S wpa_supplicant --noconfirm 
