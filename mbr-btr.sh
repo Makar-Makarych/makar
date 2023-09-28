@@ -2,10 +2,7 @@
 loadkeys ru
 ###setfont cyr-sun16
 setfont ter-v32b
-echo "Color" >> /etc/pacman.conf
-echo "VerbosePkgLists" >> /etc/pacman.conf
-echo "IloveCandy" >> /etc/pacman.conf
-echo "ParallelDownloads = 5" >> /etc/pacman.conf
+
 clear
 
 #------------  Разметка  new  ---------------------
@@ -167,6 +164,12 @@ if (whiptail --title  " ЗЕРКАЛА " --yesno  "
     	pacman -Sy --noconfirm
 fi
 
+#-------------- Pacman.conf
+
+echo "Color" >> /etc/pacman.conf
+echo "VerbosePkgLists" >> /etc/pacman.conf
+echo "IloveCandy" >> /etc/pacman.conf
+echo "ParallelDownloads = 5" >> /etc/pacman.conf
 
 ######################  Установка базы      ################################### 
 
