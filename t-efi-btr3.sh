@@ -4,11 +4,6 @@ loadkeys ru
 ###setfont cyr-sun16
 setfont ter-v32b
 
-echo "Color" >> /etc/pacman.conf
-echo "VerbosePkgLists" >> /etc/pacman.conf
-echo "IloveCandy" >> /etc/pacman.conf
-echo "ParallelDownloads = 5" >> /etc/pacman.conf
-
 clear
 
 DIALOG=${DIALOG=dialog}
@@ -72,6 +67,13 @@ $DIALOG --title " ПАРОЛЬ USER " --clear \
 #-----------  Создадим загрузочный RAM диск
 
 mkinitcpio -p linux
+
+#-------------- Pacman.conf
+
+echo "Color" >> /etc/pacman.conf
+echo "VerbosePkgLists" >> /etc/pacman.conf
+echo "IloveCandy" >> /etc/pacman.conf
+echo "ParallelDownloads = 5" >> /etc/pacman.conf
 
 #-----    Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе
 
