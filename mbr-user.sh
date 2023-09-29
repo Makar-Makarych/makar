@@ -270,8 +270,8 @@ grubd=$(lsblk -p -n -l -o NAME -e 7,11)
             fi
         pacman -S grub os-prober --noconfirm
         grub-install "$grub"
-        #grub-mkconfig -o /boot/grub/grub.cfg
-        update-grub
+        grub-mkconfig -o /boot/grub/grub.cfg
+        
 #-----------------------   ВСЁ !!!!
 
 $DIALOG --title " ПЕРЕЗАГРУЗКА " --clear --msgbox " УСТАНОВКА СИСТЕМЫ ЗАВЕРШЕНА. ПЕРЕЗАГРУЗИТЕ КОМПЬЮТЕР " 10 40
